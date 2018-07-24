@@ -122,6 +122,7 @@ public class MichasCooleRestApi extends AbstractXapiRestController {
             patientData.setId("FHIR_" + subject.getId());
             patientData.setLabel(subject.getLabel() + " FHIR extensions");
             patientData.setProject(subject.getProject());
+            patientData.setGender("male");
 
             subject.addExperiments_experiment(patientData);
             patientData.save(user, true, true, null);

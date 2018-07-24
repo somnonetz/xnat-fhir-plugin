@@ -1,6 +1,6 @@
 /*
  * GENERATED FILE
- * Created on Tue Jul 24 14:20:58 CEST 2018
+ * Created on Tue Jul 24 17:16:36 CEST 2018
  *
  */
 package org.nrg.xdat.bean;
@@ -538,12 +538,6 @@ public class FhirPatientContactBean extends BaseElement implements java.io.Seria
 			writer.write("</fhir:relationship>");
 			header--;
 		}
-		else{
-			writer.write("\n" + createHeader(header++) + "<fhir:relationship");
-			writer.write("/>");
-			header--;
-		}
-
 		//REFERENCE FROM patient_contact -> name
 		//DATA-FIELD FROM patient_contact -> name
 		if (_Name!=null){
@@ -615,12 +609,6 @@ public class FhirPatientContactBean extends BaseElement implements java.io.Seria
 			writer.write("</fhir:gender>");
 			header--;
 		}
-		else{
-			writer.write("\n" + createHeader(header++) + "<fhir:gender");
-			writer.write("/>");
-			header--;
-		}
-
 		if (_OrganizationId!=null){
 			writer.write("\n" + createHeader(header++) + "<fhir:organization_ID");
 			writer.write(">");
@@ -664,6 +652,22 @@ public class FhirPatientContactBean extends BaseElement implements java.io.Seria
 
 	protected boolean hasXMLBodyContent(){
 		if (_Relationship!=null) return true;
-		return true;//REQUIRED relationship
+		if (_Name!=null){
+			if (_Name.hasXMLBodyContent()) return true;
+		}
+		//NOT REQUIRED
+
+		if(_Telecom.size()>0) return true;
+		if (_Address!=null){
+			if (_Address.hasXMLBodyContent()) return true;
+		}
+		//NOT REQUIRED
+
+		if (_Gender!=null) return true;
+		if (_OrganizationId!=null) return true;
+			if(_Period_end!=null) return true;
+			if(_Period_start!=null) return true;
+		if(super.hasXMLBodyContent())return true;
+		return false;
 	}
 }

@@ -1,6 +1,6 @@
 /*
  * GENERATED FILE
- * Created on Tue Jul 24 14:20:58 CEST 2018
+ * Created on Tue Jul 24 17:16:36 CEST 2018
  *
  */
 package org.nrg.xdat.bean;
@@ -1091,12 +1091,6 @@ public class FhirPatientBean extends XnatSubjectassessordataBean implements java
 			writer.write("</fhir:gender>");
 			header--;
 		}
-		else{
-			writer.write("\n" + createHeader(header++) + "<fhir:gender");
-			writer.write("/>");
-			header--;
-		}
-
 		if (_Birthdate!=null){
 			writer.write("\n" + createHeader(header++) + "<fhir:birthDate");
 			writer.write(">");
@@ -1161,12 +1155,6 @@ public class FhirPatientBean extends XnatSubjectassessordataBean implements java
 			writer.write("</fhir:maritalStatus>");
 			header--;
 		}
-		else{
-			writer.write("\n" + createHeader(header++) + "<fhir:maritalStatus");
-			writer.write("/>");
-			header--;
-		}
-
 			int child5=0;
 			int att5=0;
 			if(_Multiplebirth_multiplebirthboolean!=null)
@@ -1272,12 +1260,6 @@ public class FhirPatientBean extends XnatSubjectassessordataBean implements java
 			writer.write("</fhir:genderStatus>");
 			header--;
 		}
-		else{
-			writer.write("\n" + createHeader(header++) + "<fhir:genderStatus");
-			writer.write("/>");
-			header--;
-		}
-
 				writer.write("\n" + createHeader(--header) + "</fhir:animal>");
 			}
 			}
@@ -1346,6 +1328,23 @@ public class FhirPatientBean extends XnatSubjectassessordataBean implements java
 		if(_Name.size()>0) return true;
 		if(_Telecom.size()>0) return true;
 		if (_Gender!=null) return true;
-		return true;//REQUIRED gender
+		if (_Birthdate!=null) return true;
+			if(_Deceased_deceaseddatetime!=null) return true;
+			if(_Deceased_deceasedboolean!=null) return true;
+		if(_Address.size()>0) return true;
+		if (_Maritalstatus!=null) return true;
+			if(_Multiplebirth_multiplebirthboolean!=null) return true;
+			if(_Multiplebirth_multiplebirthinteger!=null) return true;
+		if(_Photo.size()>0) return true;
+		if(_Contact.size()>0) return true;
+			if(_Animal_species!=null) return true;
+			if(_Animal_breed!=null) return true;
+			if(_Animal_genderstatus!=null) return true;
+		if(_Communication.size()>0) return true;
+		if(_GeneralpractitionerId.size()>0) return true;
+		if (_ManagingorganizationId!=null) return true;
+		if(_Link.size()>0) return true;
+		if(super.hasXMLBodyContent())return true;
+		return false;
 	}
 }

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/xnat-on-fhir.iml" filepath="$PROJECT_DIR$/xnat-on-fhir.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/xnat-on-fhir_main.iml" filepath="$PROJECT_DIR$/.idea/modules/xnat-on-fhir_main.iml" group="xnat-on-fhir" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/xnat-on-fhir_test.iml" filepath="$PROJECT_DIR$/.idea/modules/xnat-on-fhir_test.iml" group="xnat-on-fhir" />
+    </modules>
+  </component>
+</project>

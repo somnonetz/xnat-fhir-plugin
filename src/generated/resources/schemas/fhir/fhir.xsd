@@ -445,7 +445,7 @@ This repeating element order: The order in which lines should appear in an addre
     <xs:complexType name="patient">
         <xs:complexContent>
             <xs:extension base="xnat:subjectAssessorData">
-                <xs:sequence>
+                <xs:sequence minOccurs="0">
                     <xs:element name="identifier" type="fhir:identifier" minOccurs="0" maxOccurs="unbounded">
                         <xs:annotation>
                             <xs:documentation>A contact detail for the individual</xs:documentation>
@@ -481,13 +481,10 @@ This repeating element order: The order in which lines should appear in an addre
                             </xs:appinfo>
                         </xs:annotation>
                     </xs:element>
-                    <xs:element name="gender" minOccurs="0" maxOccurs="1">
+                    <xs:element name="gender" minOccurs="0" maxOccurs="1" type="fhir:administrativeGender">
                         <xs:annotation>
                             <xs:documentation>AdministrativeGender</xs:documentation>
                         </xs:annotation>
-                        <xs:simpleType>
-                            <xs:restriction base="fhir:administrativeGender"/>
-                        </xs:simpleType>
                     </xs:element>
                     <xs:element name="birthDate" type="xs:date" minOccurs="0" maxOccurs="1">
                         <xs:annotation>
@@ -515,13 +512,10 @@ This repeating element order: The order in which lines should appear in an addre
                             </xs:appinfo>
                         </xs:annotation>
                     </xs:element>
-                    <xs:element name="maritalStatus" minOccurs="0" maxOccurs="1">
+                    <xs:element name="maritalStatus" minOccurs="0" maxOccurs="1" type="fhir:maritalStatus">
                         <xs:annotation>
                             <xs:documentation>Marital (civil) status of a patient</xs:documentation>
                         </xs:annotation>
-                        <xs:simpleType>
-                            <xs:restriction base="fhir:maritalStatus"/>
-                        </xs:simpleType>
                     </xs:element>
                     <xs:element name="multipleBirth" minOccurs="0" maxOccurs="1">
                         <xs:annotation>
@@ -551,13 +545,10 @@ This repeating element order: The order in which lines should appear in an addre
                         <xs:complexType>
                             <xs:sequence>
                                 <!-- normally maxOccurs should be unbounded, however the xnat compiler does not understand that :( -->
-                                <xs:element name="relationship" minOccurs="0" maxOccurs="1">
+                                <xs:element name="relationship" minOccurs="0" maxOccurs="1" type="fhir:contactRole">
                                     <xs:annotation>
                                         <xs:documentation>The kind of relationship</xs:documentation>
                                     </xs:annotation>
-                                    <xs:simpleType>
-                                        <xs:restriction base="fhir:contactRole"/>
-                                    </xs:simpleType>
                                 </xs:element>
                                 <xs:element name="name" type="fhir:humanName" minOccurs="0" maxOccurs="1">
                                     <xs:annotation>
@@ -589,13 +580,10 @@ This repeating element order: The order in which lines should appear in an addre
                                         </xs:appinfo>
                                     </xs:annotation>
                                 </xs:element>
-                                <xs:element name="gender" minOccurs="0" maxOccurs="1">
+                                <xs:element name="gender" minOccurs="0" maxOccurs="1" type="fhir:administrativeGender">
                                     <xs:annotation>
                                         <xs:documentation>AdministrativeGender</xs:documentation>
                                     </xs:annotation>
-                                    <xs:simpleType>
-                                        <xs:restriction base="fhir:administrativeGender"/>
-                                    </xs:simpleType>
                                 </xs:element>
                                 <xs:element name="organization_ID" type="xs:integer" minOccurs="0" maxOccurs="1">
                                     <xs:annotation>
@@ -633,13 +621,10 @@ This repeating element order: The order in which lines should appear in an addre
                                         <xs:documentation>E.g. Poodle, Angus. Include these codes as defined in http://snomed.info/sct</xs:documentation>
                                     </xs:annotation>
                                 </xs:element>
-                                <xs:element name="genderStatus" minOccurs="0" maxOccurs="1">
+                                <xs:element name="genderStatus" minOccurs="0" maxOccurs="1" type="fhir:genderStatus">
                                     <xs:annotation>
                                         <xs:documentation>E.g. Neutered, Intact</xs:documentation>
                                     </xs:annotation>
-                                    <xs:simpleType>
-                                        <xs:restriction base="fhir:genderStatus"/>
-                                    </xs:simpleType>
                                 </xs:element>
                             </xs:sequence>
                         </xs:complexType>
@@ -684,13 +669,10 @@ This repeating element order: The order in which lines should appear in an addre
                                         <xs:documentation>The other patient or related person resource that the link refers to</xs:documentation>
                                     </xs:annotation>
                                 </xs:element>
-                                <xs:element name="type" minOccurs="1" maxOccurs="1">
+                                <xs:element name="type" minOccurs="1" maxOccurs="1" type="fhir:linkType">
                                     <xs:annotation>
                                         <xs:documentation>type of link</xs:documentation>
                                     </xs:annotation>
-                                    <xs:simpleType>
-                                        <xs:restriction base="fhir:linkType"/>
-                                    </xs:simpleType>
                                 </xs:element>
                             </xs:sequence>
                         </xs:complexType>
