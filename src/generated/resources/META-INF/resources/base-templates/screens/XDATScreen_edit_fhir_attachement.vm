@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+$page.setTitle("XDAT")
+$page.setLinkColor($ui.alink)
+$page.setVlinkColor($ui.vlink)/*
+ ##---------------------------------------- 
+ ## DO NOT MODIFY THIS FILE HERE
+ ##
+ ## TO MODIFY, COPY THIS FILE to src/main/resources/templates/screens/ and modify it there 
+ ##----------------------------------------
+#set($months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"])
+#set($days = [ 1..31 ])
+#set($years = [ $!turbineUtils.getYear()..1900])
+#if ($data.message)
+<font color="red" size="3">$data.message</font>
+#end
+<p>
+<form ID="form1" name="form1" method="post" action="$link.setAction("ModifyItem")">
+<input type="hidden" name="project" value="$!{project}" >
+#if($vr)
+	<font color="red">Invalid parameters:<BR>$vr.toHTML()</font>
+<HR>
+#end
+
+<TABLE width="100%">
+	<TR>
+		<TD>
+			<table width="100%">
+				<TR>
+					<TD align="left" valign="middle">
+						<DIV class="edit_title">FHIRAttachement Details</DIV>
+					</TD>
+				</TR>
+			</TABLE>
+		</TD>
+	</TR>
+	<TR>
+		<TD>
+			<TABLE width="100%">
+				<TR>
+					<TD valign="top">
+						<TABLE>
+							<TR><TD>contentType</TD><TD>#xdatStringBox("fhir:attachement/contentType" $item "" $vr)</TD></TR>
+							<TR><TD>language</TD><TD>#xdatStringBox("fhir:attachement/language" $item "" $vr)</TD></TR>
+							<TR><TD>data</TD><TD>#xdatTextBox("fhir:attachement/data" $item "" $vr)</TD></TR>
+							<TR><TD>url</TD><TD>#xdatStringBox("fhir:attachement/url" $item "" $vr)</TD></TR>
+							<TR><TD>size</TD><TD>#xdatTextBox("fhir:attachement/size" $item "" $vr)</TD></TR>
+							<TR><TD>hash</TD><TD>#xdatTextBox("fhir:attachement/hash" $item "" $vr)</TD></TR>
+							<TR><TD>title</TD><TD>#xdatStringBox("fhir:attachement/title" $item "" $vr)</TD></TR>
+							<TR><TD>creation</TD><TD>#xdatTextBox("fhir:attachement/creation" $item "" $vr)</TD></TR>
+													#xdatHiddenBox("fhir:attachement/fhir_attachement_id" $item "")
+						</TABLE>
+					</TD>
+				</TR>
+			</TABLE>
+		</TD>
+	</TR>
+	<TR>
+		<TD>
+<!-- BEGIN fhir:attachement -->
+			<TABLE>
+				<TR><TH align="left"><font face="$ui.sansSerifFonts" size="2">Related Items</font></TH></TR>
+			</TABLE>
+<!-- END fhir:attachement -->
+		</TD>
+	</TR>
+	<TR>
+		<TD>
+		#xdatEditProps($item $edit_screen)
+		<TR><TD COLSPAN=2 ALIGN=left><input type="button" ONCLICK="validateForm();"  name="eventSubmit_doInsert" value="Submit"/></TD></TR>
+		</TD>
+	</TR>
+</TABLE>
+</form>
+
+<script type="text/javascript">
+function validateForm()
+{
+   //INSERT CUSTOM CONTENT HERE
+}
+</script>

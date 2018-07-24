@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+$page.setTitle("FHIRPatient Details")
+$page.setLinkColor($ui.alink)
+$page.setVlinkColor($ui.vlink)/*
+ ##---------------------------------------- 
+ ## DO NOT MODIFY THIS FILE HERE
+ ##
+ ## TO MODIFY, COPY THIS FILE to src/main/resources/templates/screens/ and modify it there 
+ ##----------------------------------------
+#if ($turbineUtils.GetPassedParameter("popup", $data))
+	#set ($popup = $turbineUtils.GetPassedParameter("popup", data) )
+	#set ($popup = "false")
+#end
+<TABLE width="100%">
+	<TR>
+		<TD>
+			<table width="100%">
+				<TR>
+					<TD align="left" valign="middle">
+						<font face="$ui.sansSerifFonts" size="3"><b>FHIRPatient Details</b></font>
+					</TD>
+				</TR>
+			</TABLE>
+		</TD>
+	</TR>
+	<TR>
+		<TD>
+			<TABLE width="100%">
+				<TR>
+					<TD valign="top">
+						<TABLE>
+							<TR><TD>use</TD><TD>$!item.getStringProperty("fhir:address/use")</TD></TR>
+							<TR><TD>type</TD><TD>$!item.getStringProperty("fhir:address/type")</TD></TR>
+							<TR><TD>text</TD><TD>$!item.getStringProperty("fhir:address/text")</TD></TR>
+							<TR><TD>city</TD><TD>$!item.getStringProperty("fhir:address/city")</TD></TR>
+							<TR><TD>district</TD><TD>$!item.getStringProperty("fhir:address/district")</TD></TR>
+							<TR><TD>state</TD><TD>$!item.getStringProperty("fhir:address/state")</TD></TR>
+							<TR><TD>postalCode</TD><TD>$!item.getStringProperty("fhir:address/postalCode")</TD></TR>
+							<TR><TD>country</TD><TD>$!item.getStringProperty("fhir:address/country")</TD></TR>
+							<TR><TD>period/start</TD><TD>$!item.getProperty("fhir:address/period/start")</TD></TR>
+							<TR><TD>period/end</TD><TD>$!item.getProperty("fhir:address/period/end")</TD></TR>
+							<TR><TD>assigner_ID</TD><TD>$!item.getIntegerProperty("fhir:address/assigner_ID")</TD></TR>
+						</TABLE>
+					</TD>
+					<TD valign="top" align="right">
+						#parse($turbineUtils.getTemplateName("actions",$om.getXSIType(),$project))
+					</TD>
+				</TR>
+			</TABLE>
+		</TD>
+	</TR>
+	<TR>
+		<TD>
+<!-- BEGIN fhir:address -->
+			<TABLE>
+				<TR><TH align="left"><font face="$ui.sansSerifFonts" size="2">Related Items</font></TH></TR>
+				<TR>
+					<TD align="left" valign="top">
+						<TABLE>
+						</TABLE>
+					</TD>
+				</TR>
+				<TR>
+					<TD align="left" valign="top">
+						<TABLE><TR><TD>
+							#set($fhir_address_line_1_NUM_ROWS=$item.getChildItems("fhir:address/line").size() - 1)
+							#if($fhir_address_line_1_NUM_ROWS>=0)
+								#foreach($fhir_address_line_1_COUNTER in [0..$fhir_address_line_1_NUM_ROWS])
+<!-- BEGIN fhir:address/line[$fhir_address_line_1_COUNTER] -->
+									<TABLE>
+										<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:address/line[$fhir_address_line_1_COUNTER]</font></TH></TR>
+										<TR>
+											<TD align="left" valign="top">
+												<TABLE>
+													<TR><TD>line</TD><TD>$!item.getStringProperty("fhir:address/line[$fhir_address_line_1_COUNTER]/line")</TD></TR>
+												</TABLE>
+											</TD>
+										</TR>
+									</TABLE>
+<!-- END fhir:address/line[$fhir_address_line_1_COUNTER] -->
+								#end
+							#end
+						</TD></TR></TABLE>
+					</TD>
+				</TR>
+			</TABLE>
+<!-- END fhir:address -->
+		</TD>
+	</TR>
+</TABLE>

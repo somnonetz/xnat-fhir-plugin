@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+$page.setTitle("FHIRContactPoint Details")
+$page.setLinkColor($ui.alink)
+$page.setVlinkColor($ui.vlink)/*
+ ##---------------------------------------- 
+ ## DO NOT MODIFY THIS FILE HERE
+ ##
+ ## TO MODIFY, COPY THIS FILE to src/main/resources/templates/screens/ and modify it there 
+ ##----------------------------------------
+#if ($turbineUtils.GetPassedParameter("popup", $data))
+	#set ($popup = $turbineUtils.GetPassedParameter("popup", data) )
+	#set ($popup = "false")
+#end
+<TABLE width="100%">
+	<TR>
+		<TD>
+			<table width="100%">
+				<TR>
+					<TD align="left" valign="middle">
+						<font face="$ui.sansSerifFonts" size="3"><b>FHIRContactPoint Details</b></font>
+					</TD>
+				</TR>
+			</TABLE>
+		</TD>
+	</TR>
+	<TR>
+		<TD>
+			<TABLE width="100%">
+				<TR>
+					<TD valign="top">
+						<TABLE>
+							<TR><TD>system</TD><TD>$!item.getStringProperty("fhir:contactPoint/system")</TD></TR>
+							<TR><TD>value</TD><TD>$!item.getStringProperty("fhir:contactPoint/value")</TD></TR>
+							<TR><TD>use</TD><TD>$!item.getStringProperty("fhir:contactPoint/use")</TD></TR>
+							<TR><TD>rank</TD><TD>$!item.getProperty("fhir:contactPoint/rank")</TD></TR>
+							<TR><TD>period/start</TD><TD>$!item.getProperty("fhir:contactPoint/period/start")</TD></TR>
+							<TR><TD>period/end</TD><TD>$!item.getProperty("fhir:contactPoint/period/end")</TD></TR>
+						</TABLE>
+					</TD>
+					<TD valign="top" align="right">
+						#parse($turbineUtils.getTemplateName("actions",$om.getXSIType(),$project))
+					</TD>
+				</TR>
+			</TABLE>
+		</TD>
+	</TR>
+	<TR>
+		<TD>
+<!-- BEGIN fhir:contactPoint -->
+			<TABLE>
+				<TR><TH align="left"><font face="$ui.sansSerifFonts" size="2">Related Items</font></TH></TR>
+				<TR>
+					<TD align="left" valign="top">
+						<TABLE>
+						</TABLE>
+					</TD>
+				</TR>
+			</TABLE>
+<!-- END fhir:contactPoint -->
+		</TD>
+	</TR>
+</TABLE>

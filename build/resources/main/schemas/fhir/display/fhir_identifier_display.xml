@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Displays xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../xdat/display.xsd" schema-element="fhir:identifier" full-description="FHIRIdentifier" brief-description="FHIRIdentifier">
+	<DisplayField id="INSERT_DATE" header="Inserted" visible="true" searchable="true" data-type="string">
+		<DisplayFieldElement name="Field1" schema-element="fhir:identifier.meta.insert_date"/>
+	</DisplayField>
+	<DisplayField id="INSERT_USER" header="Creator" visible="true" searchable="true" data-type="string">
+		<DisplayFieldElement name="Field1" schema-element="fhir:identifier.meta.insert_user.login"/>
+	</DisplayField>
+	<DisplayField id="USE" header="use" visible="true" searchable="true">
+		<DisplayFieldElement name="Field1" schema-element="fhir:identifier/use"/>
+	</DisplayField>
+	<DisplayField id="TYPE" header="type" visible="true" searchable="true">
+		<DisplayFieldElement name="Field1" schema-element="fhir:identifier/type"/>
+	</DisplayField>
+	<DisplayField id="SYSTEM" header="system" visible="true" searchable="true">
+		<DisplayFieldElement name="Field1" schema-element="fhir:identifier/system"/>
+	</DisplayField>
+	<DisplayField id="VALUE" header="value" visible="true" searchable="true">
+		<DisplayFieldElement name="Field1" schema-element="fhir:identifier/value"/>
+	</DisplayField>
+	<DisplayField id="PERIOD_START" header="start" visible="true" searchable="true">
+		<DisplayFieldElement name="Field1" schema-element="fhir:identifier/period/start"/>
+	</DisplayField>
+	<DisplayField id="PERIOD_END" header="end" visible="true" searchable="true">
+		<DisplayFieldElement name="Field1" schema-element="fhir:identifier/period/end"/>
+	</DisplayField>
+	<DisplayField id="ASSIGNER_ID" header="assigner_ID" visible="true" searchable="true">
+		<DisplayFieldElement name="Field1" schema-element="fhir:identifier/assigner_ID"/>
+	</DisplayField>
+	<DisplayVersion versionName="listing" default-order-by="USE" default-sort-order="DESC" brief-description="FHIRIdentifier" dark-color="9999CC" light-color="CCCCFF">
+		<DisplayFieldRef id="USE"/>
+		<DisplayFieldRef id="TYPE"/>
+		<DisplayFieldRef id="SYSTEM"/>
+		<DisplayFieldRef id="VALUE"/>
+		<DisplayFieldRef id="PERIOD_START"/>
+		<DisplayFieldRef id="PERIOD_END"/>
+		<DisplayFieldRef id="ASSIGNER_ID"/>
+	</DisplayVersion>
+	<DisplayVersion versionName="full" default-order-by="USE" default-sort-order="DESC" brief-description="FHIRIdentifier" dark-color="9999CC" light-color="CCCCFF">
+		<DisplayFieldRef id="USE"/>
+		<DisplayFieldRef id="TYPE"/>
+		<DisplayFieldRef id="SYSTEM"/>
+		<DisplayFieldRef id="VALUE"/>
+		<DisplayFieldRef id="PERIOD_START"/>
+		<DisplayFieldRef id="PERIOD_END"/>
+		<DisplayFieldRef id="ASSIGNER_ID"/>
+	</DisplayVersion>
+</Displays>

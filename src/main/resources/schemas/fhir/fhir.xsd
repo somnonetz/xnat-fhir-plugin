@@ -425,6 +425,23 @@ This repeating element order: The order in which lines should appear in an addre
         </xs:restriction>
     </xs:simpleType>
 
+    <xs:simpleType name="genderStatus">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="neutered" />
+            <xs:enumeration value="intact" />
+            <xs:enumeration value="unknown" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="linkType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="replaced-by" />
+            <xs:enumeration value="replaces" />
+            <xs:enumeration value="refer" />
+            <xs:enumeration value="seealso" />
+        </xs:restriction>
+    </xs:simpleType>
+
     <xs:complexType name="patient">
         <xs:complexContent>
             <xs:extension base="xnat:subjectAssessorData">
@@ -527,7 +544,6 @@ This repeating element order: The order in which lines should appear in an addre
                             </xs:appinfo>
                         </xs:annotation>
                     </xs:element>
-
                     <xs:element name="contact" minOccurs="0" maxOccurs="unbounded">
                         <xs:annotation>
                             <xs:documentation>A contact party (e.g. guardian, partner, friend) for the patient</xs:documentation>
@@ -596,6 +612,85 @@ This repeating element order: The order in which lines should appear in an addre
                                             <xs:element name="end" type="xs:dateTime" minOccurs="0" maxOccurs="1" />
                                         </xs:sequence>
                                     </xs:complexType>
+                                </xs:element>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element name="animal" minOccurs="0" maxOccurs="1">
+                        <xs:annotation>
+                            <xs:documentation>This patient is known to be an animal (non-human)</xs:documentation>
+                        </xs:annotation>
+                        <xs:complexType>
+                            <xs:sequence>
+                                <!-- normally maxOccurs should be unbounded, however the xnat compiler does not understand that :( -->
+                                <xs:element name="species" minOccurs="0" maxOccurs="1" type="xs:string">
+                                    <xs:annotation>
+                                        <xs:documentation>E.g. Dog, Cow. Include these codes as defined in http://snomed.info/sct </xs:documentation>
+                                    </xs:annotation>
+                                </xs:element>
+                                <xs:element name="breed" minOccurs="0" maxOccurs="1" type="xs:string">
+                                    <xs:annotation>
+                                        <xs:documentation>E.g. Poodle, Angus. Include these codes as defined in http://snomed.info/sct</xs:documentation>
+                                    </xs:annotation>
+                                </xs:element>
+                                <xs:element name="genderStatus" minOccurs="0" maxOccurs="1">
+                                    <xs:annotation>
+                                        <xs:documentation>E.g. Neutered, Intact</xs:documentation>
+                                    </xs:annotation>
+                                    <xs:simpleType>
+                                        <xs:restriction base="fhir:genderStatus"/>
+                                    </xs:simpleType>
+                                </xs:element>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element name="communication" minOccurs="0" maxOccurs="unbounded">
+                        <xs:annotation>
+                            <xs:documentation>A list of Languages which may be used to communicate with the patient about his or her health</xs:documentation>
+                        </xs:annotation>
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element name="language" minOccurs="0" maxOccurs="1" type="fhir:commonLanguages">
+                                    <xs:annotation>
+                                        <xs:documentation>The language which can be used to communicate with the patient about his or her health</xs:documentation>
+                                    </xs:annotation>
+                                </xs:element>
+                                <xs:element name="preferred" minOccurs="0" maxOccurs="1" type="xs:boolean">
+                                    <xs:annotation>
+                                        <xs:documentation>Language preference indicator</xs:documentation>
+                                    </xs:annotation>
+                                </xs:element>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element name="generalPractitioner_ID" minOccurs="0" maxOccurs="unbounded" type="xs:integer">
+                        <xs:annotation>
+                            <xs:documentation>Patient's nominated primary care provider</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="managingOrganization_ID" minOccurs="0" maxOccurs="1" type="xs:integer">
+                        <xs:annotation>
+                            <xs:documentation>Organization that is the custodian of the patient record</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="link" minOccurs="0" maxOccurs="unbounded">
+                        <xs:annotation>
+                            <xs:documentation>Link to another patient resource that concerns the same actual person</xs:documentation>
+                        </xs:annotation>
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element name="other_ID" minOccurs="1" maxOccurs="1" type="xs:integer">
+                                    <xs:annotation>
+                                        <xs:documentation>The other patient or related person resource that the link refers to</xs:documentation>
+                                    </xs:annotation>
+                                </xs:element>
+                                <xs:element name="type" minOccurs="1" maxOccurs="1">
+                                    <xs:annotation>
+                                        <xs:documentation>type of link</xs:documentation>
+                                    </xs:annotation>
+                                    <xs:simpleType>
+                                        <xs:restriction base="fhir:linkType"/>
+                                    </xs:simpleType>
                                 </xs:element>
                             </xs:sequence>
                         </xs:complexType>

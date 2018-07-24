@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+$page.setTitle("FHIRIdentifier Details")
+$page.setLinkColor($ui.alink)
+$page.setVlinkColor($ui.vlink)/*
+ ##---------------------------------------- 
+ ## DO NOT MODIFY THIS FILE HERE
+ ##
+ ## TO MODIFY, COPY THIS FILE to src/main/resources/templates/screens/ and modify it there 
+ ##----------------------------------------
+#if ($turbineUtils.GetPassedParameter("popup", $data))
+	#set ($popup = $turbineUtils.GetPassedParameter("popup", data) )
+	#set ($popup = "false")
+#end
+<TABLE width="100%">
+	<TR>
+		<TD>
+			<table width="100%">
+				<TR>
+					<TD align="left" valign="middle">
+						<font face="$ui.sansSerifFonts" size="3"><b>FHIRIdentifier Details</b></font>
+					</TD>
+				</TR>
+			</TABLE>
+		</TD>
+	</TR>
+	<TR>
+		<TD>
+			<TABLE width="100%">
+				<TR>
+					<TD valign="top">
+						<TABLE>
+							<TR><TD>use</TD><TD>$!item.getStringProperty("fhir:identifier/use")</TD></TR>
+							<TR><TD>type</TD><TD>$!item.getStringProperty("fhir:identifier/type")</TD></TR>
+							<TR><TD>system</TD><TD>$!item.getStringProperty("fhir:identifier/system")</TD></TR>
+							<TR><TD>value</TD><TD>$!item.getStringProperty("fhir:identifier/value")</TD></TR>
+							<TR><TD>period/start</TD><TD>$!item.getProperty("fhir:identifier/period/start")</TD></TR>
+							<TR><TD>period/end</TD><TD>$!item.getProperty("fhir:identifier/period/end")</TD></TR>
+							<TR><TD>assigner_ID</TD><TD>$!item.getIntegerProperty("fhir:identifier/assigner_ID")</TD></TR>
+						</TABLE>
+					</TD>
+					<TD valign="top" align="right">
+						#parse($turbineUtils.getTemplateName("actions",$om.getXSIType(),$project))
+					</TD>
+				</TR>
+			</TABLE>
+		</TD>
+	</TR>
+	<TR>
+		<TD>
+<!-- BEGIN fhir:identifier -->
+			<TABLE>
+				<TR><TH align="left"><font face="$ui.sansSerifFonts" size="2">Related Items</font></TH></TR>
+				<TR>
+					<TD align="left" valign="top">
+						<TABLE>
+						</TABLE>
+					</TD>
+				</TR>
+			</TABLE>
+<!-- END fhir:identifier -->
+		</TD>
+	</TR>
+</TABLE>

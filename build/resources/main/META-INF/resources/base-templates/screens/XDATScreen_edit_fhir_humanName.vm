@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+$page.setTitle("XDAT")
+$page.setLinkColor($ui.alink)
+$page.setVlinkColor($ui.vlink)/*
+ ##---------------------------------------- 
+ ## DO NOT MODIFY THIS FILE HERE
+ ##
+ ## TO MODIFY, COPY THIS FILE to src/main/resources/templates/screens/ and modify it there 
+ ##----------------------------------------
+#set($months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"])
+#set($days = [ 1..31 ])
+#set($years = [ $!turbineUtils.getYear()..1900])
+#if ($data.message)
+<font color="red" size="3">$data.message</font>
+#end
+<p>
+<form ID="form1" name="form1" method="post" action="$link.setAction("ModifyItem")">
+<input type="hidden" name="project" value="$!{project}" >
+#if($vr)
+	<font color="red">Invalid parameters:<BR>$vr.toHTML()</font>
+<HR>
+#end
+
+<TABLE width="100%">
+	<TR>
+		<TD>
+			<table width="100%">
+				<TR>
+					<TD align="left" valign="middle">
+						<DIV class="edit_title">FHIRHumanName Details</DIV>
+					</TD>
+				</TR>
+			</TABLE>
+		</TD>
+	</TR>
+	<TR>
+		<TD>
+			<TABLE width="100%">
+				<TR>
+					<TD valign="top">
+						<TABLE>
+							<TR><TD>use</TD><TD>#xdatStringBox("fhir:humanName/use" $item "" $vr)</TD></TR>
+							<TR><TD>text</TD><TD>#xdatStringBox("fhir:humanName/text" $item "" $vr)</TD></TR>
+							<TR><TD>family</TD><TD>#xdatStringBox("fhir:humanName/family" $item "" $vr)</TD></TR>
+							<TR><TD>period/start</TD><TD>#xdatTextBox("fhir:humanName/period/start" $item "" $vr)</TD></TR>
+							<TR><TD>period/end</TD><TD>#xdatTextBox("fhir:humanName/period/end" $item "" $vr)</TD></TR>
+													#xdatHiddenBox("fhir:humanName/fhir_humanName_id" $item "")
+						</TABLE>
+					</TD>
+				</TR>
+			</TABLE>
+		</TD>
+	</TR>
+	<TR>
+		<TD>
+<!-- BEGIN fhir:humanName -->
+			<TABLE>
+				<TR><TH align="left"><font face="$ui.sansSerifFonts" size="2">Related Items</font></TH></TR>
+<!-- BEGIN fhir:humanName/given -->
+				<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:humanName/given</font></TH></TR>
+				<TR>
+					<TD align="left" valign="top">
+						<TABLE>
+							<TR>
+								<TD>given</TD>
+							</TR>
+							#foreach($fhir_humanName_given_1_COUNTER in [0..5])
+								<TR>
+									<TD>#xdatTextBox("fhir:humanName/given[$fhir_humanName_given_1_COUNTER]/given" $item "" $vr)</TD>
+									#xdatHiddenBox("fhir:humanName/given[$fhir_humanName_given_1_COUNTER]/fhir_humanName_given_id" $item "")
+								</TR>
+							#end
+						</TABLE>
+					</TD>
+				</TR>
+<!-- END fhir:humanName/given -->
+<!-- BEGIN fhir:humanName/prefix -->
+				<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:humanName/prefix</font></TH></TR>
+				<TR>
+					<TD align="left" valign="top">
+						<TABLE>
+							<TR>
+								<TD>prefix</TD>
+							</TR>
+							#foreach($fhir_humanName_prefix_1_COUNTER in [0..5])
+								<TR>
+									<TD>#xdatTextBox("fhir:humanName/prefix[$fhir_humanName_prefix_1_COUNTER]/prefix" $item "" $vr)</TD>
+									#xdatHiddenBox("fhir:humanName/prefix[$fhir_humanName_prefix_1_COUNTER]/fhir_humanName_prefix_id" $item "")
+								</TR>
+							#end
+						</TABLE>
+					</TD>
+				</TR>
+<!-- END fhir:humanName/prefix -->
+<!-- BEGIN fhir:humanName/suffix -->
+				<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:humanName/suffix</font></TH></TR>
+				<TR>
+					<TD align="left" valign="top">
+						<TABLE>
+							<TR>
+								<TD>suffix</TD>
+							</TR>
+							#foreach($fhir_humanName_suffix_1_COUNTER in [0..5])
+								<TR>
+									<TD>#xdatTextBox("fhir:humanName/suffix[$fhir_humanName_suffix_1_COUNTER]/suffix" $item "" $vr)</TD>
+									#xdatHiddenBox("fhir:humanName/suffix[$fhir_humanName_suffix_1_COUNTER]/fhir_humanName_suffix_id" $item "")
+								</TR>
+							#end
+						</TABLE>
+					</TD>
+				</TR>
+<!-- END fhir:humanName/suffix -->
+			</TABLE>
+<!-- END fhir:humanName -->
+		</TD>
+	</TR>
+	<TR>
+		<TD>
+		#xdatEditProps($item $edit_screen)
+		<TR><TD COLSPAN=2 ALIGN=left><input type="button" ONCLICK="validateForm();"  name="eventSubmit_doInsert" value="Submit"/></TD></TR>
+		</TD>
+	</TR>
+</TABLE>
+</form>
+
+<script type="text/javascript">
+function validateForm()
+{
+   //INSERT CUSTOM CONTENT HERE
+}
+</script>

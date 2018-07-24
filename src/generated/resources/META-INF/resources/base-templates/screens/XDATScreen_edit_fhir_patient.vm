@@ -1,0 +1,664 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+$page.setTitle("XDAT")
+$page.setLinkColor($ui.alink)
+$page.setVlinkColor($ui.vlink)/*
+ ##---------------------------------------- 
+ ## DO NOT MODIFY THIS FILE HERE
+ ##
+ ## TO MODIFY, COPY THIS FILE to src/main/resources/templates/screens/ and modify it there 
+ ##----------------------------------------
+#set($months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"])
+#set($days = [ 1..31 ])
+#set($years = [ $!turbineUtils.getYear()..1900])
+#if ($data.message)
+<font color="red" size="3">$data.message</font>
+#end
+<p>
+<form ID="form1" name="form1" method="post" action="$link.setAction("ModifySubjectAssessorData")">
+<input type="hidden" name="project" value="$!{project}" >
+#if($vr)
+	<font color="red">Invalid parameters:<BR>$vr.toHTML()</font>
+<HR>
+#end
+
+<TABLE width="100%">
+	<TR>
+		<TD>
+			<table width="100%">
+				<TR>
+					<TD align="left" valign="middle">
+						<DIV class="edit_title">FHIRAddress Details</DIV>
+					</TD>
+				</TR>
+			</TABLE>
+		</TD>
+	</TR>
+	<TR>
+		<TD>
+			<TABLE width="100%">
+				<TR>
+					<TD valign="top">
+						<TABLE>
+							<TR><TD colspan='2'>
+								#parse("/screens/xnat_edit_subjectAssessorData.vm")
+							</TD></TR>
+							<tr>
+								<TD colspan="2">#parse("/screens/EditProjectSpecificFields.vm")</TD>
+							</tr>
+							<TR><TD>age</TD><TD>#xdatTextBox("fhir:patient/age" $item "" $vr)</TD></TR>
+							<TR><TD>date</TD><TD>#xdatDateBox("fhir:patient/date" $item $vr $years)</TD></TR>
+							<TR><TD>time</TD><TD>#xdatTextBox("fhir:patient/time" $item "" $vr)</TD></TR>
+							<TR><TD>duration</TD><TD>#xdatTextBox("fhir:patient/duration" $item "" $vr)</TD></TR>
+							<TR><TD>delay</TD><TD>#xdatTextBox("fhir:patient/delay" $item "" $vr)</TD></TR>
+							<TR><TD>delay/ref_expt_id</TD><TD>#xdatStringBox("fhir:patient/delay/ref_expt_id" $item "" $vr)</TD></TR>
+							<TR><TD>note</TD><TD>#xdatStringBox("fhir:patient/note" $item "" $vr)</TD></TR>
+							<TR><TD>acquisition_site</TD><TD>#xdatStringBox("fhir:patient/acquisition_site" $item "" $vr)</TD></TR>
+							<TR><TD>visit_id</TD><TD>#xdatStringBox("fhir:patient/visit_id" $item "" $vr)</TD></TR>
+							<TR><TD>visit</TD><TD>#xdatStringBox("fhir:patient/visit" $item "" $vr)</TD></TR>
+							<TR><TD>version</TD><TD>#xdatTextBox("fhir:patient/version" $item "" $vr)</TD></TR>
+							<TR><TD>original</TD><TD>#xdatStringBox("fhir:patient/original" $item "" $vr)</TD></TR>
+							<TR><TD>protocol</TD><TD>#xdatStringBox("fhir:patient/protocol" $item "" $vr)</TD></TR>
+							<TR><TD>label</TD><TD>#xdatStringBox("fhir:patient/label" $item "" $vr)</TD></TR>
+							<TR><TD>active</TD><TD>#xdatBooleanRadio("fhir:patient/active" $item false $vr)</TD></TR>
+							<TR><TD>gender</TD><TD>#xdatStringBox("fhir:patient/gender" $item "" $vr)</TD></TR>
+							<TR><TD>birthDate</TD><TD>#xdatDateBox("fhir:patient/birthDate" $item $vr $years)</TD></TR>
+							<TR><TD>deceased/deceasedBoolean</TD><TD>#xdatBooleanRadio("fhir:patient/deceased/deceasedBoolean" $item false $vr)</TD></TR>
+							<TR><TD>deceased/deceasedDateTime</TD><TD>#xdatTextBox("fhir:patient/deceased/deceasedDateTime" $item "" $vr)</TD></TR>
+							<TR><TD>maritalStatus</TD><TD>#xdatStringBox("fhir:patient/maritalStatus" $item "" $vr)</TD></TR>
+							<TR><TD>multipleBirth/multipleBirthBoolean</TD><TD>#xdatBooleanRadio("fhir:patient/multipleBirth/multipleBirthBoolean" $item false $vr)</TD></TR>
+							<TR><TD>multipleBirth/multipleBirthInteger</TD><TD>#xdatTextBox("fhir:patient/multipleBirth/multipleBirthInteger" $item "" $vr)</TD></TR>
+							<TR><TD>animal/species</TD><TD>#xdatStringBox("fhir:patient/animal/species" $item "" $vr)</TD></TR>
+							<TR><TD>animal/breed</TD><TD>#xdatStringBox("fhir:patient/animal/breed" $item "" $vr)</TD></TR>
+							<TR><TD>animal/genderStatus</TD><TD>#xdatStringBox("fhir:patient/animal/genderStatus" $item "" $vr)</TD></TR>
+							<TR><TD>managingOrganization_ID</TD><TD>#xdatTextBox("fhir:patient/managingOrganization_ID" $item "" $vr)</TD></TR>
+						</TABLE>
+					</TD>
+				</TR>
+			</TABLE>
+		</TD>
+	</TR>
+	<TR>
+		<TD>
+<!-- BEGIN fhir:patient -->
+			<TABLE>
+				<TR><TH align="left"><font face="$ui.sansSerifFonts" size="2">Related Items</font></TH></TR>
+				<TR>
+					<TD align="left" valign="top">
+<!-- BEGIN fhir:patient/investigator -->
+						<TABLE>
+							<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:patient/investigator</font></TH></TR>
+							<TR>
+								<TD align="left" valign="top">
+									<TABLE>
+										<TR><TD>title</TD><TD>#xdatStringBox("fhir:patient/investigator/title" $item "" $vr)</TD></TR>
+										<TR><TD>firstname</TD><TD>#xdatStringBox("fhir:patient/investigator/firstname" $item "" $vr)</TD></TR>
+										<TR><TD>lastname</TD><TD>#xdatStringBox("fhir:patient/investigator/lastname" $item "" $vr)</TD></TR>
+										<TR><TD>institution</TD><TD>#xdatStringBox("fhir:patient/investigator/institution" $item "" $vr)</TD></TR>
+										<TR><TD>department</TD><TD>#xdatStringBox("fhir:patient/investigator/department" $item "" $vr)</TD></TR>
+										<TR><TD>email</TD><TD>#xdatStringBox("fhir:patient/investigator/email" $item "" $vr)</TD></TR>
+										<TR><TD>phone</TD><TD>#xdatStringBox("fhir:patient/investigator/phone" $item "" $vr)</TD></TR>
+										<TR><TD>ID</TD><TD>#xdatStringBox("fhir:patient/investigator/ID" $item "" $vr)</TD></TR>
+																#xdatHiddenBox("fhir:patient/investigator/xnat_investigatorData_id" $item "")
+									</TABLE>
+								</TD>
+							</TR>
+						</TABLE>
+<!-- END fhir:patient/investigator -->
+					</TD>
+				</TR>
+				<TR>
+					<TD align="left" valign="top">
+<!-- BEGIN fhir:patient/validation -->
+						<TABLE>
+							<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:patient/validation</font></TH></TR>
+							<TR>
+								<TD align="left" valign="top">
+									<TABLE>
+										<TR><TD>method</TD><TD>#xdatStringBox("fhir:patient/validation/method" $item "" $vr)</TD></TR>
+										<TR><TD>date</TD><TD>#xdatDateBox("fhir:patient/validation/date" $item $vr $years)</TD></TR>
+										<TR><TD>notes</TD><TD>#xdatStringBox("fhir:patient/validation/notes" $item "" $vr)</TD></TR>
+										<TR><TD>validated_by</TD><TD>#xdatStringBox("fhir:patient/validation/validated_by" $item "" $vr)</TD></TR>
+										<TR><TD>status</TD><TD>#xdatStringBox("fhir:patient/validation/status" $item "" $vr)</TD></TR>
+																#xdatHiddenBox("fhir:patient/validation/xnat_validationData_id" $item "")
+									</TABLE>
+								</TD>
+							</TR>
+						</TABLE>
+<!-- END fhir:patient/validation -->
+					</TD>
+				</TR>
+				<TR>
+					<TD align="left" valign="top">
+						<TABLE><TR><TD>
+							#foreach($xnat_abstractResource_3_COUNTER in [0..5])
+<!-- BEGIN fhir:patient/resources/resource[$xnat_abstractResource_3_COUNTER] -->
+								<TABLE>
+									<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:patient/resources/resource[$xnat_abstractResource_3_COUNTER]</font></TH></TR>
+									<TR>
+										<TD align="left" valign="top">
+											<TABLE>
+												<TR><TD>note</TD><TD>#xdatStringBox("fhir:patient/resources/resource[$xnat_abstractResource_3_COUNTER]/note" $item "" $vr)</TD></TR>
+												<TR><TD>label</TD><TD>#xdatStringBox("fhir:patient/resources/resource[$xnat_abstractResource_3_COUNTER]/label" $item "" $vr)</TD></TR>
+												<TR><TD>file_count</TD><TD>#xdatTextBox("fhir:patient/resources/resource[$xnat_abstractResource_3_COUNTER]/file_count" $item "" $vr)</TD></TR>
+												<TR><TD>file_size</TD><TD>#xdatTextBox("fhir:patient/resources/resource[$xnat_abstractResource_3_COUNTER]/file_size" $item "" $vr)</TD></TR>
+																		#xdatHiddenBox("fhir:patient/resources/resource[$xnat_abstractResource_3_COUNTER]/xnat_abstractResource_id" $item "")
+											</TABLE>
+										</TD>
+									</TR>
+<!-- BEGIN fhir:patient/resources/resource[$xnat_abstractResource_3_COUNTER]/tags/tag -->
+									<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:patient/resources/resource[$xnat_abstractResource_3_COUNTER]/tags/tag</font></TH></TR>
+									<TR>
+										<TD align="left" valign="top">
+											<TABLE>
+												<TR>
+													<TD>tag</TD>
+													<TD>name</TD>
+												</TR>
+												#foreach($xnat_abstractResource_tag_4_COUNTER in [0..5])
+													<TR>
+														<TD>#xdatTextBox("fhir:patient/resources/resource[$xnat_abstractResource_3_COUNTER]/tags/tag[$xnat_abstractResource_tag_4_COUNTER]/tag" $item "" $vr)</TD>
+														<TD>#xdatTextBox("fhir:patient/resources/resource[$xnat_abstractResource_3_COUNTER]/tags/tag[$xnat_abstractResource_tag_4_COUNTER]/name" $item "" $vr)</TD>
+														#xdatHiddenBox("fhir:patient/resources/resource[$xnat_abstractResource_3_COUNTER]/tags/tag[$xnat_abstractResource_tag_4_COUNTER]/xnat_abstractResource_tag_id" $item "")
+													</TR>
+												#end
+											</TABLE>
+										</TD>
+									</TR>
+<!-- END fhir:patient/resources/resource[$xnat_abstractResource_3_COUNTER]/tags/tag -->
+								</TABLE>
+<!-- END fhir:patient/resources/resource[$xnat_abstractResource_3_COUNTER] -->
+							#end
+						</TD></TR></TABLE>
+					</TD>
+				</TR>
+<!-- BEGIN fhir:patient/fields/field -->
+				<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:patient/fields/field</font></TH></TR>
+				<TR>
+					<TD align="left" valign="top">
+						<TABLE>
+							<TR>
+								<TD>field</TD>
+								<TD>name</TD>
+							</TR>
+							#foreach($xnat_experimentData_field_4_COUNTER in [0..5])
+								<TR>
+									<TD>#xdatTextBox("fhir:patient/fields/field[$xnat_experimentData_field_4_COUNTER]/field" $item "" $vr)</TD>
+									<TD>#xdatTextBox("fhir:patient/fields/field[$xnat_experimentData_field_4_COUNTER]/name" $item "" $vr)</TD>
+									#xdatHiddenBox("fhir:patient/fields/field[$xnat_experimentData_field_4_COUNTER]/xnat_experimentData_field_id" $item "")
+								</TR>
+							#end
+						</TABLE>
+					</TD>
+				</TR>
+<!-- END fhir:patient/fields/field -->
+<!-- BEGIN fhir:patient/identifier -->
+				<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:patient/identifier</font></TH></TR>
+				<TR>
+					<TD align="left" valign="top">
+						<TABLE>
+							<TR>
+								<TD>use</TD>
+								<TD>type</TD>
+								<TD>system</TD>
+								<TD>value</TD>
+								<TD>period/start</TD>
+								<TD>period/end</TD>
+								<TD>assigner_ID</TD>
+							</TR>
+							#foreach($fhir_identifier_4_COUNTER in [0..5])
+								<TR>
+									<TD>#xdatTextBox("fhir:patient/identifier[$fhir_identifier_4_COUNTER]/use" $item "" $vr)</TD>
+									<TD>#xdatTextBox("fhir:patient/identifier[$fhir_identifier_4_COUNTER]/type" $item "" $vr)</TD>
+									<TD>#xdatTextBox("fhir:patient/identifier[$fhir_identifier_4_COUNTER]/system" $item "" $vr)</TD>
+									<TD>#xdatTextBox("fhir:patient/identifier[$fhir_identifier_4_COUNTER]/value" $item "" $vr)</TD>
+									<TD>#xdatTextBox("fhir:patient/identifier[$fhir_identifier_4_COUNTER]/period/start" $item "" $vr)</TD>
+									<TD>#xdatTextBox("fhir:patient/identifier[$fhir_identifier_4_COUNTER]/period/end" $item "" $vr)</TD>
+									<TD>#xdatTextBox("fhir:patient/identifier[$fhir_identifier_4_COUNTER]/assigner_ID" $item "" $vr)</TD>
+									#xdatHiddenBox("fhir:patient/identifier[$fhir_identifier_4_COUNTER]/fhir_identifier_id" $item "")
+								</TR>
+							#end
+						</TABLE>
+					</TD>
+				</TR>
+<!-- END fhir:patient/identifier -->
+				<TR>
+					<TD align="left" valign="top">
+						<TABLE><TR><TD>
+							#foreach($fhir_humanName_4_COUNTER in [0..5])
+<!-- BEGIN fhir:patient/name[$fhir_humanName_4_COUNTER] -->
+								<TABLE>
+									<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:patient/name[$fhir_humanName_4_COUNTER]</font></TH></TR>
+									<TR>
+										<TD align="left" valign="top">
+											<TABLE>
+												<TR><TD>use</TD><TD>#xdatStringBox("fhir:patient/name[$fhir_humanName_4_COUNTER]/use" $item "" $vr)</TD></TR>
+												<TR><TD>text</TD><TD>#xdatStringBox("fhir:patient/name[$fhir_humanName_4_COUNTER]/text" $item "" $vr)</TD></TR>
+												<TR><TD>family</TD><TD>#xdatStringBox("fhir:patient/name[$fhir_humanName_4_COUNTER]/family" $item "" $vr)</TD></TR>
+												<TR><TD>period/start</TD><TD>#xdatTextBox("fhir:patient/name[$fhir_humanName_4_COUNTER]/period/start" $item "" $vr)</TD></TR>
+												<TR><TD>period/end</TD><TD>#xdatTextBox("fhir:patient/name[$fhir_humanName_4_COUNTER]/period/end" $item "" $vr)</TD></TR>
+																		#xdatHiddenBox("fhir:patient/name[$fhir_humanName_4_COUNTER]/fhir_humanName_id" $item "")
+											</TABLE>
+										</TD>
+									</TR>
+<!-- BEGIN fhir:patient/name[$fhir_humanName_4_COUNTER]/given -->
+									<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:patient/name[$fhir_humanName_4_COUNTER]/given</font></TH></TR>
+									<TR>
+										<TD align="left" valign="top">
+											<TABLE>
+												<TR>
+													<TD>given</TD>
+												</TR>
+												#foreach($fhir_humanName_given_5_COUNTER in [0..5])
+													<TR>
+														<TD>#xdatTextBox("fhir:patient/name[$fhir_humanName_4_COUNTER]/given[$fhir_humanName_given_5_COUNTER]/given" $item "" $vr)</TD>
+														#xdatHiddenBox("fhir:patient/name[$fhir_humanName_4_COUNTER]/given[$fhir_humanName_given_5_COUNTER]/fhir_humanName_given_id" $item "")
+													</TR>
+												#end
+											</TABLE>
+										</TD>
+									</TR>
+<!-- END fhir:patient/name[$fhir_humanName_4_COUNTER]/given -->
+<!-- BEGIN fhir:patient/name[$fhir_humanName_4_COUNTER]/prefix -->
+									<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:patient/name[$fhir_humanName_4_COUNTER]/prefix</font></TH></TR>
+									<TR>
+										<TD align="left" valign="top">
+											<TABLE>
+												<TR>
+													<TD>prefix</TD>
+												</TR>
+												#foreach($fhir_humanName_prefix_5_COUNTER in [0..5])
+													<TR>
+														<TD>#xdatTextBox("fhir:patient/name[$fhir_humanName_4_COUNTER]/prefix[$fhir_humanName_prefix_5_COUNTER]/prefix" $item "" $vr)</TD>
+														#xdatHiddenBox("fhir:patient/name[$fhir_humanName_4_COUNTER]/prefix[$fhir_humanName_prefix_5_COUNTER]/fhir_humanName_prefix_id" $item "")
+													</TR>
+												#end
+											</TABLE>
+										</TD>
+									</TR>
+<!-- END fhir:patient/name[$fhir_humanName_4_COUNTER]/prefix -->
+<!-- BEGIN fhir:patient/name[$fhir_humanName_4_COUNTER]/suffix -->
+									<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:patient/name[$fhir_humanName_4_COUNTER]/suffix</font></TH></TR>
+									<TR>
+										<TD align="left" valign="top">
+											<TABLE>
+												<TR>
+													<TD>suffix</TD>
+												</TR>
+												#foreach($fhir_humanName_suffix_5_COUNTER in [0..5])
+													<TR>
+														<TD>#xdatTextBox("fhir:patient/name[$fhir_humanName_4_COUNTER]/suffix[$fhir_humanName_suffix_5_COUNTER]/suffix" $item "" $vr)</TD>
+														#xdatHiddenBox("fhir:patient/name[$fhir_humanName_4_COUNTER]/suffix[$fhir_humanName_suffix_5_COUNTER]/fhir_humanName_suffix_id" $item "")
+													</TR>
+												#end
+											</TABLE>
+										</TD>
+									</TR>
+<!-- END fhir:patient/name[$fhir_humanName_4_COUNTER]/suffix -->
+								</TABLE>
+<!-- END fhir:patient/name[$fhir_humanName_4_COUNTER] -->
+							#end
+						</TD></TR></TABLE>
+					</TD>
+				</TR>
+<!-- BEGIN fhir:patient/telecom -->
+				<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:patient/telecom</font></TH></TR>
+				<TR>
+					<TD align="left" valign="top">
+						<TABLE>
+							<TR>
+								<TD>system</TD>
+								<TD>value</TD>
+								<TD>use</TD>
+								<TD>rank</TD>
+								<TD>period/start</TD>
+								<TD>period/end</TD>
+							</TR>
+							#foreach($fhir_contactPoint_5_COUNTER in [0..5])
+								<TR>
+									<TD>#xdatTextBox("fhir:patient/telecom[$fhir_contactPoint_5_COUNTER]/system" $item "" $vr)</TD>
+									<TD>#xdatTextBox("fhir:patient/telecom[$fhir_contactPoint_5_COUNTER]/value" $item "" $vr)</TD>
+									<TD>#xdatTextBox("fhir:patient/telecom[$fhir_contactPoint_5_COUNTER]/use" $item "" $vr)</TD>
+									<TD>#xdatTextBox("fhir:patient/telecom[$fhir_contactPoint_5_COUNTER]/rank" $item "" $vr)</TD>
+									<TD>#xdatTextBox("fhir:patient/telecom[$fhir_contactPoint_5_COUNTER]/period/start" $item "" $vr)</TD>
+									<TD>#xdatTextBox("fhir:patient/telecom[$fhir_contactPoint_5_COUNTER]/period/end" $item "" $vr)</TD>
+									#xdatHiddenBox("fhir:patient/telecom[$fhir_contactPoint_5_COUNTER]/fhir_contactPoint_id" $item "")
+								</TR>
+							#end
+						</TABLE>
+					</TD>
+				</TR>
+<!-- END fhir:patient/telecom -->
+				<TR>
+					<TD align="left" valign="top">
+						<TABLE><TR><TD>
+							#foreach($fhir_address_5_COUNTER in [0..5])
+<!-- BEGIN fhir:patient/address[$fhir_address_5_COUNTER] -->
+								<TABLE>
+									<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:patient/address[$fhir_address_5_COUNTER]</font></TH></TR>
+									<TR>
+										<TD align="left" valign="top">
+											<TABLE>
+												<TR><TD>use</TD><TD>#xdatStringBox("fhir:patient/address[$fhir_address_5_COUNTER]/use" $item "" $vr)</TD></TR>
+												<TR><TD>type</TD><TD>#xdatStringBox("fhir:patient/address[$fhir_address_5_COUNTER]/type" $item "" $vr)</TD></TR>
+												<TR><TD>text</TD><TD>#xdatStringBox("fhir:patient/address[$fhir_address_5_COUNTER]/text" $item "" $vr)</TD></TR>
+												<TR><TD>city</TD><TD>#xdatStringBox("fhir:patient/address[$fhir_address_5_COUNTER]/city" $item "" $vr)</TD></TR>
+												<TR><TD>district</TD><TD>#xdatStringBox("fhir:patient/address[$fhir_address_5_COUNTER]/district" $item "" $vr)</TD></TR>
+												<TR><TD>state</TD><TD>#xdatStringBox("fhir:patient/address[$fhir_address_5_COUNTER]/state" $item "" $vr)</TD></TR>
+												<TR><TD>postalCode</TD><TD>#xdatStringBox("fhir:patient/address[$fhir_address_5_COUNTER]/postalCode" $item "" $vr)</TD></TR>
+												<TR><TD>country</TD><TD>#xdatStringBox("fhir:patient/address[$fhir_address_5_COUNTER]/country" $item "" $vr)</TD></TR>
+												<TR><TD>period/start</TD><TD>#xdatTextBox("fhir:patient/address[$fhir_address_5_COUNTER]/period/start" $item "" $vr)</TD></TR>
+												<TR><TD>period/end</TD><TD>#xdatTextBox("fhir:patient/address[$fhir_address_5_COUNTER]/period/end" $item "" $vr)</TD></TR>
+												<TR><TD>assigner_ID</TD><TD>#xdatTextBox("fhir:patient/address[$fhir_address_5_COUNTER]/assigner_ID" $item "" $vr)</TD></TR>
+																		#xdatHiddenBox("fhir:patient/address[$fhir_address_5_COUNTER]/fhir_address_id" $item "")
+											</TABLE>
+										</TD>
+									</TR>
+<!-- BEGIN fhir:patient/address[$fhir_address_5_COUNTER]/line -->
+									<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:patient/address[$fhir_address_5_COUNTER]/line</font></TH></TR>
+									<TR>
+										<TD align="left" valign="top">
+											<TABLE>
+												<TR>
+													<TD>line</TD>
+												</TR>
+												#foreach($fhir_address_line_6_COUNTER in [0..5])
+													<TR>
+														<TD>#xdatTextBox("fhir:patient/address[$fhir_address_5_COUNTER]/line[$fhir_address_line_6_COUNTER]/line" $item "" $vr)</TD>
+														#xdatHiddenBox("fhir:patient/address[$fhir_address_5_COUNTER]/line[$fhir_address_line_6_COUNTER]/fhir_address_line_id" $item "")
+													</TR>
+												#end
+											</TABLE>
+										</TD>
+									</TR>
+<!-- END fhir:patient/address[$fhir_address_5_COUNTER]/line -->
+								</TABLE>
+<!-- END fhir:patient/address[$fhir_address_5_COUNTER] -->
+							#end
+						</TD></TR></TABLE>
+					</TD>
+				</TR>
+<!-- BEGIN fhir:patient/photo -->
+				<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:patient/photo</font></TH></TR>
+				<TR>
+					<TD align="left" valign="top">
+						<TABLE>
+							<TR>
+								<TD>contentType</TD>
+								<TD>language</TD>
+								<TD>data</TD>
+								<TD>url</TD>
+								<TD>size</TD>
+								<TD>hash</TD>
+								<TD>title</TD>
+								<TD>creation</TD>
+							</TR>
+							#foreach($fhir_attachement_6_COUNTER in [0..5])
+								<TR>
+									<TD>#xdatTextBox("fhir:patient/photo[$fhir_attachement_6_COUNTER]/contentType" $item "" $vr)</TD>
+									<TD>#xdatTextBox("fhir:patient/photo[$fhir_attachement_6_COUNTER]/language" $item "" $vr)</TD>
+									<TD>#xdatTextBox("fhir:patient/photo[$fhir_attachement_6_COUNTER]/data" $item "" $vr)</TD>
+									<TD>#xdatTextBox("fhir:patient/photo[$fhir_attachement_6_COUNTER]/url" $item "" $vr)</TD>
+									<TD>#xdatTextBox("fhir:patient/photo[$fhir_attachement_6_COUNTER]/size" $item "" $vr)</TD>
+									<TD>#xdatTextBox("fhir:patient/photo[$fhir_attachement_6_COUNTER]/hash" $item "" $vr)</TD>
+									<TD>#xdatTextBox("fhir:patient/photo[$fhir_attachement_6_COUNTER]/title" $item "" $vr)</TD>
+									<TD>#xdatTextBox("fhir:patient/photo[$fhir_attachement_6_COUNTER]/creation" $item "" $vr)</TD>
+									#xdatHiddenBox("fhir:patient/photo[$fhir_attachement_6_COUNTER]/fhir_attachement_id" $item "")
+								</TR>
+							#end
+						</TABLE>
+					</TD>
+				</TR>
+<!-- END fhir:patient/photo -->
+				<TR>
+					<TD align="left" valign="top">
+						<TABLE><TR><TD>
+							#foreach($fhir_patient_contact_6_COUNTER in [0..5])
+<!-- BEGIN fhir:patient/contact[$fhir_patient_contact_6_COUNTER] -->
+								<TABLE>
+									<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:patient/contact[$fhir_patient_contact_6_COUNTER]</font></TH></TR>
+									<TR>
+										<TD align="left" valign="top">
+											<TABLE>
+												<TR><TD>relationship</TD><TD>#xdatStringBox("fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/relationship" $item "" $vr)</TD></TR>
+												<TR><TD>gender</TD><TD>#xdatStringBox("fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/gender" $item "" $vr)</TD></TR>
+												<TR><TD>organization_ID</TD><TD>#xdatTextBox("fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/organization_ID" $item "" $vr)</TD></TR>
+												<TR><TD>period/start</TD><TD>#xdatTextBox("fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/period/start" $item "" $vr)</TD></TR>
+												<TR><TD>period/end</TD><TD>#xdatTextBox("fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/period/end" $item "" $vr)</TD></TR>
+																		#xdatHiddenBox("fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/fhir_patient_contact_id" $item "")
+											</TABLE>
+										</TD>
+									</TR>
+									<TR>
+										<TD align="left" valign="top">
+<!-- BEGIN fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/name -->
+											<TABLE>
+												<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/name</font></TH></TR>
+												<TR>
+													<TD align="left" valign="top">
+														<TABLE>
+															<TR><TD>use</TD><TD>#xdatStringBox("fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/name/use" $item "" $vr)</TD></TR>
+															<TR><TD>text</TD><TD>#xdatStringBox("fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/name/text" $item "" $vr)</TD></TR>
+															<TR><TD>family</TD><TD>#xdatStringBox("fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/name/family" $item "" $vr)</TD></TR>
+															<TR><TD>period/start</TD><TD>#xdatTextBox("fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/name/period/start" $item "" $vr)</TD></TR>
+															<TR><TD>period/end</TD><TD>#xdatTextBox("fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/name/period/end" $item "" $vr)</TD></TR>
+																					#xdatHiddenBox("fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/name/fhir_humanName_id" $item "")
+														</TABLE>
+													</TD>
+												</TR>
+<!-- BEGIN fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/name/given -->
+												<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/name/given</font></TH></TR>
+												<TR>
+													<TD align="left" valign="top">
+														<TABLE>
+															<TR>
+																<TD>given</TD>
+															</TR>
+															#foreach($fhir_humanName_given_8_COUNTER in [0..5])
+																<TR>
+																	<TD>#xdatTextBox("fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/name/given[$fhir_humanName_given_8_COUNTER]/given" $item "" $vr)</TD>
+																	#xdatHiddenBox("fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/name/given[$fhir_humanName_given_8_COUNTER]/fhir_humanName_given_id" $item "")
+																</TR>
+															#end
+														</TABLE>
+													</TD>
+												</TR>
+<!-- END fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/name/given -->
+<!-- BEGIN fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/name/prefix -->
+												<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/name/prefix</font></TH></TR>
+												<TR>
+													<TD align="left" valign="top">
+														<TABLE>
+															<TR>
+																<TD>prefix</TD>
+															</TR>
+															#foreach($fhir_humanName_prefix_8_COUNTER in [0..5])
+																<TR>
+																	<TD>#xdatTextBox("fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/name/prefix[$fhir_humanName_prefix_8_COUNTER]/prefix" $item "" $vr)</TD>
+																	#xdatHiddenBox("fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/name/prefix[$fhir_humanName_prefix_8_COUNTER]/fhir_humanName_prefix_id" $item "")
+																</TR>
+															#end
+														</TABLE>
+													</TD>
+												</TR>
+<!-- END fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/name/prefix -->
+<!-- BEGIN fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/name/suffix -->
+												<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/name/suffix</font></TH></TR>
+												<TR>
+													<TD align="left" valign="top">
+														<TABLE>
+															<TR>
+																<TD>suffix</TD>
+															</TR>
+															#foreach($fhir_humanName_suffix_8_COUNTER in [0..5])
+																<TR>
+																	<TD>#xdatTextBox("fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/name/suffix[$fhir_humanName_suffix_8_COUNTER]/suffix" $item "" $vr)</TD>
+																	#xdatHiddenBox("fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/name/suffix[$fhir_humanName_suffix_8_COUNTER]/fhir_humanName_suffix_id" $item "")
+																</TR>
+															#end
+														</TABLE>
+													</TD>
+												</TR>
+<!-- END fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/name/suffix -->
+											</TABLE>
+<!-- END fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/name -->
+										</TD>
+									</TR>
+<!-- BEGIN fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/telecom -->
+									<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/telecom</font></TH></TR>
+									<TR>
+										<TD align="left" valign="top">
+											<TABLE>
+												<TR>
+													<TD>system</TD>
+													<TD>value</TD>
+													<TD>use</TD>
+													<TD>rank</TD>
+													<TD>period/start</TD>
+													<TD>period/end</TD>
+												</TR>
+												#foreach($fhir_contactPoint_8_COUNTER in [0..5])
+													<TR>
+														<TD>#xdatTextBox("fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/telecom[$fhir_contactPoint_8_COUNTER]/system" $item "" $vr)</TD>
+														<TD>#xdatTextBox("fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/telecom[$fhir_contactPoint_8_COUNTER]/value" $item "" $vr)</TD>
+														<TD>#xdatTextBox("fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/telecom[$fhir_contactPoint_8_COUNTER]/use" $item "" $vr)</TD>
+														<TD>#xdatTextBox("fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/telecom[$fhir_contactPoint_8_COUNTER]/rank" $item "" $vr)</TD>
+														<TD>#xdatTextBox("fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/telecom[$fhir_contactPoint_8_COUNTER]/period/start" $item "" $vr)</TD>
+														<TD>#xdatTextBox("fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/telecom[$fhir_contactPoint_8_COUNTER]/period/end" $item "" $vr)</TD>
+														#xdatHiddenBox("fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/telecom[$fhir_contactPoint_8_COUNTER]/fhir_contactPoint_id" $item "")
+													</TR>
+												#end
+											</TABLE>
+										</TD>
+									</TR>
+<!-- END fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/telecom -->
+									<TR>
+										<TD align="left" valign="top">
+<!-- BEGIN fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/address -->
+											<TABLE>
+												<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/address</font></TH></TR>
+												<TR>
+													<TD align="left" valign="top">
+														<TABLE>
+															<TR><TD>use</TD><TD>#xdatStringBox("fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/address/use" $item "" $vr)</TD></TR>
+															<TR><TD>type</TD><TD>#xdatStringBox("fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/address/type" $item "" $vr)</TD></TR>
+															<TR><TD>text</TD><TD>#xdatStringBox("fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/address/text" $item "" $vr)</TD></TR>
+															<TR><TD>city</TD><TD>#xdatStringBox("fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/address/city" $item "" $vr)</TD></TR>
+															<TR><TD>district</TD><TD>#xdatStringBox("fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/address/district" $item "" $vr)</TD></TR>
+															<TR><TD>state</TD><TD>#xdatStringBox("fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/address/state" $item "" $vr)</TD></TR>
+															<TR><TD>postalCode</TD><TD>#xdatStringBox("fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/address/postalCode" $item "" $vr)</TD></TR>
+															<TR><TD>country</TD><TD>#xdatStringBox("fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/address/country" $item "" $vr)</TD></TR>
+															<TR><TD>period/start</TD><TD>#xdatTextBox("fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/address/period/start" $item "" $vr)</TD></TR>
+															<TR><TD>period/end</TD><TD>#xdatTextBox("fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/address/period/end" $item "" $vr)</TD></TR>
+															<TR><TD>assigner_ID</TD><TD>#xdatTextBox("fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/address/assigner_ID" $item "" $vr)</TD></TR>
+																					#xdatHiddenBox("fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/address/fhir_address_id" $item "")
+														</TABLE>
+													</TD>
+												</TR>
+<!-- BEGIN fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/address/line -->
+												<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/address/line</font></TH></TR>
+												<TR>
+													<TD align="left" valign="top">
+														<TABLE>
+															<TR>
+																<TD>line</TD>
+															</TR>
+															#foreach($fhir_address_line_9_COUNTER in [0..5])
+																<TR>
+																	<TD>#xdatTextBox("fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/address/line[$fhir_address_line_9_COUNTER]/line" $item "" $vr)</TD>
+																	#xdatHiddenBox("fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/address/line[$fhir_address_line_9_COUNTER]/fhir_address_line_id" $item "")
+																</TR>
+															#end
+														</TABLE>
+													</TD>
+												</TR>
+<!-- END fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/address/line -->
+											</TABLE>
+<!-- END fhir:patient/contact[$fhir_patient_contact_6_COUNTER]/address -->
+										</TD>
+									</TR>
+								</TABLE>
+<!-- END fhir:patient/contact[$fhir_patient_contact_6_COUNTER] -->
+							#end
+						</TD></TR></TABLE>
+					</TD>
+				</TR>
+<!-- BEGIN fhir:patient/communication -->
+				<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:patient/communication</font></TH></TR>
+				<TR>
+					<TD align="left" valign="top">
+						<TABLE>
+							<TR>
+								<TD>language</TD>
+								<TD>preferred</TD>
+							</TR>
+							#foreach($fhir_patient_communication_9_COUNTER in [0..5])
+								<TR>
+									<TD>#xdatTextBox("fhir:patient/communication[$fhir_patient_communication_9_COUNTER]/language" $item "" $vr)</TD>
+									<TD>#xdatTextBox("fhir:patient/communication[$fhir_patient_communication_9_COUNTER]/preferred" $item "" $vr)</TD>
+									#xdatHiddenBox("fhir:patient/communication[$fhir_patient_communication_9_COUNTER]/fhir_patient_communication_id" $item "")
+								</TR>
+							#end
+						</TABLE>
+					</TD>
+				</TR>
+<!-- END fhir:patient/communication -->
+<!-- BEGIN fhir:patient/generalPractitioner_ID -->
+				<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:patient/generalPractitioner_ID</font></TH></TR>
+				<TR>
+					<TD align="left" valign="top">
+						<TABLE>
+							<TR>
+								<TD>generalPractitioner_ID</TD>
+							</TR>
+							#foreach($fhir_patient_generalPractitioner_ID_9_COUNTER in [0..5])
+								<TR>
+									<TD>#xdatTextBox("fhir:patient/generalPractitioner_ID[$fhir_patient_generalPractitioner_ID_9_COUNTER]/generalPractitioner_ID" $item "" $vr)</TD>
+									#xdatHiddenBox("fhir:patient/generalPractitioner_ID[$fhir_patient_generalPractitioner_ID_9_COUNTER]/fhir_patient_generalPractitioner_ID_id" $item "")
+								</TR>
+							#end
+						</TABLE>
+					</TD>
+				</TR>
+<!-- END fhir:patient/generalPractitioner_ID -->
+<!-- BEGIN fhir:patient/link -->
+				<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:patient/link</font></TH></TR>
+				<TR>
+					<TD align="left" valign="top">
+						<TABLE>
+							<TR>
+								<TD>other_ID</TD>
+								<TD>type</TD>
+							</TR>
+							#foreach($fhir_patient_link_9_COUNTER in [0..5])
+								<TR>
+									<TD>#xdatTextBox("fhir:patient/link[$fhir_patient_link_9_COUNTER]/other_ID" $item "" $vr)</TD>
+									<TD>#xdatTextBox("fhir:patient/link[$fhir_patient_link_9_COUNTER]/type" $item "" $vr)</TD>
+									#xdatHiddenBox("fhir:patient/link[$fhir_patient_link_9_COUNTER]/fhir_patient_link_id" $item "")
+								</TR>
+							#end
+						</TABLE>
+					</TD>
+				</TR>
+<!-- END fhir:patient/link -->
+			</TABLE>
+<!-- END fhir:patient -->
+		</TD>
+	</TR>
+	<TR>
+		<TD>
+		#xdatEditProps($item $edit_screen)
+		<TR><TD COLSPAN=2 ALIGN=left><input type="button" ONCLICK="validateForm();"  name="eventSubmit_doInsert" value="Submit"/></TD></TR>
+		</TD>
+	</TR>
+</TABLE>
+</form>
+
+<script type="text/javascript">
+function validateForm()
+{
+   //INSERT CUSTOM CONTENT HERE
+
+   validateSubjectAssessorForm();
+   return false;
+}
+</script>

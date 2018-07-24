@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Displays xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../xdat/display.xsd" schema-element="fhir:humanName" full-description="FHIRHumanName" brief-description="FHIRHumanName">
+	<DisplayField id="INSERT_DATE" header="Inserted" visible="true" searchable="true" data-type="string">
+		<DisplayFieldElement name="Field1" schema-element="fhir:humanName.meta.insert_date"/>
+	</DisplayField>
+	<DisplayField id="INSERT_USER" header="Creator" visible="true" searchable="true" data-type="string">
+		<DisplayFieldElement name="Field1" schema-element="fhir:humanName.meta.insert_user.login"/>
+	</DisplayField>
+	<DisplayField id="USE" header="use" visible="true" searchable="true">
+		<DisplayFieldElement name="Field1" schema-element="fhir:humanName/use"/>
+	</DisplayField>
+	<DisplayField id="TEXT" header="text" visible="true" searchable="true">
+		<DisplayFieldElement name="Field1" schema-element="fhir:humanName/text"/>
+	</DisplayField>
+	<DisplayField id="FAMILY" header="family" visible="true" searchable="true">
+		<DisplayFieldElement name="Field1" schema-element="fhir:humanName/family"/>
+	</DisplayField>
+	<DisplayField id="PERIOD_START" header="start" visible="true" searchable="true">
+		<DisplayFieldElement name="Field1" schema-element="fhir:humanName/period/start"/>
+	</DisplayField>
+	<DisplayField id="PERIOD_END" header="end" visible="true" searchable="true">
+		<DisplayFieldElement name="Field1" schema-element="fhir:humanName/period/end"/>
+	</DisplayField>
+	<DisplayVersion versionName="listing" default-order-by="USE" default-sort-order="DESC" brief-description="FHIRHumanName" dark-color="9999CC" light-color="CCCCFF">
+		<DisplayFieldRef id="USE"/>
+		<DisplayFieldRef id="TEXT"/>
+		<DisplayFieldRef id="FAMILY"/>
+		<DisplayFieldRef id="PERIOD_START"/>
+		<DisplayFieldRef id="PERIOD_END"/>
+	</DisplayVersion>
+	<DisplayVersion versionName="full" default-order-by="USE" default-sort-order="DESC" brief-description="FHIRHumanName" dark-color="9999CC" light-color="CCCCFF">
+		<DisplayFieldRef id="USE"/>
+		<DisplayFieldRef id="TEXT"/>
+		<DisplayFieldRef id="FAMILY"/>
+		<DisplayFieldRef id="PERIOD_START"/>
+		<DisplayFieldRef id="PERIOD_END"/>
+	</DisplayVersion>
+</Displays>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Displays xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../xdat/display.xsd" schema-element="fhir:address" full-description="FHIRPatient" brief-description="FHIRPatient">
+	<DisplayField id="INSERT_DATE" header="Inserted" visible="true" searchable="true" data-type="string">
+		<DisplayFieldElement name="Field1" schema-element="fhir:address.meta.insert_date"/>
+	</DisplayField>
+	<DisplayField id="INSERT_USER" header="Creator" visible="true" searchable="true" data-type="string">
+		<DisplayFieldElement name="Field1" schema-element="fhir:address.meta.insert_user.login"/>
+	</DisplayField>
+	<DisplayField id="USE" header="use" visible="true" searchable="true">
+		<DisplayFieldElement name="Field1" schema-element="fhir:address/use"/>
+	</DisplayField>
+	<DisplayField id="TYPE" header="type" visible="true" searchable="true">
+		<DisplayFieldElement name="Field1" schema-element="fhir:address/type"/>
+	</DisplayField>
+	<DisplayField id="TEXT" header="text" visible="true" searchable="true">
+		<DisplayFieldElement name="Field1" schema-element="fhir:address/text"/>
+	</DisplayField>
+	<DisplayField id="CITY" header="city" visible="true" searchable="true">
+		<DisplayFieldElement name="Field1" schema-element="fhir:address/city"/>
+	</DisplayField>
+	<DisplayField id="DISTRICT" header="district" visible="true" searchable="true">
+		<DisplayFieldElement name="Field1" schema-element="fhir:address/district"/>
+	</DisplayField>
+	<DisplayField id="STATE" header="state" visible="true" searchable="true">
+		<DisplayFieldElement name="Field1" schema-element="fhir:address/state"/>
+	</DisplayField>
+	<DisplayField id="POSTALCODE" header="postalCode" visible="true" searchable="true">
+		<DisplayFieldElement name="Field1" schema-element="fhir:address/postalCode"/>
+	</DisplayField>
+	<DisplayField id="COUNTRY" header="country" visible="true" searchable="true">
+		<DisplayFieldElement name="Field1" schema-element="fhir:address/country"/>
+	</DisplayField>
+	<DisplayField id="PERIOD_START" header="start" visible="true" searchable="true">
+		<DisplayFieldElement name="Field1" schema-element="fhir:address/period/start"/>
+	</DisplayField>
+	<DisplayField id="PERIOD_END" header="end" visible="true" searchable="true">
+		<DisplayFieldElement name="Field1" schema-element="fhir:address/period/end"/>
+	</DisplayField>
+	<DisplayField id="ASSIGNER_ID" header="assigner_ID" visible="true" searchable="true">
+		<DisplayFieldElement name="Field1" schema-element="fhir:address/assigner_ID"/>
+	</DisplayField>
+	<DisplayVersion versionName="listing" default-order-by="USE" default-sort-order="DESC" brief-description="FHIRPatient" dark-color="9999CC" light-color="CCCCFF">
+		<DisplayFieldRef id="USE"/>
+		<DisplayFieldRef id="TYPE"/>
+		<DisplayFieldRef id="TEXT"/>
+		<DisplayFieldRef id="CITY"/>
+		<DisplayFieldRef id="DISTRICT"/>
+		<DisplayFieldRef id="STATE"/>
+		<DisplayFieldRef id="POSTALCODE"/>
+		<DisplayFieldRef id="COUNTRY"/>
+		<DisplayFieldRef id="PERIOD_START"/>
+		<DisplayFieldRef id="PERIOD_END"/>
+		<DisplayFieldRef id="ASSIGNER_ID"/>
+	</DisplayVersion>
+	<DisplayVersion versionName="full" default-order-by="USE" default-sort-order="DESC" brief-description="FHIRPatient" dark-color="9999CC" light-color="CCCCFF">
+		<DisplayFieldRef id="USE"/>
+		<DisplayFieldRef id="TYPE"/>
+		<DisplayFieldRef id="TEXT"/>
+		<DisplayFieldRef id="CITY"/>
+		<DisplayFieldRef id="DISTRICT"/>
+		<DisplayFieldRef id="STATE"/>
+		<DisplayFieldRef id="POSTALCODE"/>
+		<DisplayFieldRef id="COUNTRY"/>
+		<DisplayFieldRef id="PERIOD_START"/>
+		<DisplayFieldRef id="PERIOD_END"/>
+		<DisplayFieldRef id="ASSIGNER_ID"/>
+	</DisplayVersion>
+</Displays>
