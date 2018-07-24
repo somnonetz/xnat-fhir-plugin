@@ -408,7 +408,7 @@ This repeating element order: The order in which lines should appear in an addre
         </xs:sequence>
     </xs:complexType>
 
-    <xs:simpleType name="AAcontactRole">
+    <xs:simpleType name="contactRole">
         <xs:restriction base="xs:string">
             <xs:enumeration value="BP" />
             <xs:enumeration value="C" />
@@ -534,7 +534,8 @@ This repeating element order: The order in which lines should appear in an addre
                         </xs:annotation>
                         <xs:complexType>
                             <xs:sequence>
-                                <xs:element name="relationship" minOccurs="0" maxOccurs="unbounded">
+                                <!-- normally maxOccurs should be unbounded, however the xnat compiler does not understand that :( -->
+                                <xs:element name="relationship" minOccurs="0" maxOccurs="1">
                                     <xs:annotation>
                                         <xs:documentation>The kind of relationship</xs:documentation>
                                     </xs:annotation>
@@ -542,7 +543,7 @@ This repeating element order: The order in which lines should appear in an addre
                                         <xs:restriction base="fhir:contactRole"/>
                                     </xs:simpleType>
                                 </xs:element>
-                                <xs:element name="name" type="fhir:humanName" minOccurs="0" maxOccurs="unbounded">
+                                <xs:element name="name" type="fhir:humanName" minOccurs="0" maxOccurs="1">
                                     <xs:annotation>
                                         <xs:documentation>A name associated with the contact person</xs:documentation>
                                         <xs:appinfo>
@@ -562,7 +563,7 @@ This repeating element order: The order in which lines should appear in an addre
                                         </xs:appinfo>
                                     </xs:annotation>
                                 </xs:element>
-                                <xs:element name="address" type="fhir:address" minOccurs="0" maxOccurs="unbounded">
+                                <xs:element name="address" type="fhir:address" minOccurs="0" maxOccurs="1">
                                     <xs:annotation>
                                         <xs:documentation>Address for the contact person</xs:documentation>
                                         <xs:appinfo>
