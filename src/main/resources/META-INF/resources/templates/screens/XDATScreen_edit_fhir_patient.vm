@@ -1,0 +1,161 @@
+#* @vtlvariable name="siteConfig" type="org.nrg.xdat.preferences.SiteConfigPreferences" *#
+<!-- imports jQuery UI javascript and base CSS theme -->
+<script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" async></script>
+<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+<script type="text/javascript" src="/scripts/xnat-on-fhir/add-row.js"></script>
+<script type="text/javascript" src="/scripts/xnat-on-fhir/delete-row.js"></script>
+
+#set ($part_id = $request.get("part_id"))
+
+$page.setTitle("Patient")
+$page.setLinkColor($ui.alink)
+$page.setVlinkColor($ui.vlink)
+<script type="text/javascript">
+    window.currentID="$!om.getId()";
+        #if($om.getProject())
+            #if($om.getProject().equals(""))
+            window.currentProject="$!project";
+            #else
+            window.currentProject="$!om.getProject()";
+            #end
+        #else
+        window.currentProject="$!project";
+        #end
+
+    window.currentSubject="$!om.getSubjectId()";
+    window.currentLabel="$!om.getLabel()";
+</script>
+
+#if ($data.message)
+<div class="error">$data.message</div>
+#end
+<div id="patienFormDiv">
+    <form ID="patientForm" name="patientForm" method="post" action="$link.setAction("ModifySubjectAssessorData")">
+        <input type="hidden" name="project" value="$!{project}">
+        <input type="hidden" name="part_id" value="$!{subjectId}">
+        <input type="hidden" name="fhir:patient/ID" value='$!item.getProperty("ID")'/>
+        <input type="hidden" name="fhir:patient/project" value='$!{project}'/>
+        <input type="hidden" name="fhir:patient/subject_ID" value='$!{subjectId}'/>
+        <input type="hidden" name="fhir:patient/label" value='$!label'/>
+        <input type="hidden" name="$om.getXSIType()/ID" id="$om.getXSIType()/ID" value="$!om.getId()"/>
+
+        #if($vr)
+            <div class="error">Invalid parameters:<BR>$vr.toHTML()</div>
+            <HR>
+        #end
+
+        <table width="100%">
+            <tr>
+                <td>
+                    <table width="100%">
+                        <tr>
+                            <td align="left" valign="middle">
+                                <div class="edit_title">Patient Information</div>
+                                <hr>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table id="project_subject_form">
+                        <tr>
+                            <td>#parse("/screens/xnat_patientData/upload/xnat_patientData_projSubj.vm")</td>
+                        </tr>
+                    </table>
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <table width="100%">
+                        <tr>
+                            <td valign="middle" colspan=7>
+                                <div class="edit_title">Patient's identifier
+                                   <input type="button" name="add-identifier" value="Add Identifier" onclick="addRow('dataTable')" />
+
+                                </div>
+                                <table id="dataTable" style="display: none" data-base="fhir:patient/identifier">
+                                    <thead>
+                                    <tr>
+                                    <th align="left"></th>
+                                    <th align="left">Use</th>
+                                    <th align="left">Type</th>
+                                    <th align="left">System</th>
+                                    <th align="left">Value</th>
+                                    <th align="left">Period</th>
+                                    <th align="left">Assigner</th>
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    <tr>
+                                        <td valign="top">
+                                        <a style="color: red">
+                                            <i class="fa fa-trash-o" title="Delete" onclick="deleteRow(this)"></i>
+                                        </a>
+                                        </td>
+                                        #set($systemValues = ["usual", "official", "temp", "secondary"])
+                                        #set($lbl="SELECT")
+                                        <td valign="top" style="padding-top: 4px">
+                                            #xdatSimpleSelectBoxLbl($lbl "identifierUse" $item $systemValues $vr)
+                                        </td>
+                                        #set($systemValues = ["DL", "PPN", "BRN", "MR", "MCN", "EN", "TAX", "NIIP", "PRN", "MD", "DR", "ACSN", "UDI", "SNO", "SB", "PLAC", "FILL"])
+                                        #set($lbl="SELECT")
+                                        <td valign="top" style="padding-top: 4px">
+                                            #xdatSimpleSelectBoxLbl($lbl "identifierType" $item $systemValues $vr)
+                                        </td>
+                                        #set($defaultValue = "URI")
+                                        <td valign="top" style="padding-top: 4px">
+                                            #xdatStringBox("system" $item $defaultValue $vr)
+                                        </td>
+                                        #set($defaultValue = "Add value")
+                                        <td valign="top" style="padding-top: 4px">
+                                            #xdatStringBox("value" $item $defaultValue $vr)
+                                        </td>
+                                        #set($years = [ $!turbineUtils.getYear()..1900])
+                                        <td valign="top" style="padding-top: 4px">
+                                            <table>
+                                                <tr>
+                                                    #formLabel("Start")
+                                                    <td>#xdatDateBox("period/start" $item $vr $years)</td>
+                                                </tr>
+                                                <tr>
+                                                    #formLabel("Ende")
+                                                    <td> #xdatDateBox("period/end" $item $vr $years)</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td valign="top" style="padding-top: 4px">
+
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    #xdatEditProps($item $edit_screen)
+                </td>
+            </tr>
+
+        </table>
+    </form>
+</div>
+
+<table>
+    <tr>
+        <td colspan=2 align=left>
+            <input type="button" onclick="validateForm();" name="eventSubmit_doInsert" value="Submit"/>
+        </td>
+    </tr>
+</table>
+
+<script type="text/javascript">
+    function validateForm() {
+        document.patientForm.submit();
+        return true;
+    }
+</script>
