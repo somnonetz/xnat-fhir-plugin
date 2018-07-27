@@ -13,6 +13,36 @@
     <xs:element name="FHIRAddress" type="fhir:patient"/>
     <xs:element name="FHIRAttachement" type="fhir:attachement"/>
     <xs:element name="FHIRPatient" type="fhir:address"/>
+    <xs:element name="FHIRReference" type="fhir:reference"/>
+
+    <xs:complexType name="reference">
+        <xs:sequence>
+            <xs:element name="reference" type="xs:string" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>Literal reference, Relative, internal or absolute URL</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="identifier" minOccurs="0" maxOccurs="1" type="fhir:identifier">
+                <xs:annotation>
+                    <xs:documentation>Logical reference, when literal reference is not known</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="display" type="xs:string" minOccurs="0" maxOccurs="1" >
+                <xs:annotation>
+                    <xs:documentation>Text alternative for the resource</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="ID" type="xs:integer">
+            <xs:annotation>
+                <xs:appinfo>
+                    <xdat:field>
+                        <xdat:sqlField primaryKey="true" autoIncrement="true"/>
+                    </xdat:field>
+                </xs:appinfo>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
 
     <xs:simpleType name="contactPointSystem">
         <xs:restriction base="xs:string">
@@ -38,22 +68,16 @@
 
     <xs:complexType name="contactPoint">
         <xs:sequence>
-            <xs:element name="system" minOccurs="0" maxOccurs="1">
+            <xs:element name="system" minOccurs="0" maxOccurs="1" type="fhir:contactPointSystem">
                 <xs:annotation>
                     <xs:documentation>Way of contact:</xs:documentation>
                 </xs:annotation>
-                <xs:simpleType>
-                    <xs:restriction base="fhir:contactPointSystem"/>
-                </xs:simpleType>
             </xs:element>
             <xs:element name="value" type="xs:string" minOccurs="0" maxOccurs="1" />
-            <xs:element name="use" minOccurs="0" maxOccurs="1">
+            <xs:element name="use" minOccurs="0" maxOccurs="1" type="fhir:contactPointUse">
                 <xs:annotation>
                     <xs:documentation>Purpose of the contact:</xs:documentation>
                 </xs:annotation>
-                <xs:simpleType>
-                    <xs:restriction base="fhir:contactPointUse"/>
-                </xs:simpleType>
             </xs:element>
             <xs:element name="rank" type="xs:positiveInteger" minOccurs="0" maxOccurs="1" />
             <xs:element name="period" minOccurs="0">
@@ -65,6 +89,15 @@
                 </xs:complexType>
             </xs:element>
         </xs:sequence>
+        <xs:attribute name="ID" type="xs:integer">
+            <xs:annotation>
+                <xs:appinfo>
+                    <xdat:field>
+                        <xdat:sqlField primaryKey="true" autoIncrement="true"/>
+                    </xdat:field>
+                </xs:appinfo>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:simpleType name="humanNameUse">
@@ -81,13 +114,10 @@
 
     <xs:complexType name="humanName">
         <xs:sequence>
-            <xs:element name="use" minOccurs="0" maxOccurs="1">
+            <xs:element name="use" minOccurs="0" maxOccurs="1" type="fhir:humanNameUse">
                 <xs:annotation>
                     <xs:documentation>NameUse</xs:documentation>
                 </xs:annotation>
-                <xs:simpleType>
-                    <xs:restriction base="fhir:humanNameUse"/>
-                </xs:simpleType>
             </xs:element>
             <xs:element name="text" type="xs:string" minOccurs="0" maxOccurs="1" />
             <xs:element name="family" type="xs:string" minOccurs="0" maxOccurs="1" />
@@ -103,6 +133,15 @@
                 </xs:complexType>
             </xs:element>
         </xs:sequence>
+        <xs:attribute name="ID" type="xs:integer">
+            <xs:annotation>
+                <xs:appinfo>
+                    <xdat:field>
+                        <xdat:sqlField primaryKey="true" autoIncrement="true"/>
+                    </xdat:field>
+                </xs:appinfo>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:simpleType name="identifierUse">
@@ -143,17 +182,11 @@
                 <xs:annotation>
                     <xs:documentation>Identifier use</xs:documentation>
                 </xs:annotation>
-                <xs:simpleType>
-                    <xs:restriction base="fhir:identifierUse"/>
-                </xs:simpleType>
             </xs:element>
-            <xs:element name="type" minOccurs="0" maxOccurs="1">
+            <xs:element name="type" minOccurs="0" maxOccurs="1" type="fhir:identifierType">
                 <xs:annotation>
                     <xs:documentation>Description of identifier</xs:documentation>
                 </xs:annotation>
-                <xs:simpleType>
-                    <xs:restriction base="fhir:identifierType"/>
-                </xs:simpleType>
             </xs:element>
             <xs:element name="system" type="xs:anyURI" minOccurs="0" maxOccurs="1">
                 <xs:annotation>
@@ -178,10 +211,25 @@
             </xs:element>
             <xs:element name="assigner_ID" type="xs:integer" minOccurs="0" maxOccurs="1">
                 <xs:annotation>
+                    <xs:appinfo>
+                        <xdat:field baseElement="fhir:reference" baseCol="id" uniqueComposite="IDENTIFIER_REFERENCE">
+                            <xdat:relation onDelete="setnull"/>
+                            <xdat:sqlField name="assigner_id"/>
+                        </xdat:field>
+                    </xs:appinfo>
                     <xs:documentation>Organization that issued id (may be just text)</xs:documentation>
                 </xs:annotation>
             </xs:element>
         </xs:sequence>
+        <xs:attribute name="ID" type="xs:integer">
+            <xs:annotation>
+                <xs:appinfo>
+                    <xdat:field>
+                        <xdat:sqlField primaryKey="true" autoIncrement="true"/>
+                    </xdat:field>
+                </xs:appinfo>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <!-- see https://www.hl7.org/fhir/valueset-administrative-gender.html -->
@@ -213,21 +261,15 @@
 
     <xs:complexType name="address">
         <xs:sequence>
-            <xs:element name="use" minOccurs="0" maxOccurs="1">
+            <xs:element name="use" minOccurs="0" maxOccurs="1" type="fhir:addressUse">
                 <xs:annotation>
                     <xs:documentation>AddressUse</xs:documentation>
                 </xs:annotation>
-                <xs:simpleType>
-                    <xs:restriction base="fhir:addressUse"/>
-                </xs:simpleType>
             </xs:element>
-            <xs:element name="type" minOccurs="0" maxOccurs="1">
+            <xs:element name="type" minOccurs="0" maxOccurs="1" type="fhir:addressType">
                 <xs:annotation>
                     <xs:documentation>AddressType</xs:documentation>
                 </xs:annotation>
-                <xs:simpleType>
-                    <xs:restriction base="fhir:addressType"/>
-                </xs:simpleType>
             </xs:element>
             <xs:element name="text" type="xs:string" minOccurs="0" maxOccurs="1">
                 <xs:annotation>
@@ -276,12 +318,21 @@ This repeating element order: The order in which lines should appear in an addre
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
-            <xs:element name="assigner_ID" type="xs:integer" minOccurs="0" maxOccurs="1">
+            <xs:element name="assigner" type="fhir:reference" minOccurs="0" maxOccurs="1">
                 <xs:annotation>
                     <xs:documentation>Organization that issued id (may be just text)</xs:documentation>
                 </xs:annotation>
             </xs:element>
         </xs:sequence>
+        <xs:attribute name="ID" type="xs:integer">
+            <xs:annotation>
+                <xs:appinfo>
+                    <xdat:field>
+                        <xdat:sqlField primaryKey="true" autoIncrement="true"/>
+                    </xdat:field>
+                </xs:appinfo>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:simpleType name="maritalStatus">
@@ -367,13 +418,10 @@ This repeating element order: The order in which lines should appear in an addre
                     <xs:documentation>Mime type of the content, with charset etc.</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="language" minOccurs="0" maxOccurs="1">
+            <xs:element name="language" minOccurs="0" maxOccurs="1" type="fhir:commonLanguages">
                 <xs:annotation>
                     <xs:documentation>Human language of the content (BCP-47)</xs:documentation>
                 </xs:annotation>
-                <xs:simpleType>
-                    <xs:restriction base="fhir:commonLanguages"/>
-                </xs:simpleType>
             </xs:element>
             <xs:element name="data" type="xs:base64Binary" minOccurs="0" maxOccurs="1">
                 <xs:annotation>
@@ -406,6 +454,15 @@ This repeating element order: The order in which lines should appear in an addre
                 </xs:annotation>
             </xs:element>
         </xs:sequence>
+        <xs:attribute name="ID" type="xs:integer">
+            <xs:annotation>
+                <xs:appinfo>
+                    <xdat:field>
+                        <xdat:sqlField primaryKey="true" autoIncrement="true"/>
+                    </xdat:field>
+                </xs:appinfo>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:simpleType name="contactRole">
@@ -476,7 +533,7 @@ This repeating element order: The order in which lines should appear in an addre
                             <xs:documentation>A contact detail for the individual</xs:documentation>
                             <xs:appinfo>
                                 <xdat:field>
-                                    <xdat:relation relationType="multi" relationName="fhir_patient_contactPoint"/>
+                                    <xdat:relation relationType="multi" foreignCol="id" relationName="fhir_patient_contactPoint"/>
                                 </xdat:field>
                             </xs:appinfo>
                         </xs:annotation>
@@ -585,7 +642,7 @@ This repeating element order: The order in which lines should appear in an addre
                                         <xs:documentation>AdministrativeGender</xs:documentation>
                                     </xs:annotation>
                                 </xs:element>
-                                <xs:element name="organization_ID" type="xs:integer" minOccurs="0" maxOccurs="1">
+                                <xs:element name="organization" type="fhir:reference" minOccurs="0" maxOccurs="1">
                                     <xs:annotation>
                                         <xs:documentation>Organization that is associated with the contact</xs:documentation>
                                     </xs:annotation>
@@ -648,12 +705,12 @@ This repeating element order: The order in which lines should appear in an addre
                             </xs:sequence>
                         </xs:complexType>
                     </xs:element>
-                    <xs:element name="generalPractitioner_ID" minOccurs="0" maxOccurs="unbounded" type="xs:integer">
+                    <xs:element name="generalPractitioner" minOccurs="0" maxOccurs="unbounded" type="fhir:reference">
                         <xs:annotation>
                             <xs:documentation>Patient's nominated primary care provider</xs:documentation>
                         </xs:annotation>
                     </xs:element>
-                    <xs:element name="managingOrganization_ID" minOccurs="0" maxOccurs="1" type="xs:integer">
+                    <xs:element name="managingOrganization" minOccurs="0" maxOccurs="1" type="fhir:reference">
                         <xs:annotation>
                             <xs:documentation>Organization that is the custodian of the patient record</xs:documentation>
                         </xs:annotation>
