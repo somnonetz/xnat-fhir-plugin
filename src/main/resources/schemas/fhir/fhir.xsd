@@ -505,7 +505,7 @@ This repeating element order: The order in which lines should appear in an addre
                 <xs:sequence minOccurs="0">
                     <xs:element name="identifier" type="fhir:identifier" minOccurs="0" maxOccurs="unbounded">
                         <xs:annotation>
-                            <xs:documentation>A contact detail for the individual</xs:documentation>
+                            <xs:documentation>Patient identifier</xs:documentation>
                             <xs:appinfo>
                                 <xdat:field>
                                     <xdat:relation relationType="multi" relationName="fhir_patient_identifier"/>
