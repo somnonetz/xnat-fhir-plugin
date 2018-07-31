@@ -1,9 +1,15 @@
 package de.htwberlin.cbmi.fhir.test;
 
 import de.htwberlin.cbmi.fhir.service.FhirIdentityService;
+import de.htwberlin.cbmi.fhir.service.FhirPatientService;
 import de.htwberlin.cbmi.fhir.utils.Datatypes;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.nrg.xdat.om.FhirPatient;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -20,8 +26,8 @@ public class DatatypesTest {
     public void testValidation() {
         HashMap<String, Object> values = new HashMap<>();
         values.put("value", "pat001");
-        List<String> keys = Datatypes.makeList("use", "type", "system", "value", "period.start", "period.end", "assigner");
-        List<Class<?>> types = Datatypes.makeList(String.class, String.class, String.class, String.class, FhirIdentityService.class, Date.class, Integer.class);
+        List<String> keys = Datatypes.makeList("use", "type", "system", "value", "period.start", "period.end", "assigner", "name");
+        List<Object> types = Datatypes.makeList(String.class, String.class, String.class, String.class, Date.class, Date.class, Integer.class, String.class);
 
         assertNull(Datatypes.validateMap(values, keys, types));
         values.put("type", "pat001");
@@ -39,11 +45,13 @@ public class DatatypesTest {
         HashMap<String, Date> d2 = new HashMap<>();
         d2.put("start", new Date());
         values.put("period", Datatypes.makeList(d1, d2));
+        values.put("name", Datatypes.makeList("bla", "bla", "bla"));
         assertNull(Datatypes.validateMap(values, keys, types));
 
         // Test subarray fault
         HashMap<String, String> d3 = new HashMap<>();
         d3.put("end", "Huhu");
+
         values.put("period", Datatypes.makeList(d1, d2, d3));
         assertEquals(Datatypes.validateMap(values, keys, types), "period.end");
     }
@@ -68,17 +76,21 @@ public class DatatypesTest {
     @Test
     public void testPatientValidation() {
         String directory = System.getProperty("user.dir") + "/src/test/resources/json/";
-        File f = new File(directory + "Patient1_isa");
+        File f = new File(directory + "Patient1_Isa");
 
+        Map<String, Object> result = null;
         try {
             BufferedReader reader = new BufferedReader(new FileReader(f));
-            Map<String, Object> result = Datatypes.readJsonString(reader);
+            result = Datatypes.readJsonString(reader);
             System.out.println(result);
+            assertNotNull(result);
         }
         catch (Exception e) {
             e.printStackTrace();
             fail(e.getMessage());
         }
 
+        // Validate input
+        //assertTrue(service.validateProperties(result));
     }
 }

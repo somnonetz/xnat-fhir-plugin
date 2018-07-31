@@ -9,7 +9,9 @@ import org.nrg.xdat.bean.FhirIdentifierBean;
 import org.nrg.xdat.bean.FhirPatientBean;
 import org.nrg.xdat.bean.FhirAddressBean;
 import org.nrg.xdat.bean.FhirReferenceBean;
-import org.nrg.xdat.bean.FhirAttachementBean;
+import org.nrg.xdat.bean.FhirAttachmentBean;
+import org.nrg.xdat.bean.FhirCodeableconceptBean;
+import org.nrg.xdat.bean.FhirCodingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
@@ -30,15 +32,18 @@ import org.springframework.context.annotation.ComponentScan;
                 @XnatDataModel(value = FhirAddressBean.SCHEMA_ELEMENT_NAME,
                         singular = "FHIR Address",
                         plural = "FHIR Addresses"),
-                @XnatDataModel(value = FhirAttachementBean.SCHEMA_ELEMENT_NAME,
+                @XnatDataModel(value = FhirAttachmentBean.SCHEMA_ELEMENT_NAME,
                         singular = "FHIR Attachement",
                         plural = "FHIR Attachements"),
                 @XnatDataModel(value = FhirReferenceBean.SCHEMA_ELEMENT_NAME,
                         singular = "FHIR Reference",
                         plural = "FHIR References"),
-                @XnatDataModel(value = FhirPatientBean.SCHEMA_ELEMENT_NAME,
-                        singular = "FHIR Patient",
-                        plural = "FHIR Patients")
+                @XnatDataModel(value = FhirCodeableconceptBean.SCHEMA_ELEMENT_NAME,
+                        singular = "FHIR CodableConcept",
+                        plural = "FHIR CodableConcepts"),
+                @XnatDataModel(value = FhirCodingBean.SCHEMA_ELEMENT_NAME,
+                        singular = "FHIR Coding",
+                        plural = "FHIR Codings")
                 })
 @ComponentScan({"de.htwberlin.cbmi.fhir", "de.htwberlin.cbmi.fhir.entity", "de.htwberlin.cbmi.fhir.rest",
         "de.htwberlin.cbmi.fhir.service"})

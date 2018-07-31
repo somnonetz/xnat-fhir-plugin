@@ -10,10 +10,80 @@
     <xs:element name="FHIRContactPoint" type="fhir:contactPoint"/>
     <xs:element name="FHIRHumanName" type="fhir:humanName"/>
     <xs:element name="FHIRIdentifier" type="fhir:identifier"/>
-    <xs:element name="FHIRAddress" type="fhir:patient"/>
-    <xs:element name="FHIRAttachement" type="fhir:attachement"/>
-    <xs:element name="FHIRPatient" type="fhir:address"/>
+    <xs:element name="FHIRAddress" type="fhir:address"/>
+    <xs:element name="FHIRAttachment" type="fhir:attachment"/>
+    <xs:element name="FHIRPatient" type="fhir:patient"/>
     <xs:element name="FHIRReference" type="fhir:reference"/>
+    <xs:element name="FHIRCoding" type="fhir:coding"/>
+    <xs:element name="FHIRCodeableConcept" type="fhir:codeableConcept"/>
+
+    <xs:complexType name="coding">
+        <xs:sequence>
+            <xs:element name="system" type="xs:anyURI" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>Identity of the terminology system</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="version" type="xs:string" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>Version of the system - if relevant</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="code" type="xs:string" minOccurs="0" maxOccurs="1" >
+                <xs:annotation>
+                    <xs:documentation>Symbol in syntax defined by the system</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="display" type="xs:string" minOccurs="0" maxOccurs="1" >
+                <xs:annotation>
+                    <xs:documentation>Representation defined by the system</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="userSelected" type="xs:boolean" minOccurs="0" maxOccurs="1" >
+                <xs:annotation>
+                    <xs:documentation>Representation defined by the system</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="ID" type="xs:integer">
+            <xs:annotation>
+                <xs:appinfo>
+                    <xdat:field>
+                        <xdat:sqlField primaryKey="true" autoIncrement="true"/>
+                    </xdat:field>
+                </xs:appinfo>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="codeableConcept">
+        <xs:sequence>
+            <xs:element name="coding" type="fhir:coding" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Code defined by a terminology system</xs:documentation>
+                    <xs:appinfo>
+                        <xdat:field>
+                            <xdat:relation relationType="multi" relationName="fhir_concept_coding"/>
+                        </xdat:field>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="text" type="xs:string" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>Plain text representation of the concept</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="ID" type="xs:integer">
+            <xs:annotation>
+                <xs:appinfo>
+                    <xdat:field>
+                        <xdat:sqlField primaryKey="true" autoIncrement="true"/>
+                    </xdat:field>
+                </xs:appinfo>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
 
     <xs:complexType name="reference">
         <xs:sequence>
@@ -153,37 +223,14 @@
         </xs:restriction>
     </xs:simpleType>
 
-    <!-- see https://www.hl7.org/fhir/valueset-identifier-type.html -->
-    <xs:simpleType name="identifierType">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="DL" />
-            <xs:enumeration value="PPN" />
-            <xs:enumeration value="BRN" />
-            <xs:enumeration value="MR" />
-            <xs:enumeration value="MCN" />
-            <xs:enumeration value="EN" />
-            <xs:enumeration value="TAX" />
-            <xs:enumeration value="NIIP" />
-            <xs:enumeration value="PRN" />
-            <xs:enumeration value="MD" />
-            <xs:enumeration value="DR" />
-            <xs:enumeration value="ACSN" />
-            <xs:enumeration value="UDI" />
-            <xs:enumeration value="SNO" />
-            <xs:enumeration value="SB" />
-            <xs:enumeration value="PLAC" />
-            <xs:enumeration value="FILL" />
-        </xs:restriction>
-    </xs:simpleType>
-
     <xs:complexType name="identifier">
         <xs:sequence>
-            <xs:element name="use" minOccurs="0" maxOccurs="1">
+            <xs:element name="use" minOccurs="0" maxOccurs="1" type="fhir:identifierUse">
                 <xs:annotation>
                     <xs:documentation>Identifier use</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="type" minOccurs="0" maxOccurs="1" type="fhir:identifierType">
+            <xs:element name="type" minOccurs="0" maxOccurs="1" type="fhir:codeableConcept">
                 <xs:annotation>
                     <xs:documentation>Description of identifier</xs:documentation>
                 </xs:annotation>
@@ -335,22 +382,6 @@ This repeating element order: The order in which lines should appear in an addre
         </xs:attribute>
     </xs:complexType>
 
-    <xs:simpleType name="maritalStatus">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="A" />
-            <xs:enumeration value="D" />
-            <xs:enumeration value="I" />
-            <xs:enumeration value="L" />
-            <xs:enumeration value="M" />
-            <xs:enumeration value="P" />
-            <xs:enumeration value="S" />
-            <xs:enumeration value="T" />
-            <xs:enumeration value="U" />
-            <xs:enumeration value="W" />
-            <xs:enumeration value="UNK" />
-        </xs:restriction>
-    </xs:simpleType>
-
     <xs:simpleType name="commonLanguages">
         <xs:restriction base="xs:string">
             <xs:enumeration value="ar" />
@@ -411,7 +442,7 @@ This repeating element order: The order in which lines should appear in an addre
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:complexType name="attachement">
+    <xs:complexType name="attachment">
         <xs:sequence>
             <xs:element name="contentType" type="xs:string" minOccurs="0" maxOccurs="1">
                 <xs:annotation>
@@ -423,10 +454,13 @@ This repeating element order: The order in which lines should appear in an addre
                     <xs:documentation>Human language of the content (BCP-47)</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="data" type="xs:base64Binary" minOccurs="0" maxOccurs="1">
+            <xs:element name="data" minOccurs="0" maxOccurs="1">
                 <xs:annotation>
                     <xs:documentation>Data inline, base64ed</xs:documentation>
                 </xs:annotation>
+                <xs:restriction base="xs:string">
+                    <xs:maxLength value="65535"/>
+                </xs:restriction>
             </xs:element>
             <xs:element name="url" type="xs:anyURI" minOccurs="0" maxOccurs="1">
                 <xs:annotation>
@@ -438,10 +472,13 @@ This repeating element order: The order in which lines should appear in an addre
                     <xs:documentation>Number of bytes of content (if url provided)</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="hash" type="xs:base64Binary" minOccurs="0" maxOccurs="1">
+            <xs:element name="hash" minOccurs="0" maxOccurs="1">
                 <xs:annotation>
                     <xs:documentation>Hash of the data (sha-1, base64ed)</xs:documentation>
                 </xs:annotation>
+                <xs:restriction base="xs:string">
+                    <xs:maxLength value="255"/>
+                </xs:restriction>
             </xs:element>
             <xs:element name="title" type="xs:string" minOccurs="0" maxOccurs="1">
                 <xs:annotation>
@@ -464,31 +501,6 @@ This repeating element order: The order in which lines should appear in an addre
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
-
-    <xs:simpleType name="contactRole">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="BP" />
-            <xs:enumeration value="C" />
-            <xs:enumeration value="CP" />
-            <xs:enumeration value="E" />
-            <xs:enumeration value="EP" />
-            <xs:enumeration value="F" />
-            <xs:enumeration value="I" />
-            <xs:enumeration value="N" />
-            <xs:enumeration value="O" />
-            <xs:enumeration value="PR" />
-            <xs:enumeration value="S" />
-            <xs:enumeration value="U" />
-        </xs:restriction>
-    </xs:simpleType>
-
-    <xs:simpleType name="genderStatus">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="neutered" />
-            <xs:enumeration value="intact" />
-            <xs:enumeration value="unknown" />
-        </xs:restriction>
-    </xs:simpleType>
 
     <xs:simpleType name="linkType">
         <xs:restriction base="xs:string">
@@ -569,7 +581,7 @@ This repeating element order: The order in which lines should appear in an addre
                             </xs:appinfo>
                         </xs:annotation>
                     </xs:element>
-                    <xs:element name="maritalStatus" minOccurs="0" maxOccurs="1" type="fhir:maritalStatus">
+                    <xs:element name="maritalStatus" minOccurs="0" maxOccurs="1" type="fhir:codeableConcept">
                         <xs:annotation>
                             <xs:documentation>Marital (civil) status of a patient</xs:documentation>
                         </xs:annotation>
@@ -585,12 +597,12 @@ This repeating element order: The order in which lines should appear in an addre
                             </xs:sequence>
                         </xs:complexType>
                     </xs:element>
-                    <xs:element name="photo" type="fhir:attachement" minOccurs="0" maxOccurs="unbounded">
+                    <xs:element name="photo" type="fhir:attachment" minOccurs="0" maxOccurs="unbounded">
                         <xs:annotation>
                             <xs:documentation>Addresses for the individual</xs:documentation>
                             <xs:appinfo>
                                 <xdat:field>
-                                    <xdat:relation relationType="multi" relationName="fhir_patient_attachement"/>
+                                    <xdat:relation relationType="multi" relationName="fhir_patient_attachment"/>
                                 </xdat:field>
                             </xs:appinfo>
                         </xs:annotation>
@@ -602,7 +614,7 @@ This repeating element order: The order in which lines should appear in an addre
                         <xs:complexType>
                             <xs:sequence>
                                 <!-- normally maxOccurs should be unbounded, however the xnat compiler does not understand that :( -->
-                                <xs:element name="relationship" minOccurs="0" maxOccurs="1" type="fhir:contactRole">
+                                <xs:element name="relationship" minOccurs="0" maxOccurs="1" type="fhir:codeableConcept">
                                     <xs:annotation>
                                         <xs:documentation>The kind of relationship</xs:documentation>
                                     </xs:annotation>
@@ -667,18 +679,17 @@ This repeating element order: The order in which lines should appear in an addre
                         </xs:annotation>
                         <xs:complexType>
                             <xs:sequence>
-                                <!-- normally maxOccurs should be unbounded, however the xnat compiler does not understand that :( -->
-                                <xs:element name="species" minOccurs="0" maxOccurs="1" type="xs:string">
+                                <xs:element name="species" minOccurs="1" maxOccurs="1" type="fhir:codeableConcept">
                                     <xs:annotation>
                                         <xs:documentation>E.g. Dog, Cow. Include these codes as defined in http://snomed.info/sct </xs:documentation>
                                     </xs:annotation>
                                 </xs:element>
-                                <xs:element name="breed" minOccurs="0" maxOccurs="1" type="xs:string">
+                                <xs:element name="breed" minOccurs="0" maxOccurs="1" type="fhir:codeableConcept">
                                     <xs:annotation>
                                         <xs:documentation>E.g. Poodle, Angus. Include these codes as defined in http://snomed.info/sct</xs:documentation>
                                     </xs:annotation>
                                 </xs:element>
-                                <xs:element name="genderStatus" minOccurs="0" maxOccurs="1" type="fhir:genderStatus">
+                                <xs:element name="genderStatus" minOccurs="0" maxOccurs="1" type="fhir:codeableConcept">
                                     <xs:annotation>
                                         <xs:documentation>E.g. Neutered, Intact</xs:documentation>
                                     </xs:annotation>
@@ -692,7 +703,7 @@ This repeating element order: The order in which lines should appear in an addre
                         </xs:annotation>
                         <xs:complexType>
                             <xs:sequence>
-                                <xs:element name="language" minOccurs="0" maxOccurs="1" type="fhir:commonLanguages">
+                                <xs:element name="language" minOccurs="0" maxOccurs="1" type="fhir:codeableConcept">
                                     <xs:annotation>
                                         <xs:documentation>The language which can be used to communicate with the patient about his or her health</xs:documentation>
                                     </xs:annotation>
@@ -721,7 +732,7 @@ This repeating element order: The order in which lines should appear in an addre
                         </xs:annotation>
                         <xs:complexType>
                             <xs:sequence>
-                                <xs:element name="other_ID" minOccurs="1" maxOccurs="1" type="xs:integer">
+                                <xs:element name="other" minOccurs="1" maxOccurs="1" type="fhir:reference">
                                     <xs:annotation>
                                         <xs:documentation>The other patient or related person resource that the link refers to</xs:documentation>
                                     </xs:annotation>

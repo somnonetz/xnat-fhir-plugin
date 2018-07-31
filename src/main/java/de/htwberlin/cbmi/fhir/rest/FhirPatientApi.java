@@ -20,6 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -50,14 +51,15 @@ public class FhirPatientApi extends AbstractXapiRestController {
         final UserI user = getSessionUser();
 
         // Read the patient record from the data service
-        FhirPatientI record = _patientService.getPatient(id.toString(), user);
+        FhirPatientI record = _patientService.getPatient(id, user);
         if (record == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         // Build the result map out of the fetched object
-        Map<String, ?> data = _patientService.makePropertyMap(record, user);
+        Map<String, Object> data = _patientService.makePropertyMap(record, user);
         if (data != null) {
+            data.put("resourceType", "Patient");
             return new ResponseEntity<>(data, HttpStatus.OK);
         }
         else {
@@ -67,31 +69,42 @@ public class FhirPatientApi extends AbstractXapiRestController {
 
     @ApiOperation(value = "Create a FHIRPatient record.", response = Map.class)
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Record successfully created."),
+            @ApiResponse(code = 201, message = "Record successfully created."),
             @ApiResponse(code = 401, message = "Must be authenticated to access this REST API."),
             @ApiResponse(code = 500, message = "Unexpected error")})
     @RequestMapping(produces = {MediaType.APPLICATION_JSON_VALUE}, method = RequestMethod.POST)
-    public ResponseEntity<Map<String, ?>> create(HttpServletRequest request) {
+    public ResponseEntity<Map<String, ?>> create(@RequestBody Map<String, Object> data, HttpServletRequest request) {
         final UserI user = getSessionUser();
 
         // Read the JSON from the request
-        Map<String, Object> data = null;
+        /*Map<String, Object> data = null;
         try {
             data = Datatypes.readJsonString(request.getReader());
         }
         catch (IOException ioe) {
+            _log.error("Failed to read submitted JSON");
+            _log.error(ioe.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        }*/
 
         // Check if parsing succeeded and data is valid for our request
-        if (data == null || FhirPatientService.validateProperties(data)) {
+        if (data == null || !_patientService.validateProperties(data)) {
+            _log.error("Property validation failed or request was empty: " + data);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        // TODO Hier weitermachen
-        // Validate input data
-        // if ()
-        return null;
+        // FHIR has no association of patients to projects
+        // however XNAT requires such a mapping - we will put patients into the "fhir"-project for now
+        FhirPatientI record = _patientService.createPatient(data, user);
+        if (record != null) {
+            Map<String, Object> result_data = _patientService.makePropertyMap(record, user);
+            result_data.put("resourceType", "Patient");
+            result_data.put("id", _patientService.getPatientId(record).toString());
+            return new ResponseEntity<>(result_data, HttpStatus.CREATED);
+        }
+        else {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     // We want a default logger

@@ -6,7 +6,9 @@ import de.htwberlin.cbmi.fhir.utils.DatatypeValidatable;
 import de.htwberlin.cbmi.fhir.utils.Datatypes;
 import org.nrg.xdat.bean.FhirIdentifierBean;
 import org.nrg.xdat.base.BaseElement;
+import org.nrg.xdat.model.FhirCodeableconceptI;
 import org.nrg.xdat.model.FhirIdentifierI;
+import org.nrg.xdat.model.FhirReferenceI;
 import org.nrg.xdat.om.FhirIdentifier;
 import org.nrg.xft.search.ItemSearch;
 import org.nrg.xft.ItemI;
@@ -47,26 +49,46 @@ public class FhirIdentityService extends DatatypeValidatable {
         return this.getFromDB("ID", id, user);
     }
 
+    /**
+     * Build a new identifier out of the given data
+     * @param data JSON data submitted to create the new identifier
+     * @param user user that requested the identifier creation
+     * @return new identifer object
+     */
+    public FhirIdentifierI createIdentifier(Map<String, Object> data, UserI user) {
+        // Don't create new object without any data
+        if (data == null) {
+            return null;
+        }
 
-    public FhirIdentifierI buildFromAttributes(Map<String, Object> attributes, UserI user) {
         // Verify handed properties
-        if (!FhirIdentityService.validateProperties(attributes)) {
+        if (!this.validateProperties(data)) {
+            _log.debug("Attribute validation failed");
             return null;
         }
 
         // Build the result object
-        FhirIdentifier result = new FhirIdentifier(user);
-        result.setUse((String)attributes.get("use"));
-        result.setType((String)attributes.get("type"));
-        result.setSystem((String)attributes.get("system"));
-        result.setValue((String)attributes.get("value"));
+        try {
+            FhirIdentifier result = new FhirIdentifier(user);
+            result.setUse((String) data.get("use"));
 
+            FhirCodeableconceptI type = _codeableConceptService.createCodeableConcept((Map<String, Object>) data.get("type"), user);
+            if (type != null) {
+                result.setType(type);
+            }
 
-        result.setType((String)attributes.get("assigner"));
+            result.setSystem((String) data.get("system"));
+            result.setValue((String) data.get("value"));
 
+            // TODO: Check if this works
+            FhirReferenceI assigner = _referenceService.createReference((Map<String, Object>) data.get("assigner"), user);
+            result.setAssignerId(assigner.getId());
 
-        // Build result entity
-        return null;
+            return result;
+        } catch (Exception e) {
+            _log.error(e.getMessage(), e);
+            return null;
+        }
     }
 
     /**
@@ -87,7 +109,7 @@ public class FhirIdentityService extends DatatypeValidatable {
 
         // Push simple elements
         Datatypes.addIfPresent(result, "use", entity.getUse());
-        Datatypes.addIfPresent(result, "type", entity.getType());
+        Datatypes.addIfPresent(result, "type", _codeableConceptService.makePropertyMap(entity.getType(), user));
         Datatypes.addIfPresent(result, "system", entity.getSystem());
         Datatypes.addIfPresent(result, "value", entity.getValue());
 
@@ -136,16 +158,19 @@ public class FhirIdentityService extends DatatypeValidatable {
      * Allowed keys in this datatype
      * @return Collection of keys allowed to be present
      */
-    public static Collection<String> getAllowedKeys() {
-        return Datatypes.makeSet("use", "type", "system", "value", "period.start", "period.end", "assigner");
+    public Collection<String> getAllowedKeys() {
+        Collection<String> result = Datatypes.makeSet("use", "type", "system", "value", "period.start", "period.end", "assigner");
+        result.addAll(_codeableConceptService.getAllowedKeys("type"));
+        result.addAll(_referenceService.getAllowedKeys("assigner"));
+        return result;
     }
 
     /**
      * Allowed key types in this datatype
      * @return Collection of types aligned to getAllowedKeys() allowed to be present
      */
-    public static Collection<Class<?>> getAllowedKeyTypes() {
-        return Datatypes.makeList(String.class, String.class, String.class, String.class, Date.class, Date.class, String.class);
+    public Collection<Object> getAllowedKeyTypes() {
+        return Datatypes.makeList(String.class, _codeableConceptService, String.class, String.class, Date.class, Date.class, _referenceService);
     }
 
     /// We want a logger to tell everyone about errors
@@ -153,4 +178,7 @@ public class FhirIdentityService extends DatatypeValidatable {
 
     @Autowired
     private FhirReferenceService _referenceService;
+
+    @Autowired
+    private FhirCodeableConceptService _codeableConceptService;
 }

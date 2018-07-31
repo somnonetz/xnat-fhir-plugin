@@ -1,7 +1,5 @@
 package de.htwberlin.cbmi.fhir.utils;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.json.Json;
@@ -174,19 +172,19 @@ public class Datatypes {
      * @param types Corresponding types of the given keys
      * @return The name of the key that failed validation or null if the map passed validation
      */
-    public static String validateMap(Map<String, ?> map, Iterable<String> keys, Iterable<Class<?>> types) {
+    public static String validateMap(Map<String, ?> map, Iterable<String> keys, Iterable<Object> types) {
         Iterator<String> keyIterator = keys.iterator();
-        Iterator<Class<?>> typeIterator = types.iterator();
+        Iterator<Object> typeIterator = types.iterator();
 
         while (keyIterator.hasNext() && typeIterator.hasNext()) {
             String key = keyIterator.next();
-            Class type = typeIterator.next();
+            Object type = typeIterator.next();
 
             if (!Datatypes.validateMapItem(map, key, type)) {
                 return key;
             }
         }
-
+        
         return null;
     }
 
@@ -262,26 +260,9 @@ public class Datatypes {
      * @param type Type to check given data for
      * @return true if the type was successful else false
      */
-    private static boolean validateMapItem(Map<String, ?> map, String key, Class<?> type) {
+    private static boolean validateMapItem(Map<String, ?> map, String key, Object type) {
         if (!key.contains(".")) {
-            Object o = map.get(key);
-
-            // if the key is not present it passes validation
-            if (o == null) {
-                return true;
-            }
-
-            // Check if this type is an DatatypeValidatable and can validate the data itself
-            if (DatatypeValidatable.class.isAssignableFrom(type)) {
-                try {
-                    Method method = type.getMethod("validateProperties", Map.class);
-                    return (Boolean)method.invoke(null, map);
-                }
-                catch (Exception e) { }
-            }
-
-            // in all other cases we will check assign capability of o
-            return type.isInstance(o);
+            return Datatypes.validateObject(map.get(key), type);
         }
         else {
             // Split the key and pick the object assigned to the key
@@ -294,6 +275,7 @@ public class Datatypes {
             }
 
             Object o = map.get(key);
+
             // if the key is not present it passes validation
             if (o == null) {
                 return true;
@@ -317,7 +299,6 @@ public class Datatypes {
                         return false;
                     }
                 }
-
                 return true;
             }
             else {
@@ -326,4 +307,38 @@ public class Datatypes {
             }
         }
     }
+
+    private static boolean validateObject(Object o, Object type) {
+        // if the object is not present it passes validation
+        if (o == null) {
+            return true;
+        }
+        else if (o instanceof Collection) {
+            Collection items = (Collection)o;
+            for (Object item : items) {
+                // Validate item
+                if (!Datatypes.validateObject(item, type)) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+        else if (type instanceof DatatypeValidatable && Map.class.isInstance(o)) {
+            try {
+                return ((DatatypeValidatable)type).validateProperties((Map)o);
+            }
+            catch (Exception e) {
+                return false;
+            }
+        }
+        else if (!(type instanceof Class)){
+            // in all other cases we will check assign capability of o
+            return type.getClass().isInstance(o);
+        }
+        else {
+            return ((Class)type).isInstance(o);
+        }
+    }
+
 }

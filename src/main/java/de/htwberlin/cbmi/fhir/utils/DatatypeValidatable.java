@@ -1,8 +1,7 @@
 package de.htwberlin.cbmi.fhir.utils;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Map;
+import javax.annotation.Nullable;
+import java.util.*;
 
 public abstract class DatatypeValidatable {
     /**
@@ -10,10 +9,10 @@ public abstract class DatatypeValidatable {
      * @param attributes Attributes to validate
      * @return true if the properties match the requirements else false
      */
-    public static boolean validateProperties(Map<String, ?> attributes) {
+    public boolean validateProperties(Map<String, ?> attributes) {
         // Validate keys
         Collection<String> required = getRequiredKeys();
-        Collection<String> allowed = getRequiredKeys();
+        Collection<String> allowed = getAllowedKeys();
 
         // Validate required keys
         if (Datatypes.validateKeys(attributes, required, allowed) != null) {
@@ -21,7 +20,7 @@ public abstract class DatatypeValidatable {
         }
 
         // Validate types
-        Collection<Class<?>> types = getAllowedKeyTypes();
+        Collection<Object> types = getAllowedKeyTypes();
         if (allowed != null && types != null && allowed.size() == types.size()) {
             return Datatypes.validateMap(attributes, allowed, types) == null;
         }
@@ -34,7 +33,7 @@ public abstract class DatatypeValidatable {
      * Required keys in this datatype
      * @return Collection of keys required to be present
      */
-    public static Collection<String> getRequiredKeys() {
+    public Collection<String> getRequiredKeys() {
         return null;
     }
 
@@ -42,15 +41,15 @@ public abstract class DatatypeValidatable {
      * Required keys in this datatype with the given prefix
      * @return Collection of keys required to be present prefixed by prefix
      */
-    public static Collection<String> getRequiredKeys(String prefix) {
-        return Datatypes.prefix(DatatypeValidatable.getRequiredKeys(), prefix);
+    public Collection<String> getRequiredKeys(String prefix) {
+        return Datatypes.prefix(this.getRequiredKeys(), prefix);
     }
 
     /**
      * Allowed keys in this datatype
      * @return Collection of keys allowed to be present
      */
-    public static Collection<String> getAllowedKeys() {
+    public Collection<String> getAllowedKeys() {
         return null;
     }
 
@@ -58,7 +57,7 @@ public abstract class DatatypeValidatable {
      * Allowed key types in this datatype
      * @return Collection of types aligned to getAllowedKeys() allowed to be present
      */
-    public static Collection<Class<?>> getAllowedKeyTypes() {
+    public Collection<Object> getAllowedKeyTypes() {
         return null;
     }
 
@@ -66,7 +65,22 @@ public abstract class DatatypeValidatable {
      * Allowed keys in this datatype with the given prefix
      * @return Collection of keys allowed to be present prefixed by prefix
      */
-    public static Collection<String> getAllowedKeys(String prefix) {
-        return Datatypes.prefix(DatatypeValidatable.getAllowedKeys(), prefix);
+    public Collection<String> getAllowedKeys(String prefix) {
+        return Datatypes.prefix(this.getAllowedKeys(), prefix);
+    }
+
+    /**
+     * Export FHIR period datastructure
+     * @param start Start date
+     * @param end End Date
+     * @param map Map to write to
+     */
+    public void exportPeriod(@Nullable Object start, @Nullable Object end, Map<String, Object> map) {
+        if (start != null || end != null) {
+            Map<String, Object> period = new HashMap<>();
+            Datatypes.addIfPresent(period, " start", start);
+            Datatypes.addIfPresent(period, " end", end);
+            map.put("period", period);
+        }
     }
 }

@@ -30,7 +30,7 @@ import java.util.*;
 
 @Api(description = "XNAT FHIR Translator API")
 @XapiRestController
-@RequestMapping(value = "/fhir")
+@RequestMapping(value = "/old_fhir")
 public class MichasCooleRestApi extends AbstractXapiRestController {
 
     protected static <A> String _s(A input) {

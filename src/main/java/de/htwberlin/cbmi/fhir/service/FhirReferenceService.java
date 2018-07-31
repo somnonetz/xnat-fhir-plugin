@@ -6,6 +6,7 @@ import org.nrg.xdat.base.BaseElement;
 import org.nrg.xdat.bean.*;
 import org.nrg.xdat.model.FhirIdentifierI;
 import org.nrg.xdat.model.FhirReferenceI;
+import org.nrg.xdat.om.FhirReference;
 import org.nrg.xft.ItemI;
 import org.nrg.xft.collections.ItemCollection;
 import org.nrg.xft.search.ItemSearch;
@@ -79,13 +80,49 @@ public class FhirReferenceService extends DatatypeValidatable {
     }
 
     /**
+     * Build a new reference out of the given data
+     * @param data JSON data submitted to create the new reference
+     * @param user user that requested the identifier creation
+     * @return new reference object
+     */
+    public FhirReferenceI createReference(Map<String, Object> data, UserI user) {
+        // Don't create new object without any data
+        if (data == null) {
+            return null;
+        }
+
+        // Verify handed properties
+        if (!this.validateProperties(data)) {
+            _log.debug("Attribute validation failed");
+            return null;
+        }
+
+        try {
+            // Build the result object
+            FhirReference result = new FhirReference(user);
+            result.setReference((String) data.get("reference"));
+            FhirIdentifierI identifier = _identityService.createIdentifier((Map<String, Object>)data.get("identifier"), user);
+            if (identifier != null) {
+                result.setIdentifier(identifier);
+            }
+            result.setDisplay((String) data.get("display"));
+
+            return result;
+        }
+        catch (Exception e) {
+            _log.error(e.getMessage(), e);
+            return null;
+        }
+    }
+
+    /**
      * Build the property map to transfer as a json request for the given entity
      * @param entity entity to transfer
      * @param user User requesting the action
      * @return Map with keys and values to transfer
      */
     @Nullable
-    public Map<String, ?> makePropertyMap(FhirReferenceI entity, UserI user) {
+    public Map<String, Object> makePropertyMap(FhirReferenceI entity, UserI user) {
         // A record should be present for export
         if (entity == null) {
             return null;
@@ -115,7 +152,7 @@ public class FhirReferenceService extends DatatypeValidatable {
             case "Address":
                 return FhirAddressBean.SCHEMA_ELEMENT_NAME;
             case "Attachement":
-                return FhirAttachementBean.SCHEMA_ELEMENT_NAME;
+                return FhirAttachmentBean.SCHEMA_ELEMENT_NAME;
             default:
                 return null;
         }
@@ -125,16 +162,19 @@ public class FhirReferenceService extends DatatypeValidatable {
      * Allowed keys in this datatype
      * @return Collection of keys allowed to be present
      */
-    public static Collection<String> getAllowedKeys() {
-        return Datatypes.makeSet("reference", "identifier", "display");
+    public Collection<String> getAllowedKeys() {
+        Collection<String> result =  Datatypes.makeSet("reference", "identifier", "display");
+        result.addAll(_identityService.getAllowedKeys("identifier"));
+        return result;
+
     }
 
     /**
      * Allowed key types in this datatype
      * @return Collection of types aligned to getAllowedKeys() allowed to be present
      */
-    public static Collection<Class<?>> getAllowedKeyTypes() {
-        return Datatypes.makeList(String.class, FhirIdentityService.class, String.class);
+    public Collection<Object> getAllowedKeyTypes() {
+        return Datatypes.makeList(String.class, _identityService, String.class);
     }
 
     /**
