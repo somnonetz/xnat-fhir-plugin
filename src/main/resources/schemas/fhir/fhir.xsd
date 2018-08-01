@@ -679,7 +679,7 @@ This repeating element order: The order in which lines should appear in an addre
                         </xs:annotation>
                         <xs:complexType>
                             <xs:sequence>
-                                <xs:element name="species" minOccurs="1" maxOccurs="1" type="fhir:codeableConcept">
+                                <xs:element name="species" minOccurs="0" maxOccurs="1" type="fhir:codeableConcept">
                                     <xs:annotation>
                                         <xs:documentation>E.g. Dog, Cow. Include these codes as defined in http://snomed.info/sct </xs:documentation>
                                     </xs:annotation>

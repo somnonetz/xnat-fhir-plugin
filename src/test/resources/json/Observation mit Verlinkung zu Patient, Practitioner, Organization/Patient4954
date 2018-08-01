@@ -1,0 +1,70 @@
+{
+  "resourceType": "Patient",
+  "id": "4954",
+  "meta": {
+    "versionId": "2",
+    "lastUpdated": "2018-06-14T10:56:02.777+00:00"
+  },
+  "text": {
+    "status": "generated",
+    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><div class=\"hapiHeaderText\">Elisabeth Catharina <b>HERRMANN </b></div><table class=\"hapiPropertyTable\"><tbody><tr><td>Identifier</td><td>pat002</td></tr><tr><td>Address</td><td><span>Rüdesheim </span></td></tr><tr><td>Date of birth</td><td><span>11 April 2010</span></td></tr></tbody></table></div>"
+  },
+  "identifier": [
+    {
+      "value": "pat002"
+    }
+  ],
+  "active": true,
+  "name": [
+    {
+      "family": "Herrmann",
+      "given": [
+        "Elisabeth",
+        "Catharina"
+      ]
+    }
+  ],
+  "telecom": [
+    {
+      "value": "0301104",
+      "use": "home"
+    }
+  ],
+  "gender": "female",
+  "birthDate": "2010-04-11",
+  "deceasedBoolean": false,
+  "address": [
+    {
+      "city": "Rüdesheim",
+      "postalCode": "65385"
+    }
+  ],
+  "maritalStatus": {
+    "text": "ledig"
+  },
+  "multipleBirthBoolean": false,
+  "communication": [
+    {
+      "language": {
+        "text": "deutsch"
+      },
+      "preferred": true
+    }
+  ],
+  "link": [
+    {
+      "other": {
+        "reference": "Patient/9954",
+        "display": "Mother"
+      },
+      "type": "refer"
+    },
+    {
+      "other": {
+        "reference": "Patient/9953",
+        "display": "Father"
+      },
+      "type": "refer"
+    }
+  ]
+}

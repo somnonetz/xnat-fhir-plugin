@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Hashtable;
 import java.util.Map;
 
@@ -88,8 +89,15 @@ public class FhirPatientApi extends AbstractXapiRestController {
         }*/
 
         // Check if parsing succeeded and data is valid for our request
-        if (data == null || !_patientService.validateProperties(data)) {
-            _log.error("Property validation failed or request was empty: " + data);
+        if (data == null) {
+            _log.error("Request was empty");
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        Collection<String> invalidKeys = _patientService.validateProperties(data);
+        if (invalidKeys != null) {
+            _log.error("Property validation failed for keys: " + invalidKeys);
+            _log.error("Data was: " + data);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 

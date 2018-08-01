@@ -1,0 +1,58 @@
+{
+    "resourceType": "Organization",
+    "id": "9959",
+    "meta": {
+        "versionId": "1",
+        "lastUpdated": "2018-06-14T09:49:21.052+00:00"
+    },
+    "identifier": [
+        {
+            "value": "Orga002"
+        }
+    ],
+    "active": true,
+    "type": [
+        {
+            "text": "Krankenhaus"
+        }
+    ],
+    "name": "Krankenhaus Friedrichshain",
+    "alias": [
+        "Friedrichshain-Hospital"
+    ],
+    "telecom": [
+        {
+            "system": "phone",
+            "value": "947584758"
+        }
+    ],
+    "address": [
+        {
+            "city": "Berlin",
+            "postalCode": "10245"
+        }
+    ],
+    "contact": [
+        {
+            "purpose": {
+                "text": "Anmeldung"
+            },
+            "name": {
+                "family": "Müller",
+                "given": [
+                    "Agnes"
+                ]
+            },
+            "telecom": [
+                {
+                    "system": "phone",
+                    "value": "94587934"
+                }
+            ],
+            "address": {
+                "city": "Berlin",
+                "postalCode": "10247"
+            }
+        }
+    ]
+}

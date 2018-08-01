@@ -1,0 +1,22 @@
+{
+  "resourceType" : "Observation",
+ 
+  "status" : "registered", 
+  "category" : [{ "text":"Sleep-Observation" }],
+  "code" : { "text":"Observation n02" }, 
+  "subject" : { "reference":"/Patient/4954", "display":"pat002" }, 
+  
+  "effectiveDateTime" : "2017-04-15",
+  
+  "issued" : "2017-04-15",
+  "performer" : [{ "reference":"/Practitioner/9957", "display":"prac003" }, {"reference":"/Organization/9959", "display":"orga002"}],
+  
+  "valueQuantity" : { "value":"2.4", "comperator":"<=" },
+  
+  "valueString" : "Wert",
+  "valueBoolean" : true,
+  
+  "valueRatio" : {"numerator":"1", "denominaor":"2" }
+  
+  
+}

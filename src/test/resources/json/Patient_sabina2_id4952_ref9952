@@ -1,0 +1,33 @@
+{
+  "resourceType" : "Patient",
+  "id": "4952",
+
+"identifier" : [{"value":"pat002" }],
+  "active" : true,
+  "name" : [{ "family":"Mollenhauer", "given":["Sabina"] }],
+"telecom" : [{ "use":"home", "value":"0301104"}],
+"gender" : "female",
+  "birthDate" : "1981-02-05",
+   "deceasedBoolean" : false,
+  "address" : [{ "city":"Berlin", "postalCode":"10365"}],
+  "maritalStatus" : { "text":"ledig" },
+
+"multipleBirthBoolean" : false,
+
+"communication" : [{
+    "language" : { "text":"deutsch" },
+    "preferred" : true
+  },
+  { "language" : { "text":"englisch" },
+    "preferred" : false
+  }],
+
+
+ "careProvider": [
+    {
+      "reference": "Practitioner/9952"
+    }
+  ]
+
+
+}

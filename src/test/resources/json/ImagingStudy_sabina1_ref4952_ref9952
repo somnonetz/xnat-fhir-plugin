@@ -1,0 +1,38 @@
+{
+  "resourceType" : "ImagingStudy",
+  "patient": { "reference": "Patient/4952" },
+  "referrer" : { "reference": "Practitioner/9952" },
+  "interpreter" : [{ "reference": "Practitioner/9952"}],
+  "text": {
+    "status": "generated",
+    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">CT Chest.  John Smith (MRN: 09236). Accession: W12342398. Performed: 2011-01-01. 3 series, 12 images.</div>"
+  },
+  "numberOfInstances": 1,
+  "started": "2011-01-01T11:01:20+03:00",
+  "numberOfSeries": 1,
+  "series": [
+    {
+      "description": "CT Surview 180",
+      "numberOfInstances": 1,
+      "number": 3,
+      "instance": [
+        {
+          "sopClass": "urn:oid:1.2.840.10008.5.1.4.1.1.2",
+          "uid": "urn:oid:2.16.124.113543.6003.189642796.63084.16748.2599092903",
+          "number": 1
+        }
+      ],
+      "bodySite": {
+        "code": "67734004",
+        "system": "http://snomed.info/sct",
+        "display": "Upper Trunk Structure"
+      },
+      "modality": {
+        "code": "CT",
+        "system": "http://dicom.nema.org/resources/ontology/DCM"
+      },
+      "uid": "urn:oid:2.16.124.113543.6003.2588828330.45298.17418.2723805630"
+    }
+  ],
+  "id": ""
+}

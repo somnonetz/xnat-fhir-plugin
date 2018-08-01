@@ -1,0 +1,24 @@
+{
+  "resourceType" : "Practitioner",
+  "id": "9952",
+
+  "identifier" : [{ "value":"pat" }],
+  "active" : true,
+  "name" : [{ "family":"Stern", "given":["Elizabeth"]  }],
+  "telecom" : [{ "use":"work", "value":"310-825-4321" }],
+  "address" : [{ "city":"Los Angeles", "postalCode":"90095" }],
+  "gender" : "female",
+  "birthDate" : "1915-09-19",
+  "qualification" : [{
+    "identifier" : "Medical degree",
+    "code" : "M.D",
+    "period" : "1939-1980",
+    "issuer" : "University of Toronto"
+  }],
+  "communication" : [{ "language" : { "text":"englisch" },
+  "preferred" : true
+},
+{ "language" : { "text":"french" },
+  "preferred" : false
+   }]
+}

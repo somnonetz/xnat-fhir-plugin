@@ -1,0 +1,22 @@
+{
+  "resourceType": "Organization",
+
+  "identifier": [
+    {
+      "value": "org001"
+    }
+  ],
+  "active": true,
+  "type": [
+    {
+      "text": "Health-Organization"
+    }
+  ],
+  "name": "Health-Org.",
+  "telecom": [
+    {
+      "value": "03087987",
+      "use": "work"
+    }
+  ]
+}

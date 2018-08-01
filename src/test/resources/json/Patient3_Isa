@@ -1,0 +1,78 @@
+{
+  "resourceType": "Patient",
+ 
+  "identifier": [
+    {
+      "value": "pat003"
+    }
+  ],
+  "active": true,
+  "name": [
+    {
+      "family": "Kaupp",
+      "given": [
+        "Manuel"
+      ]
+    }
+  ],
+  "telecom": [
+    {
+      "value": "062231234",
+      "use": "home"
+    }
+  ],
+  "gender": "male",
+  "birthDate": "1993-02-01",
+  "deceasedBoolean": false,
+  "address": [
+    {
+      "city": "Neckargemünd",
+      "postalCode": "69151"
+    }
+  ],
+  "maritalStatus": {
+    "text": "ledig"
+  },
+  "communication": [
+    {
+      "language": {
+        "text": "deutsch"
+      },
+      "preferred": true
+    },
+    {
+      "language": {
+        "text": "englisch"
+      },
+      "preferred": false
+    },
+    {
+      "language": {
+        "text": "spanisch"
+      },
+      "preferred": false
+    }
+  ],
+  "generalPractitioner": [
+    {
+      "reference": "Practitioner/4957",
+      "display": "Hausarzt"
+    }
+  ],
+  "link": [
+    {
+      "other": {
+        "reference": "Patient/4952",
+        "display": "sister"
+      },
+      "type": "refer"
+    },
+    {
+      "other": {
+        "reference": "Patient/4953",
+        "display": "sister"
+      },
+      "type": "refer"
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "resourceType": "Patient",
+  
+  "identifier": [
+    {
+      "value": "pat002"
+    }
+  ],
+  "active": true,
+  "name": [
+    {
+      "family": "Kaupp",
+      "given": [
+        "Edith"
+      ]
+    }
+  ],
+  "telecom": [
+    {
+      "value": "0301122",
+      "use": "home"
+    }
+  ],
+  "gender": "female",
+  "birthDate": "1995-02-10",
+  "deceasedBoolean": false,
+  "address": [
+    {
+      "city": "Berlin",
+      "postalCode": "10247"
+    }
+  ],
+  "maritalStatus": {
+    "text": "ledig"
+  },
+  "multipleBirthBoolean": false,
+  "communication": [
+    {
+      "language": {
+        "text": "deutsch"
+      },
+      "preferred": true
+    },
+    {
+      "language": {
+        "text": "englisch"
+      },
+      "preferred": false
+    },
+    {
+      "language": {
+        "text": "spanisch"
+      },
+      "preferred": false
+    },
+    {
+      "language": {
+        "text": "französisch"
+      },
+      "preferred": false
+    }
+  ],
+  "generalPractitioner": [
+    {
+      "reference": "Practitioner/4957",
+      "display": "Hausarzt"
+    }
+  ],
+  "link": [
+    {
+      "other": {
+        "reference": "Patient/4952",
+        "display": "sister"
+      },
+      "type": "refer"
+    },
+    {
+      "other": {
+        "reference": "Patient/4954",
+        "display": "brother"
+      },
+      "type": "refer"
+    }
+  ]
+}

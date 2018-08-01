@@ -38,7 +38,7 @@ public class XDATScreen_edit_fhir_patient extends EditSubjectAssessorScreen {
                 subjectId = (String) context.get("subjectId");
             }
 
-            context.put("label", subjectId + "_patient");
+            context.put("label", subjectId + "_FHIR_patient");
 
         } catch (XFTInitException | ElementNotFoundException | FieldNotFoundException e) {
             final String message = "An error occurred trying to get the subject ID when adding the patient information.";

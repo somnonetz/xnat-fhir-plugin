@@ -1,0 +1,63 @@
+{
+  "resourceType": "Practitioner",
+  "id": "9957",
+  "meta": {
+    "versionId": "2",
+    "lastUpdated": "2018-06-14T13:38:14.168+00:00"
+  },
+  "identifier": [
+    {
+      "use": "official",
+      "value": "prac003"
+    }
+  ],
+  "active": true,
+  "name": [
+    {
+      "family": "Mühlhausen",
+      "given": [
+        "Margarethe"
+      ]
+    }
+  ],
+  "telecom": [
+    {
+      "system": "phone",
+      "value": "85738473"
+    }
+  ],
+  "address": [
+    {
+      "use": "home",
+      "city": "Wiesbaden",
+      "postalCode": "8786"
+    }
+  ],
+  "gender": "female",
+  "birthDate": "1986-12-24",
+  "qualification": [
+    {
+      "identifier": [
+        {
+          "value": "quali003"
+        }
+      ],
+      "code": {
+        "text": "Chirurgie"
+      },
+      "period": {
+        "start": "2005-04-01",
+        "end": "2015-04-01"
+      },
+      "issuer": {
+        "reference": "Organization/9959",
+        "display": "Krankenhaus"
+      }
+    }
+  ],
+  "communication": [
+    {
+      "text": "deutsch"
+    }
+  ]
+}
