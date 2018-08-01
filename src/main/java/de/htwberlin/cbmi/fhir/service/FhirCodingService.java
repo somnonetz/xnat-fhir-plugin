@@ -37,8 +37,9 @@ public class FhirCodingService extends DatatypeValidatable {
         }
 
         // Verify handed properties
-        if (!this.validateProperties(data)) {
-            _log.debug("Attribute validation failed");
+        Collection<String> invalidProperties = this.validateProperties(data);
+        if (invalidProperties != null) {
+            _log.debug("Attribute validation failed for: " + invalidProperties);
             return null;
         }
 
@@ -89,7 +90,7 @@ public class FhirCodingService extends DatatypeValidatable {
      * @return Collection of keys allowed to be present
      */
     public Collection<String> getAllowedKeys() {
-        return Datatypes.makeSet("system", "version", "code", "display", "userSelected");
+        return Datatypes.makeList("system", "version", "code", "display", "userSelected");
     }
 
     /**

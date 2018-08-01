@@ -1,0 +1,68 @@
+{
+  "resourceType": "Patient",
+ 
+  "identifier": [
+    {
+      "value": "pat006"
+    }
+  ],
+  "active": true,
+  "name": [
+    {
+      "family": "Dog",
+      "given": [
+        "Flauschiger"
+      ]
+    }
+  ],
+  "telecom": [
+    {
+      "value": "0301194",
+      "use": "home"
+    }
+  ],
+  "gender": "male",
+  "birthDate": "2007-10-27",
+  "deceasedBoolean": false,
+  "address": [
+    {
+      "city": "Berlin",
+      "postalCode": "10247"
+    }
+  ],
+  "maritalStatus": {
+    "text": "ledig"
+  },
+  "animal": {
+    "species": {
+      "text": "Dog"
+    },
+    "genderStatus": {
+      "text": "Neutered"
+    }
+  },
+  "communication": [
+    {
+      "language": {
+        "text": "dog"
+      },
+      "preferred": true
+    },
+    {
+      "language": {
+        "text": "deutsch"
+      },
+      "preferred": false
+    }
+  ],
+  "link": [
+    {
+      "other": {
+        "reference": "Patient/4952",
+        "display": "owner"
+      },
+      "type": "refer"
+    }
+  ]
+}
+

@@ -1,0 +1,50 @@
+{
+  "resourceType": "Patient",
+ 
+  "identifier": [
+    {
+      "value": "pat004"
+    }
+  ],
+  "active": true,
+  "name": [
+    {
+      "family": "Jones",
+      "given": [
+        "Nicklas"
+      ]
+    }
+  ],
+  "telecom": [
+    {
+      "value": "0301194",
+      "use": "home"
+    }
+  ],
+  "gender": "male",
+  "birthDate": "1996-12-07",
+  "deceasedBoolean": false,
+  "address": [
+    {
+      "city": "Berlin",
+      "postalCode": "10247"
+    }
+  ],
+  "maritalStatus": {
+    "text": "ledig"
+  },
+  "communication": [
+    {
+      "language": {
+        "text": "deutsch"
+      },
+      "preferred": true
+    },
+    {
+      "language": {
+        "text": "englisch"
+      },
+      "preferred": false
+    }
+  ]
+}

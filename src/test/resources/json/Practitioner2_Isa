@@ -1,0 +1,57 @@
+{
+  "resourceType": "Practitioner",
+ 
+  "identifier": [
+    {
+      "value": "prac002"
+    }
+  ],
+  "active": true,
+  "name": [
+    {
+      "family": "Doctor",
+      "given": [
+        "Hans"
+      ],
+      "prefix": [
+        "Dr."
+      ]
+    }
+  ],
+  "telecom": [
+    {
+      "value": "030896578",
+      "use": "work"
+    }
+  ],
+  "address": [
+    {
+      "use": "work",
+      "city": "Berlin",
+      "postalCode": "10247"
+    }
+  ],
+  "gender": "male",
+  "birthDate": "1972-08-25",
+  "qualification": [
+    {
+      "identifier": [
+        {
+          "value": "qualiID"
+        }
+      ],
+      "code": {
+        "text": "medical degree"
+      },
+      "issuer": {
+        "reference": "Organization/4961",
+        "display": "Health-Org."
+      }
+    }
+  ],
+  "communication": [
+    {
+      "text": "deutsch"
+    }
+  ]
+}

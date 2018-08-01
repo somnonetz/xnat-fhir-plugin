@@ -62,8 +62,9 @@ public class FhirIdentityService extends DatatypeValidatable {
         }
 
         // Verify handed properties
-        if (!this.validateProperties(data)) {
-            _log.debug("Attribute validation failed");
+        Collection<String> invalidProperties = this.validateProperties(data);
+        if (invalidProperties != null) {
+            _log.debug("Attribute validation failed for: " + invalidProperties);
             return null;
         }
 
@@ -81,8 +82,13 @@ public class FhirIdentityService extends DatatypeValidatable {
             result.setValue((String) data.get("value"));
 
             // TODO: Check if this works
-            FhirReferenceI assigner = _referenceService.createReference((Map<String, Object>) data.get("assigner"), user);
-            result.setAssignerId(assigner.getId());
+            if (data.get("assigner") != null) {
+                FhirReferenceI assigner = _referenceService.createReference((Map<String, Object>) data.get("assigner"), user);
+                if (assigner == null) {
+                    throw new Exception("Assigner with id " + data.get("assigner") + " not found in the system");
+                }
+                result.setAssignerId(assigner.getId());
+            }
 
             return result;
         } catch (Exception e) {
@@ -159,7 +165,7 @@ public class FhirIdentityService extends DatatypeValidatable {
      * @return Collection of keys allowed to be present
      */
     public Collection<String> getAllowedKeys() {
-        return Datatypes.makeSet("use", "type", "system", "value",
+        return Datatypes.makeList("use", "type", "system", "value",
                 "period", "period.start", "period.end", "assigner");
     }
 
@@ -169,7 +175,7 @@ public class FhirIdentityService extends DatatypeValidatable {
      */
     public Collection<Object> getAllowedKeyTypes() {
         return Datatypes.makeList(String.class, _codeableConceptService, String.class, String.class,
-                Map.class, Date.class, Date.class, _referenceService);
+                Map.class, String.class, String.class, _referenceService);
     }
 
     /// We want a logger to tell everyone about errors

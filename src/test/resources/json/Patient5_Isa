@@ -1,0 +1,67 @@
+{
+  "resourceType": "Patient",
+  
+  "identifier": [
+    {
+      "value": "pat005"
+    }
+  ],
+  "active": true,
+  "name": [
+    {
+      "family": "Cat",
+      "given": [
+        "Flauschige"
+      ]
+    }
+  ],
+  "telecom": [
+    {
+      "value": "0301194",
+      "use": "home"
+    }
+  ],
+  "gender": "female",
+  "birthDate": "1999-12-27",
+  "deceasedBoolean": false,
+  "address": [
+    {
+      "city": "Berlin",
+      "postalCode": "10247"
+    }
+  ],
+  "maritalStatus": {
+    "text": "ledig"
+  },
+  "animal": {
+    "species": {
+      "text": "Katze"
+    },
+    "genderStatus": {
+      "text": "Neutered"
+    }
+  },
+  "communication": [
+    {
+      "language": {
+        "text": "cat"
+      },
+      "preferred": true
+    },
+    {
+      "language": {
+        "text": "deutsch"
+      },
+      "preferred": false
+    }
+  ],
+  "link": [
+    {
+      "other": {
+        "reference": "Patient/4952",
+        "display": "owner"
+      },
+      "type": "refer"
+    }
+  ]
+}

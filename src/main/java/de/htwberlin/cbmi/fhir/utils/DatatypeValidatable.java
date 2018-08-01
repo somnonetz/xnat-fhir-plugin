@@ -9,7 +9,7 @@ public abstract class DatatypeValidatable {
      * @param attributes Attributes to validate
      * @return true if the properties match the requirements else false
      */
-    public boolean validateProperties(Map<String, ?> attributes) {
+    public Collection<String> validateProperties(Map<String, ?> attributes) {
         // Validate keys
         Collection<String> required = getRequiredKeys();
         Collection<String> allowed = getAllowedKeys();
@@ -18,16 +18,23 @@ public abstract class DatatypeValidatable {
         Map<String, Object> allowedTypes = Datatypes.makeMap(allowed, types);
 
         // Validate required keys
-        if (Datatypes.validateKeys(attributes, required, allowedTypes) != null) {
-            return false;
+        Collection<String> invalidKeys = Datatypes.validateKeys(attributes, required, allowedTypes);
+        if (invalidKeys != null) {
+            return invalidKeys;
         }
 
         // Validate types
         if (allowed != null && types != null && allowed.size() == types.size()) {
-            return Datatypes.validateMap(attributes, allowed, types) == null;
+            String invalidKey = Datatypes.validateMap(attributes, allowed, types);
+            if (invalidKey != null) {
+                return Datatypes.makeList(invalidKey);
+            }
+            else {
+                return null;
+            }
         }
         else {
-            return true;
+            return null;
         }
     }
 

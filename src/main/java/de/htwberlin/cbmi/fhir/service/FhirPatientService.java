@@ -65,6 +65,13 @@ public class FhirPatientService extends DatatypeValidatable {
      */
     @Nullable
     public FhirPatientI createPatient(Map<String, Object> data, UserI user) {
+        // Verify handed properties
+        Collection<String> invalidProperties = this.validateProperties(data);
+        if (invalidProperties != null) {
+            _log.debug("Attribute validation failed for: " + invalidProperties);
+            return null;
+        }
+
         try {
             // Build subject record to associate the patient record with
             XnatSubjectdata subject = new XnatSubjectdata(user);
@@ -393,7 +400,7 @@ public class FhirPatientService extends DatatypeValidatable {
         }
 
         // Verify handed properties
-        if (!this.validateProperties(data)) {
+        if (this.validateProperties(data) == null) {
             _log.debug("Attribute validation failed");
             return null;
         }
@@ -643,7 +650,7 @@ public class FhirPatientService extends DatatypeValidatable {
      */
     public Collection<String> getAllowedKeys() {
 
-        return Datatypes.makeSet("identifier", "active", "name", "telecom", "gender",
+        return Datatypes.makeList("resourceType", "identifier", "active", "name", "telecom", "gender",
                 "birthDate", "deceasedBoolean", "deceasedDateTime", "address", "maritalStatus",
                 "multipleBirthBoolean", "multipleBirthInteger", "photo",
                 "contact", "contact.relationship", "contact.name", "contact.telecom", "contact.address",
@@ -658,11 +665,11 @@ public class FhirPatientService extends DatatypeValidatable {
      * @return Collection of types aligned to getAllowedKeys() allowed to be present
      */
     public Collection<Object> getAllowedKeyTypes() {
-        return Datatypes.makeList(_identityService, Boolean.class, _nameService, _contactPointService, String.class,
-                Date.class, Boolean.class, Date.class, _addressService, _codeableConceptService,
+        return Datatypes.makeList(String.class, _identityService, Boolean.class, _nameService, _contactPointService, String.class,
+                String.class, Boolean.class, String.class, _addressService, _codeableConceptService,
                 Boolean.class, Integer.class, _attachmentService,
                 Map.class, _codeableConceptService, _nameService, _contactPointService, _addressService,
-                String.class, _referenceService, Map.class, Date.class, Date.class,
+                String.class, _referenceService, Map.class, String.class, String.class,
                 Map.class, _codeableConceptService, _codeableConceptService, _codeableConceptService,
                 Map.class, _codeableConceptService, Boolean.class,
                 _referenceService, _referenceService,

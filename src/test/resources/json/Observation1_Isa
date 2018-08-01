@@ -1,0 +1,30 @@
+{
+  "resourceType": "Observation",
+ 
+  "identifier": [
+    {
+      "value": "obs001"
+    }
+  ],
+  "status": "registered",
+  "category": [
+    {
+      "text": "vital-signs"
+    }
+  ],
+  "code": {
+    "text": "Messung vital-signs"
+  },
+  "subject": {
+    "reference": "Patient/4952",
+    "display": "Isabel Kaupp"
+  },
+  "effectiveDateTime": "2018-05-29",
+  "performer": [
+    {
+      "reference": "Practitioner/4957",
+      "display": "Dr. Jessel"
+    }
+  ],
+  "valueString": "Ergebnis vital-signs"
+}

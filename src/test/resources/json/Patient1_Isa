@@ -1,0 +1,65 @@
+{
+  "resourceType": "Patient",
+  
+  "identifier": [
+    {
+      "value": "pat001"
+    }
+  ],
+  "active": true,
+  "name": [
+    {
+      "family": "Kaupp",
+      "given": [
+        "Isabel"
+      ]
+    }
+  ],
+  "telecom": [
+    {
+      "value": "0301103",
+      "use": "home"
+    }
+  ],
+  "gender": "female",
+  "birthDate": "1996-03-25",
+  "deceasedBoolean": false,
+  "address": [
+    {
+      "city": "Berlin",
+      "postalCode": "10247"
+    }
+  ],
+  "maritalStatus": { "text": "A" },
+  "multipleBirthBoolean": false,
+  "communication": [
+    {
+      "language": { "text": "deutsch" },
+      "preferred": true
+    },
+    {
+      "language": { "text": "englisch" },
+      "preferred": false
+    },
+    {
+      "language": { "text": "spanisch" },
+      "preferred": false
+    }
+  ],
+  "link": [
+    {
+      "other": {
+        "reference": "Patient/4953",
+        "display": "sister"
+      },
+      "type": "refer"
+    },
+    {
+      "other": {
+        "reference": "Patient/4954",
+        "display": "brother"
+      },
+      "type": "refer"
+    }
+  ]
+}

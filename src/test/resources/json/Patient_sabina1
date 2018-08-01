@@ -1,0 +1,24 @@
+{
+  "resourceType" : "Patient",
+
+"identifier" : [{"value":"pat001" }],
+  "active" : true,
+  "name" : [{ "family":"Mollenhauer", "given":["Eva"] }],
+"telecom" : [{ "use":"home", "value":"0301104"}],
+"gender" : "female",
+  "birthDate" : "1953-02-16",
+   "deceasedBoolean" : false,
+  "address" : [{ "city":"Berlin", "postalCode":"10365"}],
+  "maritalStatus" : { "text":"ledig" },
+
+"multipleBirthBoolean" : false,
+
+"communication" : [{
+    "language" : { "text":"deutsch" },
+    "preferred" : true
+  },
+  { "language" : { "text":"englisch" },
+    "preferred" : false
+  }]
+
+}

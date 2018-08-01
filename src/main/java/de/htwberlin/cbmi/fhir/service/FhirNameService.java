@@ -37,8 +37,9 @@ public class FhirNameService extends DatatypeValidatable {
         }
 
         // Verify handed properties
-        if (!this.validateProperties(data)) {
-            _log.debug("Attribute validation failed");
+        Collection<String> invalidProperties = this.validateProperties(data);
+        if (invalidProperties != null) {
+            _log.debug("Attribute validation failed for: " + invalidProperties);
             return null;
         }
 
@@ -138,7 +139,7 @@ public class FhirNameService extends DatatypeValidatable {
      * @return Collection of keys allowed to be present
      */
     public Collection<String> getAllowedKeys() {
-        return Datatypes.makeSet("use", "text", "family", "given", "prefix", "suffix",
+        return Datatypes.makeList("use", "text", "family", "given", "prefix", "suffix",
                 "period", "period.start", "period.end");
     }
 
@@ -148,7 +149,7 @@ public class FhirNameService extends DatatypeValidatable {
      */
     public Collection<Object> getAllowedKeyTypes() {
         return Datatypes.makeList(String.class, String.class, String.class, String.class, String.class, String.class,
-                Map.class, Date.class, Date.class);
+                Map.class, String.class, String.class);
     }
 
     /// We want a logger to tell everyone about errors

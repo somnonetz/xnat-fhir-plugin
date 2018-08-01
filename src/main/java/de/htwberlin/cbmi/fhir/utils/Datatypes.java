@@ -216,8 +216,16 @@ public class Datatypes {
      */
     public static Collection<String> validateKeys(Map<String, ?> map, Collection<String> required, Map<String, Object> allowed) {
         Collection<String> presentKeys = getMapKeys(map, null);
-        HashMap<String, Object> resolvedAllowedTypes = new HashMap<>(allowed);
-        Set<String> resolvedRequired = new HashSet<>(required);
+        HashMap<String, Object> resolvedAllowedTypes = new HashMap<>();
+        if (allowed != null) {
+            resolvedAllowedTypes.putAll(allowed);
+        }
+
+        HashSet<String> resolvedRequired = new HashSet<>();
+        if (required != null) {
+            resolvedRequired.addAll(required);
+        }
+
         for (String key : presentKeys) {
             // Check if we need to resolve a subtype
             String[] keys = key.split("\\.");
@@ -233,15 +241,22 @@ public class Datatypes {
                 Object type = allowed.get(subkey.toString());
                 if (type != null && type instanceof DatatypeValidatable) {
                     DatatypeValidatable validator = (DatatypeValidatable)type;
-                    resolvedRequired.addAll(validator.getRequiredKeys(subkey.toString()));
-                    resolvedAllowedTypes.putAll(Datatypes.makeMap(validator.getAllowedKeys(subkey.toString()), validator.getAllowedKeyTypes()));
+                    Collection<String> subRequired = validator.getRequiredKeys(subkey.toString());
+                    if (subRequired != null) {
+                        resolvedRequired.addAll(subRequired);
+                    }
+
+                    Collection<String> subAllowed = validator.getAllowedKeys(subkey.toString());
+                    if (subAllowed != null) {
+                        resolvedAllowedTypes.putAll(Datatypes.makeMap(subAllowed, validator.getAllowedKeyTypes()));
+                    }
                 }
             }
         }
 
         if (!presentKeys.containsAll(resolvedRequired)) {
             // Find missing keys
-            Set<String> missingKeys = new HashSet<>(required);
+            Set<String> missingKeys = new HashSet<>(resolvedRequired);
             missingKeys.removeAll(presentKeys);
             return missingKeys;
         }
@@ -361,7 +376,7 @@ public class Datatypes {
         }
         else if (type instanceof DatatypeValidatable && Map.class.isInstance(o)) {
             try {
-                return ((DatatypeValidatable)type).validateProperties((Map)o);
+                return ((DatatypeValidatable)type).validateProperties((Map)o) == null;
             }
             catch (Exception e) {
                 return false;

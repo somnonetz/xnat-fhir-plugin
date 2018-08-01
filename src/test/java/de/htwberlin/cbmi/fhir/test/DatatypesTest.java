@@ -20,6 +20,8 @@ import static org.junit.Assert.*;
 import java.io.*;
 import java.util.*;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = {SpringTestBeans.class})
 public class DatatypesTest {
 
     /*@Test
@@ -72,7 +74,7 @@ public class DatatypesTest {
         assertNull(Datatypes.validateKeys(values, required, null));
         //assertNull(Datatypes.validateKeys(values, null, Datatypes.makeMap(allowed, ));
     }
-
+*/
     @Test
     public void testPatientValidation() {
         String directory = System.getProperty("user.dir") + "/src/test/resources/json/";
@@ -91,6 +93,9 @@ public class DatatypesTest {
         }
 
         // Validate input
-        //assertTrue(service.validateProperties(result));
-    }*/
+        assertNull(patientService.validateProperties(result));
+    }
+
+    @Autowired
+    private FhirPatientService patientService;
 }

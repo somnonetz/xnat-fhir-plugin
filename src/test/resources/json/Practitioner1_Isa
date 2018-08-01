@@ -1,0 +1,57 @@
+{
+  "resourceType": "Practitioner",
+ 
+  "identifier": [
+    {
+      "value": "prac001"
+    }
+  ],
+  "active": true,
+  "name": [
+    {
+      "family": "Jessel",
+      "given": [
+        "Ben"
+      ],
+      "prefix": [
+        "Dr."
+      ]
+    }
+  ],
+  "telecom": [
+    {
+      "value": "06223556578",
+      "use": "work"
+    }
+  ],
+  "address": [
+    {
+      "use": "work",
+      "city": "Neckargemünd",
+      "postalCode": "69151"
+    }
+  ],
+  "gender": "male",
+  "birthDate": "1957-11-08",
+  "qualification": [
+    {
+      "identifier": [
+        {
+          "value": "qualiID"
+        }
+      ],
+      "code": {
+        "text": "medical degree"
+      },
+      "issuer": {
+        "reference": "Organization/4961",
+        "display": "Health-Org."
+      }
+    }
+  ],
+  "communication": [
+    {
+      "text": "deutsch"
+    }
+  ]
+}
