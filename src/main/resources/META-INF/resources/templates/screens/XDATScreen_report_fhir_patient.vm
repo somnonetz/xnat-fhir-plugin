@@ -1,0 +1,339 @@
+$page.setTitle("Patient")
+$page.setLinkColor($ui.alink)
+$page.setVlinkColor($ui.vlink)
+
+#if($project)
+
+#else
+    #set($project=$om.getProject())
+#end
+## #set($mr=$om.getImageSessionData())
+
+<table width="100%">
+    <tr>
+        <td>
+            #parse($turbineUtils.getTemplateName("_report",$om.getXSIType(),$project))
+        </td>
+        <td valign="top" align="right">
+            #elementActionsBox($element $search_field $search_value $data.getSession().getAttribute("user") $item)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <table>
+                <tr>
+                    <td colspan="3" style="padding-top: 20px; padding-bottom: 10px; text-align: left; vertical-align: middle;">
+                        <span style="font-family: $ui.sansSerifFonts; font-size: small; "><b>Patient Information</b></span>
+                    </td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Literal reference, Relative, internal or absolute URL </th>
+                    <td>$!om.getProperty("fhir:reference.reference")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Logical reference, when literal reference is not known</th>
+                    <td>$!om.getProperty("fhir:identifier.identifier")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Text alternative for the resource </th>
+                    <td>$!om.getProperty("fhir:reference.display")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Subject ID: </th>
+                    <td>$!om.getProperty("fhir:patient.subject_ID")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Way of contact:</th>
+                    <td>$!om.getProperty("fhir:contactPoint.system")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Value:</th>
+                    <td>$!om.getProperty("fhir:contactPoint.value")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Purpose of the contact:</th>
+                    <td>$!om.getProperty("fhir:contactPoint.use")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Rank:</th>
+                    <td>$!om.getProperty("fhir:contactPoint.rank")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Contact in use:</th>
+                </tr>
+                <tr>
+                    <td>Start:</td>
+                    <td>$!om.getProperty("fhir:contactPoint.period/start")</td>
+                </tr>
+                <tr>
+                    <td>End:</td>
+                    <td>$!om.getProperty("fhir:contactPoint.period/end")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>NameUse:</th>
+                    <td>$!om.getProperty("fhir:humanName.use")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Text:</th>
+                    <td>$!om.getProperty("fhir:humanName.text")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Family:</th>
+                    <td>$!om.getProperty("fhir:humanName.family")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Given:</th>
+                    <td>$!om.getProperty("fhir:humanName.given")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Prefix:</th>
+                    <td>$!om.getProperty("fhir:humanName.prefix")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Suffix:</th>
+                    <td>$!om.getProperty("fhir:humanName.suffix")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Name in use:</th>
+                </tr>
+                <tr>
+                    <td>Start:</td>
+                    <td>$!om.getProperty("fhir:humanName.period/start")</td>
+                </tr>
+                <tr>
+                    <td>End:</td>
+                    <td>$!om.getProperty("fhir:humanName.period/end")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Identifier Use:</th>
+                    <td>$!om.getProperty("fhir:identifier.use")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Description of Identifier:</th>
+                    <td>$!om.getProperty("fhir:identifier.type")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>The namespace for the Identifier value</th>
+                    <td>$!om.getProperty("fhir:identifier.system")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>The value that is unique</th>
+                    <td>$!om.getProperty("fhir:identifier.value")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Time period when id is/was valid for use</th>
+                </tr>
+                <tr>
+                    <td>Start:</td>
+                    <td>$!om.getProperty("fhir:identifier.period/start")</td>
+                </tr>
+                <tr>
+                    <td>End:</td>
+                    <td>$!om.getProperty("fhir:identifier.period/end")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Organization that issued id</th>
+                    <td>$!om.getProperty("fhir:identifier.assigner_ID")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>AddressUse</th>
+                    <td>$!om.getProperty("fhir:address.use")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>AddressType</th>
+                    <td>$!om.getProperty("fhir:address.type")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Text representation of the address</th>
+                    <td>$!om.getProperty("fhir:address.text")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Street name, number, direction &amp; P.O. Box etc.</th>
+                    <td>$!om.getProperty("fhir:address.line")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Name of City, Town etc.</th>
+                    <td>$!om.getProperty("fhir:address.city")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>District name (aka county)</th>
+                    <td>$!om.getProperty("fhir:address.district")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Sub-unit of country (abbreviations ok)</th>
+                    <td>$!om.getProperty("fhir:address.state")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Postal code for area</th>
+                    <td>$!om.getProperty("fhir:address.postalCode")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Country</th>
+                    <td>$!om.getProperty("fhir:address.country")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Time period when address is/was valid for use</th>
+                </tr>
+                <tr>
+                    <td>Start:</td>
+                    <td>$!om.getProperty("fhir:address.period/start")</td>
+                </tr>
+                <tr>
+                    <td>End:</td>
+                    <td>$!om.getProperty("fhir:address.period/end")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Patient Identifier</th>
+                    <td>$!om.getProperty("fhir:patient.identifier")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Wheather this patient's record is in active use</th>
+                    <td>$!om.getProperty("fhir:patient.active")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Name</th>
+                    <td>$!om.getProperty("fhir:patient.name")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Contact Detail</th>
+                    <td>$!om.getProperty("fhir:patient.telecom")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Gender </th>
+                    <td>$!om.getProperty("fhir:patient.gender")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Date of birth</th>
+                    <td>$!om.getProperty("fhir:patient.birthDate")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Deceased</th>
+                    <td>$!om.getProperty("fhir:patient.deceased/deceasedBoolean")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Deceased Date and Time</th>
+                    <td>$!om.getProperty("fhir:patient.deceased/deceasedDateTime")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Addresses</th>
+                    <td>$!om.getProperty("fhir:patient.address")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Marital (civil) status</th>
+                    <td>$!om.getProperty("fhir:patient.maritalStatus")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Patient is part of multiple birth</th>
+                    <td>$!om.getProperty("fhir:patient.multipleBirth/multipleBirthBoolean")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Multiple Birth Number</th>
+                    <td>$!om.getProperty("fhir:patient.multipleBirth/multipleBirthInteger")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>A contact party (e.g. guardian, partner, friend)</th>
+                    <td>$!om.getProperty("fhir:patient.contact")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Relationship</th>
+                    <td>$!om.getProperty("fhir:patient.contact/relationship")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Contact person's name</th>
+                    <td>$!om.getProperty("fhir:patient.contact/name")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Contact Detail for contact person</th>
+                    <td>$!om.getProperty("fhir:patient.contact/telecom")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Address for contact person</th>
+                    <td>$!om.getProperty("fhir:patient.contact/address")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Contact person's gender</th>
+                    <td>$!om.getProperty("fhir:patient.contact/gender")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Organization that is associated with the contact</th>
+                    <td>$!om.getProperty("fhir:patient.contact/organization")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>The period during which this contact person or organization is valid to be contacted relating to this patient</th>
+                </tr>
+                <tr>
+                    <td>Start:</td>
+                    <td>$!om.getProperty("fhir:contact.period/start")</td>
+                </tr>
+                <tr>
+                    <td>End:</td>
+                    <td>$!om.getProperty("fhir:contact.period/end")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>This patient is known to be an animal (non-human)</th>
+                    <td>$!om.getProperty("fhir:patient.animal")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Species</th>
+                    <td>$!om.getProperty("fhir:patient.animal/species")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Breed</th>
+                    <td>$!om.getProperty("fhir:patient.animal/breed")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Gender Status</th>
+                    <td>$!om.getProperty("fhir:patient.animal/genderStatus")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Patient's Language</th>
+                    <td>$!om.getProperty("fhir:patient.communication/language")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Language preference indicator</th>
+                    <td>$!om.getProperty("fhir:patient.communication/preferred")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Patient's nominated primary care provider</th>
+                    <td>$!om.getProperty("fhir:patient.generalPracticioner")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Organization that is the custodian of the patient record</th>
+                    <td>$!om.getProperty("fhir:patient.managingOrganization")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Link to another patient or related person</th>
+                    <td>$!om.getProperty("fhir:patient.link/other")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>type of link</th>
+                    <td>$!om.getProperty("fhir:patient.link/type")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Identity of the terminology system</th>
+                    <td>$!om.getProperty("fhir:coding.system")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Version of the system - if relevant</th>
+                    <td>$!om.getProperty("fhir:coding.version")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Symbol in syntax defined by the system</th>
+                    <td>$!om.getProperty("fhir:coding.code")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Representation defined by the system</th>
+                    <td>$!om.getProperty("fhir:coding.display")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Representation defined by the system</th>
+                    <td>$!om.getProperty("fhir:coding.userSelected")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Code defined by a terminology system</th>
+                    <td>$!om.getProperty("fhir:codableConcept.coding")</td>
+                </tr>
+                <tr>
+                    <th valign="top" align="left" width=200>Plain text representation of the concept</th>
+                    <td>$!om.getProperty("fhir:codableConcept.text")</td>
+                </tr>
