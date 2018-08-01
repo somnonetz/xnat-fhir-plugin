@@ -13,14 +13,16 @@ public abstract class DatatypeValidatable {
         // Validate keys
         Collection<String> required = getRequiredKeys();
         Collection<String> allowed = getAllowedKeys();
+        Collection<Object> types = getAllowedKeyTypes();
+
+        Map<String, Object> allowedTypes = Datatypes.makeMap(allowed, types);
 
         // Validate required keys
-        if (Datatypes.validateKeys(attributes, required, allowed) != null) {
+        if (Datatypes.validateKeys(attributes, required, allowedTypes) != null) {
             return false;
         }
 
         // Validate types
-        Collection<Object> types = getAllowedKeyTypes();
         if (allowed != null && types != null && allowed.size() == types.size()) {
             return Datatypes.validateMap(attributes, allowed, types) == null;
         }

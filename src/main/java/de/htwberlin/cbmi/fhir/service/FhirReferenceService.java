@@ -163,10 +163,7 @@ public class FhirReferenceService extends DatatypeValidatable {
      * @return Collection of keys allowed to be present
      */
     public Collection<String> getAllowedKeys() {
-        Collection<String> result =  Datatypes.makeSet("reference", "identifier", "display");
-        result.addAll(_identityService.getAllowedKeys("identifier"));
-        return result;
-
+        return Datatypes.makeSet("reference", "identifier", "display");
     }
 
     /**

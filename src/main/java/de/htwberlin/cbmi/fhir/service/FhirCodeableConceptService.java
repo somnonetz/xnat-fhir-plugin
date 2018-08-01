@@ -90,9 +90,7 @@ public class FhirCodeableConceptService extends DatatypeValidatable {
      * @return Collection of keys allowed to be present
      */
     public Collection<String> getAllowedKeys() {
-        Collection<String> result = Datatypes.makeSet("text", "coding");
-        result.addAll(_codingService.getAllowedKeys("coding"));
-        return result;
+        return Datatypes.makeSet("text", "coding");
     }
 
     /**

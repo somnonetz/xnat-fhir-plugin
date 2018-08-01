@@ -159,10 +159,8 @@ public class FhirIdentityService extends DatatypeValidatable {
      * @return Collection of keys allowed to be present
      */
     public Collection<String> getAllowedKeys() {
-        Collection<String> result = Datatypes.makeSet("use", "type", "system", "value", "period.start", "period.end", "assigner");
-        result.addAll(_codeableConceptService.getAllowedKeys("type"));
-        result.addAll(_referenceService.getAllowedKeys("assigner"));
-        return result;
+        return Datatypes.makeSet("use", "type", "system", "value",
+                "period", "period.start", "period.end", "assigner");
     }
 
     /**
@@ -170,7 +168,8 @@ public class FhirIdentityService extends DatatypeValidatable {
      * @return Collection of types aligned to getAllowedKeys() allowed to be present
      */
     public Collection<Object> getAllowedKeyTypes() {
-        return Datatypes.makeList(String.class, _codeableConceptService, String.class, String.class, Date.class, Date.class, _referenceService);
+        return Datatypes.makeList(String.class, _codeableConceptService, String.class, String.class,
+                Map.class, Date.class, Date.class, _referenceService);
     }
 
     /// We want a logger to tell everyone about errors

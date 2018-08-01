@@ -643,30 +643,14 @@ public class FhirPatientService extends DatatypeValidatable {
      */
     public Collection<String> getAllowedKeys() {
 
-        Collection<String> result = Datatypes.makeSet("identifier", "active", "name", "telecom", "gender",
+        return Datatypes.makeSet("identifier", "active", "name", "telecom", "gender",
                 "birthDate", "deceasedBoolean", "deceasedDateTime", "address", "maritalStatus",
                 "multipleBirthBoolean", "multipleBirthInteger", "photo",
-                "contact.relationship", "contact.name", "contact.telecom", "contact.address",
-                "contact.gender", "contact.organization", "contact.period.start", "contact.period.end",
-                "animal.species", "animal.breed", "animal.genderStatus",
-                "communication.language", "communication.preferred",
-                "generalPractitioner", "managingOrganization", "link.other", "link.type");
-
-        result.addAll(_identityService.getAllowedKeys("identifier"));
-        result.addAll(_nameService.getAllowedKeys("name"));
-        result.addAll(_contactPointService.getAllowedKeys("telecom"));
-        result.addAll(_attachmentService.getAllowedKeys("photo"));
-        result.addAll(_codeableConceptService.getAllowedKeys("contact.relationship"));
-        result.addAll(_nameService.getAllowedKeys("contact.name"));
-        result.addAll(_contactPointService.getAllowedKeys("contact.telecom"));
-        result.addAll(_addressService.getAllowedKeys("contact.address"));
-        result.addAll(_referenceService.getAllowedKeys("contact.organization"));
-        result.addAll(_codeableConceptService.getAllowedKeys("animal.species"));
-        result.addAll(_codeableConceptService.getAllowedKeys("animal.breed"));
-        result.addAll(_codeableConceptService.getAllowedKeys("animal.genderStatus"));
-        result.addAll(_codeableConceptService.getAllowedKeys("communication.language"));
-        result.addAll(_referenceService.getAllowedKeys("link.other"));
-        return result;
+                "contact", "contact.relationship", "contact.name", "contact.telecom", "contact.address",
+                "contact.gender", "contact.organization", "contact.period", "contact.period.start", "contact.period.end",
+                "animal", "animal.species", "animal.breed", "animal.genderStatus",
+                "communication", "communication.language", "communication.preferred",
+                "generalPractitioner", "managingOrganization", "link", "link.other", "link.type");
     }
 
     /**
@@ -677,10 +661,12 @@ public class FhirPatientService extends DatatypeValidatable {
         return Datatypes.makeList(_identityService, Boolean.class, _nameService, _contactPointService, String.class,
                 Date.class, Boolean.class, Date.class, _addressService, _codeableConceptService,
                 Boolean.class, Integer.class, _attachmentService,
-                _codeableConceptService, _nameService, _contactPointService, _addressService,
-                String.class, _referenceService, Date.class, Date.class,
-                _codeableConceptService, _codeableConceptService, _codeableConceptService,
-                _codeableConceptService, Boolean.class, _referenceService, String.class);
+                Map.class, _codeableConceptService, _nameService, _contactPointService, _addressService,
+                String.class, _referenceService, Map.class, Date.class, Date.class,
+                Map.class, _codeableConceptService, _codeableConceptService, _codeableConceptService,
+                Map.class, _codeableConceptService, Boolean.class,
+                _referenceService, _referenceService,
+                Map.class, _referenceService, String.class);
     }
 
     /// We want a logger to tell everyone about errors

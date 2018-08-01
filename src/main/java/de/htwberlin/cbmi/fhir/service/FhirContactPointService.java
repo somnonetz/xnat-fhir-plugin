@@ -95,7 +95,8 @@ public class FhirContactPointService extends DatatypeValidatable {
      * @return Collection of keys allowed to be present
      */
     public Collection<String> getAllowedKeys() {
-        return Datatypes.makeSet("system", "value", "use", "rank", "period.start", "period.end");
+        return Datatypes.makeSet("system", "value", "use", "rank",
+                "period", "period.start", "period.end");
     }
 
     /**
@@ -103,7 +104,8 @@ public class FhirContactPointService extends DatatypeValidatable {
      * @return Collection of types aligned to getAllowedKeys() allowed to be present
      */
     public Collection<Object> getAllowedKeyTypes() {
-        return Datatypes.makeList(String.class, String.class, String.class, Integer.class, Date.class, Date.class);
+        return Datatypes.makeList(String.class, String.class, String.class, Integer.class,
+                Map.class, Date.class, Date.class);
     }
 
     /// We want a logger to tell everyone about errors

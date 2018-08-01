@@ -73,6 +73,25 @@ public class Datatypes {
     }
 
     /**
+     * Build a map out of the passed keys and values
+     * @param keys map keys
+     * @param values Map values
+     * @return Map with the passed items
+     */
+    @Nonnull
+    public static <K, V> Map<K, V> makeMap(Iterable<K> keys, Iterable<V> values) {
+        Map<K, V> result = new HashMap<>();
+        Iterator<K> keyIterator = keys.iterator();
+        Iterator<V> typeIterator = values.iterator();
+
+        while (keyIterator.hasNext() && typeIterator.hasNext()) {
+            result.put(keyIterator.next(), typeIterator.next());
+        }
+
+        return result;
+    }
+
+    /**
      * Prefix all items in the given Collection with the given prefix
      * @param items Items to prefix
      * @param prefix prefix to use
@@ -184,7 +203,7 @@ public class Datatypes {
                 return key;
             }
         }
-        
+
         return null;
     }
 
@@ -195,27 +214,43 @@ public class Datatypes {
      * @param allowed Allowed keys (. is supported for sub-structures)
      * @return null if no problems were found or a list of keys either missing or not allowed
      */
-    public static Collection<String> validateKeys(Map<String, ?> map, Collection<String> required, Collection<String> allowed) {
-        Set<String> presentKeys = new HashSet<>(Datatypes.getMapKeys(map, null));
-        if (required != null && !presentKeys.containsAll(required)) {
+    public static Collection<String> validateKeys(Map<String, ?> map, Collection<String> required, Map<String, Object> allowed) {
+        Collection<String> presentKeys = getMapKeys(map, null);
+        HashMap<String, Object> resolvedAllowedTypes = new HashMap<>(allowed);
+        Set<String> resolvedRequired = new HashSet<>(required);
+        for (String key : presentKeys) {
+            // Check if we need to resolve a subtype
+            String[] keys = key.split("\\.");
+            StringBuilder subkey = new StringBuilder();
+            for (String k : keys) {
+                if (subkey.length() == 0) {
+                    subkey.append(k);
+                }
+                else {
+                    subkey.append("." + k);
+                }
+
+                Object type = allowed.get(subkey.toString());
+                if (type != null && type instanceof DatatypeValidatable) {
+                    DatatypeValidatable validator = (DatatypeValidatable)type;
+                    resolvedRequired.addAll(validator.getRequiredKeys(subkey.toString()));
+                    resolvedAllowedTypes.putAll(Datatypes.makeMap(validator.getAllowedKeys(subkey.toString()), validator.getAllowedKeyTypes()));
+                }
+            }
+        }
+
+        if (!presentKeys.containsAll(resolvedRequired)) {
             // Find missing keys
             Set<String> missingKeys = new HashSet<>(required);
             missingKeys.removeAll(presentKeys);
             return missingKeys;
         }
 
-        if (allowed != null) {
-            Set<String> allowedSet = new HashSet<>(allowed);
-            for (String item : allowed) {
-                allowedSet.addAll(Arrays.asList(item.split("\\.")));
-            }
-
-            if (!allowedSet.containsAll(presentKeys)) {
-                // Find disallowed keys
-                Set<String> disallowedKeys = new HashSet<>(presentKeys);
-                disallowedKeys.removeAll(allowed);
-                return disallowedKeys;
-            }
+        if (!resolvedAllowedTypes.keySet().containsAll(presentKeys)) {
+            // Find disallowed keys
+            Set<String> disallowedKeys = new HashSet<>(presentKeys);
+            disallowedKeys.removeAll(resolvedAllowedTypes.keySet());
+            return disallowedKeys;
         }
 
         return null;
