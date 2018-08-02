@@ -1,0 +1,19 @@
+#set($years = [ $!turbineUtils.getYear()..1900])
+
+<div class="row">
+    <div class="key">
+        #formLabel("Start")
+    </div>
+    <div class="value">
+        #xdatDateBox("period/start" $item $vr $years)
+    </div>
+</div>
+
+<div class="row">
+    <div class="key">
+        #formLabel("End")
+    </div>
+    <div class="value">
+        #xdatDateBox("period/end" $item $vr $years)
+    </div>
+</div>

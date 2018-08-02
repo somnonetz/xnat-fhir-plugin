@@ -1,0 +1,63 @@
+<div class="form_block">
+    <div class="row">
+        <input type="button" name="add-identifier" value="Add Identifier" onclick="addRow(this, 'identifier_form')" />
+    </div>
+    <div class="row" style="display: none" data-base="$formbase" data-label="identifier_form">
+        <div class="delete_item">
+            <a style="color: red">
+                <i class="fa fa-trash-o" title="Delete" onclick="deleteRow(this, 'identifier_form')"></i>
+            </a>
+        </div>
+        <div class="delete_item_content">
+            <div class="row">
+                <div class="key">
+                    #formLabel("Use")
+                </div>
+                <div class="value">
+                    #set($systemValues = ["usual", "official", "temp", "secondary"])
+                    #xdatSimpleSelectBoxLbl("SELECT" "use" $item $systemValues $vr)
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="key">
+                    #formLabel("Type")
+                </div>
+                <div class="value">
+                    #set($formbase = "fhir:patient/identifier/type")
+                    #parse("/screens/xnat_patientData/subforms/codeable_concept.vm")
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="key">
+                    #formLabel("System")
+                </div>
+                <div class="value">
+                    #xdatStringBox("system" $item "URI" $vr)
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="key">
+                    #formLabel("Value")
+                </div>
+                <div class="value">
+                    #xdatStringBox("value" $item "Add Value" $vr)
+                </div>
+            </div>
+
+            <h3>Period</h3>
+            #parse("/screens/xnat_patientData/subforms/period.vm")
+
+            <div class="row">
+                <div class="key">
+                    #formLabel("Assigner")
+                </div>
+                <div class="value">
+                    #xdatStringBox("assigner_ID" $item "Reference" $vr)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

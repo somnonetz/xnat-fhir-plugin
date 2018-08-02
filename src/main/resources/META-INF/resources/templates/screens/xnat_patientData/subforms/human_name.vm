@@ -1,0 +1,63 @@
+<div class="form_block">
+    <div class="row">
+        <input type="button" name="add-name" value="Add Name" onclick="addRow(this, 'human_name_form')" />
+    </div>
+    <div class="row" style="display: none" data-base="$formbase" data-label="human_name_form">
+        <div class="delete_item">
+            <a style="color: red">
+                <i class="fa fa-trash-o" title="Delete" onclick="deleteRow(this, 'human_name_form')"></i>
+            </a>
+        </div>
+        <div class="delete_item_content">
+            <div class="row">
+                <div class="key">
+                    #formLabel("Use")
+                </div>
+                <div class="value">
+                    #set($systemValues = ["usual", "official", "temp", "nickname", "anonymous", "old", "maiden"])
+                    #set($lbl="Select Use")
+                    #xdatSimpleSelectBoxLbl("SELECT" "use" $item $systemValues $vr)
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="key">
+                    #formLabel("Full name")
+                </div>
+                <div class="value">
+                    #xdatStringBox("text" $item $defaultValue $vr)
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="key">
+                    #formLabel("Given *")
+                </div>
+                <div class="value">
+                    #xdatStringBox("given" $item $defaultValue $vr)
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="key">
+                    #formLabel("Prefix *")
+                </div>
+                <div class="value">
+                    #xdatStringBox("prefix" $item $defaultValue $vr)
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="key">
+                    #formLabel("Suffix *")
+                </div>
+                <div class="value">
+                    #xdatStringBox("suffix" $item $defaultValue $vr)
+                </div>
+            </div>
+
+            <h3>Period</h3>
+            #parse("/screens/xnat_patientData/subforms/period.vm")
+        </div>
+    </div>
+</div>

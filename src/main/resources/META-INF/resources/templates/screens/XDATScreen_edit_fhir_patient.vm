@@ -1,614 +1,199 @@
-    #* @vtlvariable name="siteConfig" type="org.nrg.xdat.preferences.SiteConfigPreferences" *#
-    <!-- imports jQuery UI javascript and base CSS theme -->
-    <script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" async
-            xmlns="http://www.w3.org/1999/html"></script>
-    <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
-    <script type="text/javascript" src="/scripts/xnat-on-fhir/add-row.js"></script>
-    <script type="text/javascript" src="/scripts/xnat-on-fhir/delete-row.js"></script>
+#* @vtlvariable name="siteConfig" type="org.nrg.xdat.preferences.SiteConfigPreferences" *#
+<!-- imports jQuery UI javascript and base CSS theme -->
+<script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" async
+        xmlns="http://www.w3.org/1999/html"></script>
+<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+<link rel="stylesheet" type="text/css" href="../../style/xnat-on-fhir/styles.css" />
+<script type="text/javascript" src="/scripts/xnat-on-fhir/add-row.js"></script>
+<script type="text/javascript" src="/scripts/xnat-on-fhir/delete-row.js"></script>
 
-    #set ($part_id = $request.get("part_id"))
+#set ($part_id = $request.get("part_id"))
+#set($years = [ $!turbineUtils.getYear()..1900])
 
-    $page.setTitle("Patient")
-    $page.setLinkColor($ui.alink)
-    $page.setVlinkColor($ui.vlink)
-    <script type="text/javascript">
-        window.currentID="$!om.getId()";
-            #if($om.getProject())
-                #if($om.getProject().equals(""))
-                window.currentProject="$!project";
-                #else
-                window.currentProject="$!om.getProject()";
-                #end
-            #else
+$page.setTitle("Patient")
+$page.setLinkColor($ui.alink)
+$page.setVlinkColor($ui.vlink)
+<script type="text/javascript">
+    window.currentID="$!om.getId()";
+        #if($om.getProject())
+            #if($om.getProject().equals(""))
             window.currentProject="$!project";
+            #else
+            window.currentProject="$!om.getProject()";
             #end
+        #else
+        window.currentProject="$!project";
+        #end
 
-        window.currentSubject="$!om.getSubjectId()";
-        window.currentLabel="$!om.getLabel()";
-    </script>
+    window.currentSubject="$!om.getSubjectId()";
+    window.currentLabel="$!om.getLabel()";
+</script>
 
-    #if ($data.message)
-    <div class="error">$data.message</div>
-    #end
-    <div id="patienFormDiv">
-        <form ID="patientForm" name="patientForm" method="post" action="$link.setAction("ModifySubjectAssessorData")">
-            <input type="hidden" name="project" value="$!{project}">
-            <input type="hidden" name="part_id" value="$!{subjectId}">
-            <input type="hidden" name="fhir:patient/ID" value='$!item.getProperty("ID")'/>
-            <input type="hidden" name="fhir:patient/project" value='$!{project}'/>
-            <input type="hidden" name="fhir:patient/subject_ID" value='$!{subjectId}'/>
-            <input type="hidden" name="fhir:patient/label" value='$!label'/>
-            <input type="hidden" name="$om.getXSIType()/ID" id="$om.getXSIType()/ID" value="$!om.getId()"/>
+#if ($data.message)
+<div class="error">$data.message</div>
+#end
+<div id="patientFormDiv">
+    <form ID="patientForm" name="patientForm" method="post" action="$link.setAction("ModifySubjectAssessorData")">
+        <input type="hidden" name="project" value="$!{project}">
+        <input type="hidden" name="part_id" value="$!{subjectId}">
+        <input type="hidden" name="fhir:patient/ID" value='$!item.getProperty("ID")'/>
+        <input type="hidden" name="fhir:patient/project" value='$!{project}'/>
+        <input type="hidden" name="fhir:patient/subject_ID" value='$!{subjectId}'/>
+        <input type="hidden" name="fhir:patient/label" value='$!label'/>
+        <input type="hidden" name="$om.getXSIType()/ID" id="$om.getXSIType()/ID" value="$!om.getId()"/>
 
-            #if($vr)
-                <div class="error">Invalid parameters:<BR>$vr.toHTML()</div>
-                <HR>
-            #end
+        #if($vr)
+            <div class="error">Invalid parameters:<BR>$vr.toHTML()</div>
+            <HR>
+        #end
 
-            <table width="100%">
-                <tr>
-                    <td>
-                        <table width="100%">
-                            <tr>
-                                <td align="left" valign="middle">
-                                    <div class="edit_title">Patient Information</div>
-                                    <hr>
-                                </td>
-                            </tr>
-                        </table>
+        <div>
+            <h1>Patient Information</h1>
 
-                        <table id="project_subject_form">
-                            <tr>
-                                <td>#parse("/screens/xnat_patientData/upload/xnat_patientData_projSubj.vm")</td>
-                            </tr>
-                        </table>
+            <div class="form_block">
+                <div class="row">
+                    <div class="key">
+                        $displayManager.getSingularDisplayNameForProject():
+                    </div>
+                    <div class="value">
+                        $!om.getProject($project,false).getDisplayID()
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="key">
+                        $displayManager.getSingularDisplayNameForSubject():
+                    </div>
+                    <div class="value">
+                        $!{subjectId}
+                    </div>
+                </div>
+            </div>
 
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div>
-                            <table width="100%">
-                                <tr>
-                                    <td valign="middle">
+            <h2>Patient identifier</h2>
+            #set($formbase = "fhir:patient/identifier")
+            #parse("/screens/xnat_patientData/subforms/identifier.vm")
+        </div>
 
-                                        <!-- Identifier Table -->
-                                        <div>
-                                            <tr id="dataTable" style="display: none" data-base="fhir:patient/identifier">
-                                                <div class="edit_title">Patient's identifier
-                                                    <input type="button" name="add-identifier" value="Add Identifier" onclick="addRow('dataTable')" />
-                                                </div>
-                                                <tr>
-                                                    <!-- Delete Button -->
-                                                    <td style="width:50px" valign="top">
-                                                        <a style="color: red">
-                                                            <i class="fa fa-trash-o" title="Delete" onclick="deleteRow(this)"></i>
-                                                        </a>
-                                                    </td>
-                                                    <!-- Use -->
-                                                    #set($systemValues = ["usual", "official", "temp", "secondary"])
-                                                    #set($lbl="Identifier Use")
-                                                    <td valign="top" style="padding-top: 4px">
-                                                        #xdatSimpleSelectBoxLbl($lbl "use" $item $systemValues $vr)
-                                                    </td>
-                                                    <!-- Type -->
-                                                    <td>
-                                                <tr>
-                                                    #formLabel("Type")
-                                                <tr>
-                                                <tr><!-- Type Coding Concept -->
-                                                    <th>Coding <input type="button" name="add-coding" value="Add Coding" onclick="addCoding('#')" /></th>
-                                                </tr>
-                                                <tr>
-                                                    <td>Coding System <input type="url" name="coding system" placeholder="Add url"></td>
-                                                    <td>Coding Version <input type="text" name="coding version" placeholder="Add version"></td>
-                                                    <td>
-                                                        <select data-placeholder="Choose the code">
-                                                            <option value="dl">Driver's license number</option>
-                                                            <option value="ppn">Passport number</option>
-                                                            <option value="brn">Breed Registry Number</option>
-                                                            <option value="mr">Medical record number</option>
-                                                            <option value="mcn">Microchip Number</option>
-                                                            <option value="en">Employer number</option>
-                                                            <option value="tax">Tax ID number</option>
-                                                            <option value="niip">National Insurance Payor Identifier (Payor)</option>
-                                                            <option value="prn">Provider number</option>
-                                                            <option value="md">Medical License number</option>
-                                                            <option value="dr">Donor Registration Number</option>
-                                                            <option value="acsn">Accession ID</option>
-                                                            <option value="udi">Universal Device Identifier</option>
-                                                            <option value="sno">Serial Number</option>
-                                                            <option value="sb">Social Beneficiary Identifier</option>
-                                                            <option value="plac">Placer Identifier</option>
-                                                            <option value="fill">Filler Identifier</option>
-                                                        </select>
-                                                    </td>
-                                                    <td>User Selected #xdatBooleanRadioYesNo("userSelected" $item $defaultValue $vr)</td>
-                                                </tr>
-                                                </tr>
-                                                </td>
-                                                </tr>
-                                                <tr>
-                                                    #formLabel("System")
-                                                #set($defaultValue = "URI")
-                                                <td valign="top" style="padding-top: 4px">
-                                                    #xdatStringBox("system" $item $defaultValue $vr)
-                                                </td>
-                                                    #formLabel("Value")
-                                                #set($defaultValue = "Add value")
-                                                <td valign="top" style="padding-top: 4px">
-                                                    #xdatStringBox("value" $item $defaultValue $vr)
-                                                </td>
-                                                #set($years = [ $!turbineUtils.getYear()..1900])
-                                                <td valign="top" style="padding-top: 4px">
-                                                    <tr>
-                                                        #formLabel("Start")
-                                                        <td>#xdatDateBox("period/start" $item $vr $years)</td>
-                                                    </tr>
-                                                    <tr>
-                                                        #formLabel("Ende")
-                                                        <td> #xdatDateBox("period/end" $item $vr $years)</td>
-                                                    </tr>
-                                                    </tr>
-                                                </td>
-                                                </tr>
-                                            </table>
-                                        </div>
+        <div>
+            <h2>Active</h2>
 
+            <div class="form_block">
+                <div class="row">
+                    <div class="value">
+                        #xdatBooleanRadioYesNo("active" $item $defaultValue $vr)
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        <div>
+            <h2>Patient name</h2>
+            #set($formbase = "fhir:patient/name")
+            #parse("/screens/xnat_patientData/subforms/human_name.vm")
+        </div>
 
+        <div>
+            <h1>Patient contact point</h1>
+            #set($formbase = "fhir:patient/telecom")
+            #parse("/screens/xnat_patientData/subforms/contact_point.vm")
+        </div>
 
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                        <hr>
-                        <div>
-                            <table>
-                                <div class="edit_title">Active</div>
-                                <td>
-                                    #xdatBooleanRadioYesNo("active" $item $defaultValue $vr)
-                                </td>
-                            </table>
-                        </div>
-                        <hr>
-                        <div>
-                            <table id="nameTable" style="display: none" data-base="fhir:patient/humanName">
-                                <div class="edit_title">Patient's name
-                                    <input type="button" name="add-name" value="Add Name" onclick="addNameRow('nameTable')" />
-                                </div>
-                                <thead>
-                                <tr>
-                                    <th align="left"></th>
-                                    <th align="left">Use</th>
-                                    <th align="left">Full name</th>
-                                    <th align="left">Family name</th>
-                                    <th align="left">Given name</th>
-                                    <th align="left">Prefix</th>
-                                    <th align="left">Suffix</th>
-                                    <th align="left">Period</th>
-                                </tr>
-                                </thead>
+        <div>
+            <h2>Gender</h2>
 
-                                <tbody>
-                                <tr>
-                                    <td valign="top">
-                                        <a style="color: red">
-                                            <i class="fa fa-trash-o" title="Delete" onclick="deleteNameRow(this)"></i>
-                                        </a>
-                                    </td>
-                                    #set($systemValues = ["usual", "official", "temp", "nickname", "anonymous", "old", "maiden"])
-                                    #set($lbl="SELECT")
-                                    <td valign="top" style="padding-top: 4px">
-                                        #xdatSimpleSelectBoxLbl($lbl "humanNameUse" $item $systemValues $vr)
-                                    </td>
-                                    #set($defaultValue = "Full name")
-                                    <td valign="top" style="padding-top: 4px">
-                                        #xdatStringBox("text" $item $defaultValue $vr)
-                                    </td>
-                                    #set($defaultValue = "Family name")
-                                    <td valign="top" style="padding-top: 4px">
-                                        #xdatStringBox("family" $item $defaultValue $vr)
-                                    </td>
-                                    #set($defaultValue = "Given")
-                                    <td valign="top" style="padding-top: 4px">
-                                        #xdatStringBox("given" $item $defaultValue $vr)
-                                    </td>
-                                    #set($defaultValue = "Prefix")
-                                    <td valign="top" style="padding-top: 4px">
-                                        #xdatStringBox("prefix" $item $defaultValue $vr)
-                                    </td>
-                                    #set($defaultValue = "Suffix")
-                                    <td valign="top" style="padding-top: 4px">
-                                        #xdatStringBox("suffix" $item $defaultValue $vr)
-                                    </td>
-                                    #set($years = [ $!turbineUtils.getYear()..1900])
-                                    <td valign="top" style="padding-top: 4px">
-                                        <table>
-                                            <tr>
-                                                #formLabel("Start")
-                                                <td>#xdatDateBox("period/start" $item $vr $years)</td>
-                                            </tr>
-                                            <tr>
-                                                #formLabel("Ende")
-                                                <td> #xdatDateBox("period/end" $item $vr $years)</td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <hr>
-                        <div>
-                            <table id="telecomTable" style="display: none" data-base="fhir:patient/telecom">
-                                <div class="edit_title">Patient's contact point
-                                    <input type="button" name="add-contactPoint" value="Add Contact Point" onclick="addContactRow('telecomTable')" />
-                                </div>
-                                <thead>
-                                <tr>
-                                    <th align="left"></th>
-                                    <th align="left">System</th>
-                                    <th align="left">Value</th>
-                                    <th align="left">Use</th>
-                                    <th align="left">Rank</th>
-                                    <th align="left">Period</th>
-                                </tr>
-                                </thead>
+            <div class="form_block">
+                <div class="row">
+                    <div class="value">
+                        #set($systemValues = ["male", "female", "other", "unknown"])
+                        #xdatSimpleSelectBoxLbl("SELECT" "gender" $item $systemValues $vr)
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                                <tbody>
-                                <tr>
-                                    <td valign="top">
-                                        <a style="color: red">
-                                            <i class="fa fa-trash-o" title="Delete" onclick="deleteContactRow(this)"></i>
-                                        </a>
-                                    </td>
-                                    #set($systemValues = ["phone", "fax", "email", "pager", "url", "sms", "other"])
-                                    #set($lbl="SELECT")
-                                    <td valign="top" style="padding-top: 4px">
-                                        #xdatSimpleSelectBoxLbl($lbl "contactPointSystem" $item $systemValues $vr)
-                                    </td>
-                                    #set($defaultValue = "Contact value")
-                                    <td valign="top" style="padding-top: 4px">
-                                        #xdatStringBox("value" $item $defaultValue $vr)
-                                    </td>
-                                    #set($systemValues = ["home", "work", "temp", "old", "mobile"])
-                                    #set($lbl = "SELECT")
-                                    <td>
-                                        #xdatSimpleSelectBoxLbl($lbl "contactPointUse" $item $systemValues $vr)
-                                    </td>
-                                    <td>
-                                        <input type="number" name="add-contactPoint" value="1" />
-                                    </td>
-                                    #set($years = [ $!turbineUtils.getYear()..1900])
-                                    <td valign="top" style="padding-top: 4px">
-                                        <table>
-                                            <tr>
-                                                #formLabel("Start")
-                                                <td>#xdatDateBox("period/start" $item $vr $years)</td>
-                                            </tr>
-                                            <tr>
-                                                #formLabel("Ende")
-                                                <td> #xdatDateBox("period/end" $item $vr $years)</td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <hr>
-                        <div>
-                            <table id="genderTable" data-base="fhir:patient/gender">
-                                <div class="edit_title">Gender</div>
-                                #set($systemValues = ["male", "female", "other", "unknown"])
-                                #set($lbl = "SELECT")
-                                <td>
-                                    #xdatSimpleSelectBoxLbl($lbl "gender" $item $systemValues $vr)
-                                </td>
+        <div>
+            <h2>Date of birth</h2>
 
-                            </table>
-                        </div>
-                        <hr>
-                        <div>
-                            <table id = "birthDate" data-base = "fhir:patient/birthDate">
-                                <div class="edit_title">Date of birth</div>
-                                #set($years = [ $!turbineUtils.getYear()..1900])
-                                <td valign="top" style="padding-top: 4px">
-                                    <table>
-                                        <tr>
-                                            <td>#xdatDateBox("birthDate" $item $vr $years)</td>
-                                        </tr>
-                                    </table>
-                                </td>
-                            </table>
-                        </div>
-                        <hr>
-                        <div>
-                            <table>
-                                <div class="edit_title">Deceased</div>
-                                <tr>
-                                    <td>
-                                        #xdatBooleanRadioYesNo("deceasedBoolean" $item $defaultValue $vr)
-                                    </td>
-                                </tr>
-                                #set($years = [ $!turbineUtils.getYear()..1900])
-                                <tr>
-                                    #formLabel("Deceased date time")
-                                    <td valign="top" style="padding-top: 4px">
-                                        #xdatDateBox("deceasedDateTime" $item $vr $years)
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                        <hr>
-                        <div>
-                            <table id="addressTable" style="display: none" data-base="fhir:patient/address">
-                                <div class="edit_title">Patient's address
-                                    <input type="button" name="add-address" value="Add address" onclick="addAddressRow('addressTable')" />
-                                </div>
-                                <thead>
-                                <tr>
-                                    <th align="left"></th>
-                                    <th align="left">Use</th>
-                                    <th align="left">Type</th>
-                                    <th align="left">Text</th>
-                                    <th align="left">Line</th>
-                                    <th align="left">City</th>
-                                    <th align="left">District</th>
-                                    <th align="left">State</th>
-                                    <th align="left">Postal code</th>
-                                    <th align="left">Country</th>
-                                    <th align="left">Period</th>
-                                </tr>
-                                </thead>
+            <div class="form_block">
+                <div class="row">
+                    <div class="value">
+                        #xdatDateBox("birthDate" $item $vr $years)
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                                <tbody>
-                                <tr>
-                                    <td valign="top">
-                                        <a style="color: red">
-                                            <i class="fa fa-trash-o" title="Delete" onclick="deleteAddressRow(this)"></i>
-                                        </a>
-                                    </td>
-                                    #set($systemValues = ["home", "work", "temp", "old"])
-                                    #set($lbl="SELECT")
-                                    <td valign="top" style="padding-top: 4px">
-                                        #xdatSimpleSelectBoxLbl($lbl "use" $item $systemValues $vr)
-                                    </td>
-                                    #set($systemValues = ["postal", "physical", "both"])
-                                    #set($lbl="SELECT")
-                                    <td valign="top" style="padding-top: 4px">
-                                        #xdatSimpleSelectBoxLbl($lbl "type" $item $systemValues $vr)
-                                    </td>
-                                    #set($defaultValue = "Text")
-                                    <td valign="top" style="padding-top: 4px">
-                                        #xdatStringBox("value" $item $defaultValue $vr)
-                                    </td>
-                                    #set($defaultValue = "Line")
-                                    <td valign="top" style="padding-top: 4px">
-                                        <textarea cols="50" rows="10" name="line_area" id="line_area" placeholder="mit Zeilenumbruch trennen"></textarea>
-                                        <script>
-                                            var textArea = document.getElementById("line_area");
-                                            var base = textArea.dataset.base;
-                                            var existingLineField = document.getElementsByClassName("line_area");
-                                            var actual_field = existingLineField.length;
+        <div>
+            <h2>Deceased</h2>
 
+            <div class="form_block">
+                <div class="row">
+                    <div class="key">
+                        #formLabel("Is the patient deceased?")
+                    </div>
+                    <div class="value">
+                        #xdatBooleanRadioYesNo("deceasedBoolean" $item $defaultValue $vr)
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="key">
+                        #formLabel("Deceased date time")
+                    </div>
+                    <div class="value">
+                        #xdatDateBox("deceasedDateTime" $item $vr $years)
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                                            var base = table.dataset.base;
-                                            var exitsingTables = document.getElementsByClassName("addressTable");
-                                            num_fields = exitsingTables.length;
+        <div>
+            <h2>Patient address</h2>
+            #set($formbase = "fhir:patient/address")
+            #parse("/screens/xnat_patientData/subforms/address.vm")
+        </div>
 
-                                            document.getElementsByTagName("textarea")[actual_field].value;
-                                        </script>
-                                    </td>
-                                    #set($defaultValue = "City")
-                                    <td valign="top" style="padding-top: 4px">
-                                        #xdatStringBox("city" $item $defaultValue $vr)
-                                    </td>
-                                    #set($defaultValue = "District")
-                                    <td valign="top" style="padding-top: 4px">
-                                        #xdatStringBox("district" $item $defaultValue $vr)
-                                    </td>
-                                    #set($defaultValue = "State")
-                                    <td valign="top" style="padding-top: 4px">
-                                        #xdatStringBox("state" $item $defaultValue $vr)
-                                    </td>
-                                    #set($defaultValue = "Postal Code")
-                                    <td valign="top" style="padding-top: 4px">
-                                        #xdatStringBox("postalCode" $item $defaultValue $vr)
-                                    </td>
-                                    #set($defaultValue = "Country")
-                                    <td valign="top" style="padding-top: 4px">
-                                        #xdatStringBox("country" $item $defaultValue $vr)
-                                    </td>
-                                    #set($years = [ $!turbineUtils.getYear()..1900])
-                                    <td valign="top" style="padding-top: 4px">
-                                        <table>
-                                            <tr>
-                                                #formLabel("Start")
-                                                <td>#xdatDateBox("period/start" $item $vr $years)</td>
-                                            </tr>
-                                            <tr>
-                                                #formLabel("Ende")
-                                                <td> #xdatDateBox("period/end" $item $vr $years)</td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <hr>
-                        <div>
-                            <table id="maritalStatus" data-base="fhir:patient/maritalStatus">
-                                <div class="edit_title">Marital Status</div>
-                                #set($systemValues = ["A", "D", "I", "L", "M", "P", "S", "T", "U", "W", "UNK"])
-                                #set($lbl = "SELECT")
-                                <td>
-                                    #xdatSimpleSelectBoxLbl($lbl "maritalStatus" $item $systemValues $vr)
-                                </td>
+        <div>
+            <h2>Marital status</h2>
 
-                            </table>
-                        </div>
-                        <hr>
-                        <div>
-                            <table>
-                                <div class="edit_title">Multiple Birth</div>
-                                <tr>
-                                    <td>
-                                        #xdatBooleanRadioYesNo("multipleBirthBoolean" $item $defaultValue $vr)
-                                    </td>
-                                </tr>
-                                #set($years = [ $!turbineUtils.getYear()..1900])
-                                <tr>
-                                    #formLabel("Birth number")
-                                    <td valign="top" style="padding-top: 4px">
-                                        <input type="number" name="add-multiple-birth" value="0" />
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                        <hr>
-                        <div>
-                            <table id="telecomTable" style="display: none" data-base="fhir:patient/telecom">
-                                <div class="edit_title">Photo
-                                    <input type="button" name="add-photo" value="Add Photo" onclick="addPhoto('photoTable')" />
-                                </div>
-                                <thead>
-                                <tr>
-                                    <th align="left"></th>
-                                    <th align="left">Content Type</th>
-                                    <th align="left">Language</th>
-                                    <th align="left">Data</th>
-                                    <th align="left">URL</th>
-                                    <th align="left">Size</th>
-                                    <th align="left">hash</th>
-                                    <th align="left">Title</th>
-                                    <th align="left">Creation</th>
-                                </tr>
-                                </thead>
+            <div class="form_block">
+                <div class="row">
+                    <div class="value">
+                        #set($systemValues = ["A", "D", "I", "L", "M", "P", "S", "T", "U", "W", "UNK"])
+                        #xdatSimpleSelectBoxLbl("SELECT" "maritalStatus" $item $systemValues $vr)
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                                <tbody>
-                                <tr>
-                                    <td valign="top">
-                                        <a style="color: red">
-                                            <i class="fa fa-trash-o" title="Delete" onclick="deletePhoto(this)"></i>
-                                        </a>
-                                    </td>
-                                    #set($systemValues = ["phone", "fax", "email", "pager", "url", "sms", "other"])
-                                    #set($lbl="SELECT")
-                                    <td valign="top" style="padding-top: 4px">
-                                        content type here
-                                    </td>
-                                    <td>
-                                        <select data-placeholder="Choose a Language...">
-                                            <option value="ar">Arabic</option>
-                                            <option value="bn">Bengali</option>
-                                            <option value="cs">Czech</option>
-                                            <option value="da">Danish</option>
-                                            <option value="de">German</option>
-                                            <option value="de-AT">German (Austria)</option>
-                                            <option value="de-CH">German (Switzerland)</option>
-                                            <option value="de-DE">German (Germany)</option>
-                                            <option value="el">Greek</option>
-                                            <option value="en">English</option>
-                                            <option value="en-AU">English (Australia)</option>
-                                            <option value="en-CA">English (Canada)</option>
-                                            <option value="en-GB">English (Great Britain)</option>
-                                            <option value="en-IN">English (India)</option>
-                                            <option value="en-NZ">English (New Zeland)</option>
-                                            <option value="en-SG">English (Singapore)</option>
-                                            <option value="en-US">English(United States)</option>
-                                            <option value="es">Spanish</option>
-                                            <option value="es-AR">Spanish (Argentina))</option>
-                                            <option value="es-ES">Spanish (Spain))</option>
-                                            <option value="es-UY">Spanish (Uruguay))</option>
-                                            <option value="fi">Finnish</option>
-                                            <option value="fr">French</option>
-                                            <option value="fr-BE">French (Belgium)</option>
-                                            <option value="fr-CH">French (Switzerland)</option>
-                                            <option value="fr-FR">French (France)</option>
-                                            <option value="fy">Frysian</option>
-                                            <option value="fy-NL">Frysian (Netherlands)</option>
-                                            <option value="hi">Hindi</option>
-                                            <option value="hr">Croatian</option>
-                                            <option value="it">Italian</option>
-                                            <option value="it-CH">Italian (Switzerland)</option>
-                                            <option value="it-IT">Italian (Italy)</option>
-                                            <option value="ja">Japanese</option>
-                                            <option value="ko">Korean</option>
-                                            <option value="nl">Dutch</option>
-                                            <option value="nl-NL">Dutch (Netherlands)</option>
-                                            <option value="no">Norwegian</option>
-                                            <option value="no-NO">Norwegian (Norway)</option>
-                                            <option value="pa">Punjabi</option>
-                                            <option value="pt">Portuguese</option>
-                                            <option value="pt-BR">Portuguese (Brasil)</option>
-                                            <option value="ru">Russian</option>
-                                            <option value="ru-RU">Russian (Russia)</option>
-                                            <option value="sr">Serbian</option>
-                                            <option value="sr-SP">Serbian (Serbia)</option>
-                                            <option value="sv">Swedish </option>
-                                            <option value="sv-SE">Swedish (Sweden)</option>
-                                            <option value="te">Telugu</option>
-                                            <option value="zh">Chinese</option>
-                                            <option value="zh-CN">Chinese (China))</option>
-                                            <option value="zh-HK">Chinese (Hong Kong))</option>
-                                            <option value="zh-SG">Chinese (Singapore))</option>
-                                            <option value="zh-TW">Chinese (Taiwan))</option>
-                                        </select>
-                                    </td>
-                                    #set($defaultValue = "Data")
-                                    <td valign="top" style="padding-top: 4px">
-                                        data here
-                                    </td>
-                                    #set($defaultValue = "URL")
-                                    <td valign="top" style="padding-top: 4px">
-                                        #xdatStringBox("system" $item $defaultValue $vr)
-                                    </td>
-                                    <td>
-                                        <input type="number" name="add-contactPoint" value="1" />
-                                    </td>
-                                    #set($years = [ $!turbineUtils.getYear()..1900])
-                                    <td valign="top" style="padding-top: 4px">
-                                        <table>
-                                            <tr>
-                                                #formLabel("Start")
-                                                <td>#xdatDateBox("period/start" $item $vr $years)</td>
-                                            </tr>
-                                            <tr>
-                                                #formLabel("Ende")
-                                                <td> #xdatDateBox("period/end" $item $vr $years)</td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        #xdatEditProps($item $edit_screen)
-                    </td>
-                </tr>
+        <div>
+            <h2>Multiple Birth</h2>
 
-            </table>
-        </form>
-    </div>
+            <div class="form_block">
+                <div class="row">
+                    <div class="key">
+                        #formLabel("Is the patient part of a multiple birth?")
+                    </div>
+                    <div class="value">
+                        #xdatBooleanRadioYesNo("multipleBirthBoolean" $item $defaultValue $vr)
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="key">
+                        #formLabel("Birth number")
+                    </div>
+                    <div class="value">
+                        <input type="number" name="multipleBirthInteger" value="$!item.getProperty("multipleBirthInteger")" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        #xdatEditProps($item $edit_screen)
+        <input type="button" onclick="validateForm();" name="eventSubmit_doInsert" value="Submit"/>
+    </form>
 
-    <table>
-        <tr>
-            <td colspan=2 align=left>
-                <input type="button" onclick="validateForm();" name="eventSubmit_doInsert" value="Submit"/>
-            </td>
-        </tr>
-    </table>
-
-    <script type="text/javascript">
-        function validateForm() {
-            document.patientForm.submit();
-            return true;
-        }
-    </script>
+<script type="text/javascript">
+    function validateForm() {
+        document.patientForm.submit();
+        return true;
+    }
+</script>

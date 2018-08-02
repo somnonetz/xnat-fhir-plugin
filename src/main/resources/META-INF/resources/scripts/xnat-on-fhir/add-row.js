@@ -1,96 +1,12 @@
-var num_fields = 0;
-
-function addRow() {
-    var f = document.forms.patientForm;
-
-    var table = document.getElementById("dataTable");
-    var base = table.dataset.base;
-    var exitsingTables = document.getElementsByClassName("identifierTable");
-    num_fields = exitsingTables.length;
-
-    var new_table = table.cloneNode(true);
-    new_table.className = "identifierTable";
-
-    var input_elements = new_table.getElementsByTagName("input");
-    var select_elements = new_table.getElementsByTagName("select");
-    for (var i = 0; i < input_elements.length; i++) {
-        var e = input_elements[i];
-        e.id = base + "[" + num_fields + "]/" + e.name;
-        e.name = e.id;
+function findForm(element) {
+    var result = element;
+    while (result && result.tagName.toLowerCase() !== "form") {
+        result = result.parentNode;
     }
-
-    for (var i = 0; i < select_elements.length; i++) {
-        var e = select_elements[i];
-        e.id = base + "[" + num_fields + "]/" + e.name;
-        e.name = e.id;
-    }
-
-    new_table.id = "identifierTable" + num_fields;
-    new_table.style.display = "block";
-    table.parentNode.appendChild(new_table);
+    return result;
 }
 
-function addNameRow() {
-    var f = document.forms.patientForm;
-
-    var table = document.getElementById("nameTable");
-    var base = table.dataset.base;
-    var exitsingTables = document.getElementsByClassName("nameTable");
-    num_fields = exitsingTables.length;
-
-    var new_table = table.cloneNode(true);
-    new_table.className = "nameTable";
-
-    var input_elements = new_table.getElementsByTagName("input");
-    var select_elements = new_table.getElementsByTagName("select");
-    for (var i = 0; i < input_elements.length; i++) {
-        var e = input_elements[i];
-        e.id = base + "[" + num_fields + "]/" + e.name;
-        e.name = e.id;
-    }
-
-    for (var i = 0; i < select_elements.length; i++) {
-        var e = select_elements[i];
-        e.id = base + "[" + num_fields + "]/" + e.name;
-        e.name = e.id;
-    }
-
-    new_table.id = "nameTable" + num_fields;
-    new_table.style.display = "block";
-    table.parentNode.appendChild(new_table);
-}
-
-function addContactRow() {
-    var f = document.forms.patientForm;
-
-    var table = document.getElementById("telecomTable");
-    var base = table.dataset.base;
-    var exitsingTables = document.getElementsByClassName("telecomTable");
-    num_fields = exitsingTables.length;
-
-    var new_table = table.cloneNode(true);
-    new_table.className = "telecomTable";
-
-    var input_elements = new_table.getElementsByTagName("input");
-    var select_elements = new_table.getElementsByTagName("select");
-    for (var i = 0; i < input_elements.length; i++) {
-        var e = input_elements[i];
-        e.id = base + "[" + num_fields + "]/" + e.name;
-        e.name = e.id;
-    }
-
-    for (var i = 0; i < select_elements.length; i++) {
-        var e = select_elements[i];
-        e.id = base + "[" + num_fields + "]/" + e.name;
-        e.name = e.id;
-    }
-
-    new_table.id = "telecomTable" + num_fields;
-    new_table.style.display = "block";
-    table.parentNode.appendChild(new_table);
-}
-
-function fix_input_names(base, fields, counter) {
+function fixInputNames(base, fields, counter) {
     for (var i = 0; i < fields.length; i++) {
         var e = fields[i];
         e.id = base + "[" + counter + "]/" + e.name;
@@ -98,42 +14,40 @@ function fix_input_names(base, fields, counter) {
     }
 }
 
-function addAddressRow() {
-    var f = document.forms.patientForm;
+function findBaseFormElement(element, label) {
+    // First we search for a div with class "form_block"
+    var e = element;
+    while (e.className !== "form_block") {
+        e = e.parentNode;
+    }
 
-    var table = document.getElementById("addressTable");
-    var base = table.dataset.base;
-    var exitsingTables = document.getElementsByClassName("addressTable");
-    num_fields = exitsingTables.length;
+    // Afterwards we search a child with the given label
+    for (var index = 0; index < e.children.length; index++) {
+        var child = e.children[index];
+        if (child.dataset.label === label) {
+            return child;
+        }
+    }
 
-    var new_table = table.cloneNode(true);
-    new_table.className = "addressTable";
-
-    fix_input_names(base, new_table.getElementsByTagName("input"), num_fields);
-    fix_input_names(base, new_table.getElementsByTagName("select"), num_fields);
-    fix_input_names(base, new_table.getElementsByTagName("textarea"), num_fields);
-
-    new_table.id = "addressTable" + num_fields;
-    new_table.style.display = "block";
-    table.parentNode.appendChild(new_table);
+    return undefined;
 }
 
-function addPhoto() {
-    var f = document.forms.patientForm;
+function addRow(element, baseFormLabel) {
+    var baseFormElement = findBaseFormElement(element, baseFormLabel);
+    var f = findForm(baseFormElement);
 
-    var table = document.getElementById("photoTable");
-    var base = table.dataset.base;
-    var exitsingTables = document.getElementsByClassName("photoTable");
-    num_fields = exitsingTables.length;
+    var base = baseFormElement.dataset.base;
+    var existing = document.getElementsByClassName(baseFormLabel);
+    var counter = existing.length;
 
-    var new_table = table.cloneNode(true);
-    new_table.className = "photoTable";
+    var newForm = baseFormElement.cloneNode(true);
+    newForm.className = baseFormLabel;
 
-    fix_input_names(base, new_table.getElementsByTagName("input"), num_fields);
-    fix_input_names(base, new_table.getElementsByTagName("select"), num_fields);
-    fix_input_names(base, new_table.getElementsByTagName("textarea"), num_fields);
+    fixInputNames(base, newForm.getElementsByTagName("input"), counter);
+    fixInputNames(base, newForm.getElementsByTagName("select"), counter);
+    fixInputNames(base, newForm.getElementsByTagName("textarea"), counter);
 
-    new_table.id = "photoTable" + num_fields;
-    new_table.style.display = "block";
-    table.parentNode.appendChild(new_table);
+    newForm.id = baseFormLabel + counter;
+    newForm.style.display = "block";
+    baseFormElement.parentNode.appendChild(newForm);
 }

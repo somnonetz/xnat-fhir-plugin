@@ -1,0 +1,54 @@
+<div class="form_block">
+    <div class="row">
+        <input type="button" name="add-contactPoint" value="Add Contact Point" onclick="addRow(this, 'contact_point_form')" />
+    </div>
+    <div class="row" style="display: none" data-base="$formbase" data-label="contact_point_form">
+        <div class="delete_item">
+            <a style="color: red">
+                <i class="fa fa-trash-o" title="Delete" onclick="deleteRow(this, 'contact_point_form')"></i>
+            </a>
+        </div>
+        <div class="delete_item_content">
+            <div class="row">
+                <div class="key">
+                    #formLabel("Contact point system")
+                </div>
+                <div class="value">
+                    #set($systemValues = ["phone", "fax", "email", "pager", "url", "sms", "other"])
+                    #xdatSimpleSelectBoxLbl("SELECT" "contactPointSystem" $item $systemValues $vr)
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="key">
+                    #formLabel("Contact point value")
+                </div>
+                <div class="value">
+                    #xdatStringBox("value" $item $defaultValue $vr)
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="key">
+                    #formLabel("Contact point use")
+                </div>
+                <div class="value">
+                    #set($systemValues = ["home", "work", "temp", "old", "mobile"])
+                    #xdatSimpleSelectBoxLbl("SELECT" "contactPointUse" $item $systemValues $vr)
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="key">
+                    #formLabel("Contact point rank")
+                </div>
+                <div class="value">
+                    <input type="number" name="rank" value="$!item.getProperty("rank")" />
+                </div>
+            </div>
+
+            <h3>Period</h3>
+            #parse("/screens/xnat_patientData/subforms/period.vm")
+        </div>
+    </div>
+</div>

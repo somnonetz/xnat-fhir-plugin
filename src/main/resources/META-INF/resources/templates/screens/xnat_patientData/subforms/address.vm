@@ -1,0 +1,99 @@
+<div class="form_block">
+    <div class="row">
+        <input type="button" name="add-address" value="Add address" onclick="addRow(this, 'address_form')" />
+    </div>
+    <div class="row" style="display: none" data-base="$formbase" data-label="address_form">
+        <div class="delete_item">
+            <a style="color: red">
+                <i class="fa fa-trash-o" title="Delete" onclick="deleteRow(this, 'address_form' )"></i>
+            </a>
+        </div>
+        <div class="delete_item_content">
+            <div class="row">
+                <div class="key">
+                    #formLabel("Use")
+                </div>
+                <div class="value">
+                    #set($systemValues = ["home", "work", "temp", "old"])
+                    #xdatSimpleSelectBoxLbl("SELECT" "use" $item $systemValues $vr)
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="key">
+                    #formLabel("Type")
+                </div>
+                <div class="value">
+                    #set($systemValues = ["postal", "physical", "both"])
+                    #xdatSimpleSelectBoxLbl("SELECT" "type" $item $systemValues $vr)
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="key">
+                    #formLabel("Address text")
+                </div>
+                <div class="value">
+                    #xdatStringBox("text" $item $defaultValue $vr)
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="key">
+                    #formLabel("Address line *")
+                </div>
+                <div class="value">
+                    <textarea cols="30" rows="10" name="line" id="line" placeholder="Separate with line break"></textarea>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="key">
+                    #formLabel("City")
+                </div>
+                <div class="value">
+                    #xdatStringBox("city" $item $defaultValue $vr)
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="key">
+                    #formLabel("District")
+                </div>
+                <div class="value">
+                    #xdatStringBox("district" $item $defaultValue $vr)
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="key">
+                    #formLabel("State")
+                </div>
+                <div class="value">
+                    #xdatStringBox("state" $item $defaultValue $vr)
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="key">
+                    #formLabel("Postal code")
+                </div>
+                <div class="value">
+                    #xdatStringBox("postalCode" $item $defaultValue $vr)
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="key">
+                    #formLabel("Country")
+                </div>
+                <div class="value">
+                    #xdatStringBox("country" $item $defaultValue $vr)
+                </div>
+            </div>
+
+            <h3>Period</h3>
+            #parse("/screens/xnat_patientData/subforms/period.vm")
+        </div>
+    </div>
+</div>
