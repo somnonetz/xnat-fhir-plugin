@@ -44,7 +44,12 @@ public class FhirReferenceService extends DatatypeValidatable {
      */
     @Nullable
     public FhirReferenceI get(Integer id, UserI user) {
-        return this.getFromDB("ID", id, user);
+        if (id != null) {
+            return this.getFromDB("ID", id, user);
+        }
+        else {
+            return null;
+        }
     }
 
     /**
@@ -199,7 +204,7 @@ public class FhirReferenceService extends DatatypeValidatable {
             ItemI match = results.getFirst();
             return (FhirReferenceI) BaseElement.GetGeneratedItem(match);
         } catch (Exception e) {
-            _log.error("Failed to unpack FhirReference: " + e.toString());
+            _log.error("Failed to unpack FhirReference: " + e.toString(), e);
             return null;
         }
     }
