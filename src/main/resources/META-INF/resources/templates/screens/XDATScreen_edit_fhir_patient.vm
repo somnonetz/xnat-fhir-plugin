@@ -79,6 +79,9 @@ $page.setVlinkColor($ui.vlink)
 
             <div class="form_block">
                 <div class="row">
+                    <div class="key">
+                        #formLabel("Is record active in use?")
+                    </div>
                     <div class="value">
                         #xdatBooleanRadioYesNo("active" $item $defaultValue $vr)
                     </div>

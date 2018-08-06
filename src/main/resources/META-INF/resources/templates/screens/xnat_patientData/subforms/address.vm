@@ -34,7 +34,7 @@
                     #formLabel("Address text")
                 </div>
                 <div class="value">
-                    #xdatStringBox("text" $item $defaultValue $vr)
+                    #xdatStringBox("text" $item "Address" $vr)
                 </div>
             </div>
 
@@ -52,7 +52,7 @@
                     #formLabel("City")
                 </div>
                 <div class="value">
-                    #xdatStringBox("city" $item $defaultValue $vr)
+                    #xdatStringBox("city" $item "City" $vr)
                 </div>
             </div>
 
@@ -61,7 +61,7 @@
                     #formLabel("District")
                 </div>
                 <div class="value">
-                    #xdatStringBox("district" $item $defaultValue $vr)
+                    #xdatStringBox("district" $item "District" $vr)
                 </div>
             </div>
 
@@ -70,7 +70,7 @@
                     #formLabel("State")
                 </div>
                 <div class="value">
-                    #xdatStringBox("state" $item $defaultValue $vr)
+                    #xdatStringBox("state" $item "State" $vr)
                 </div>
             </div>
 
@@ -79,7 +79,7 @@
                     #formLabel("Postal code")
                 </div>
                 <div class="value">
-                    #xdatStringBox("postalCode" $item $defaultValue $vr)
+                    #xdatStringBox("postalCode" $item "Postal code" $vr)
                 </div>
             </div>
 
@@ -88,7 +88,7 @@
                     #formLabel("Country")
                 </div>
                 <div class="value">
-                    #xdatStringBox("country" $item $defaultValue $vr)
+                    #xdatStringBox("country" $item "Country" $vr)
                 </div>
             </div>
 

@@ -24,7 +24,7 @@
                     #formLabel("Contact point value")
                 </div>
                 <div class="value">
-                    #xdatStringBox("value" $item $defaultValue $vr)
+                    #xdatStringBox("value" $item "Value here" $vr)
                 </div>
             </div>
 

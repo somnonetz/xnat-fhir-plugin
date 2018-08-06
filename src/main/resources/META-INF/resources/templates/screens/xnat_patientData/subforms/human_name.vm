@@ -25,7 +25,7 @@
                     #formLabel("Full name")
                 </div>
                 <div class="value">
-                    #xdatStringBox("text" $item $defaultValue $vr)
+                    #xdatStringBox("text" $item "Full name" $vr)
                 </div>
             </div>
 
@@ -34,7 +34,7 @@
                     #formLabel("Given *")
                 </div>
                 <div class="value">
-                    #xdatStringBox("given" $item $defaultValue $vr)
+                    #xdatStringBox("given" $item "Given name" $vr)
                 </div>
             </div>
 
@@ -43,7 +43,7 @@
                     #formLabel("Prefix *")
                 </div>
                 <div class="value">
-                    #xdatStringBox("prefix" $item $defaultValue $vr)
+                    #xdatStringBox("prefix" $item "Prefix" $vr)
                 </div>
             </div>
 
@@ -52,7 +52,7 @@
                     #formLabel("Suffix *")
                 </div>
                 <div class="value">
-                    #xdatStringBox("suffix" $item $defaultValue $vr)
+                    #xdatStringBox("suffix" $item "Suffix" $vr)
                 </div>
             </div>
 

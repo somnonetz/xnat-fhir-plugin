@@ -173,7 +173,7 @@
     <xs:simpleType name="humanNameUse">
         <xs:restriction base="xs:string">
             <xs:enumeration value="usual" />
-            <xs:enumeration value="offical" />
+            <xs:enumeration value="official" />
             <xs:enumeration value="temp" />
             <xs:enumeration value="nickname" />
             <xs:enumeration value="anonymous" />
@@ -217,7 +217,7 @@
     <xs:simpleType name="identifierUse">
         <xs:restriction base="xs:string">
             <xs:enumeration value="usual" />
-            <xs:enumeration value="offical" />
+            <xs:enumeration value="official" />
             <xs:enumeration value="temp" />
             <xs:enumeration value="secondary" />
         </xs:restriction>
