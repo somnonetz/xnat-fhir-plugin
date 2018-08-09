@@ -86,6 +86,7 @@ public class FhirPatientService extends DatatypeValidatable {
 
             // Create patient record and assign inherited attributes
             FhirPatient patient = new FhirPatient(user);
+            patient.setSubjectId(subject.getId());
             patient.setId("FHIR_" + subject.getId());
             patient.setLabel("fhir_patient_" + subject.getLabel());
             patient.setProject(subject.getProject());
