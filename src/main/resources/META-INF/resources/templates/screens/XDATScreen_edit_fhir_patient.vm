@@ -190,9 +190,82 @@ $page.setVlinkColor($ui.vlink)
                 </div>
             </div>
         </div>
+
+        <div>
+            <h2>Animal</h2>
+            #set($formbase = "fhir:patient/animal")
+            #parse("/screens/xnat_patientData/subforms/animal.vm")
+        </div>
+
+        <div>
+            <h2>Communication</h2>
+             #set($formbase = "fhir:patient/communication")
+             #parse("screens/xnat_patientData/subforms/communication.vm")
+        </div>
+
+        <div>
+            <h2>General Practitioner</h2>
+            <div class="form_block">
+                <div class="row">
+                    <input type="button" name="add-practitioner" value="Add practitioner" onclick="addRow(this, 'practitioner_form')" />
+                </div>
+                <div class="row" style="display: none" data-base="$formbase" data-label="practitioner_form">
+                    <div class="delete_item">
+                        <a style="color: red">
+                            <i class="fa fa-trash-o" title="Delete" onclick="deleteRow(this, 'practitioner_form' )"></i>
+                        </a>
+                    </div>
+                    <div class="delete_item_content">
+                        <div class="row">
+                            <div class="key">
+                                #formLabel("Practitioner")
+                            </div>
+                            <div class="value">
+                                #xdatStringBox("Practitioner" $item "Reference" $vr)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <h2>Managing Organization</h2>
+            <div class="form_block">
+                <div class="row">
+                    <input type="button" name="add-organization" value="Add organization" onclick="addRow(this, 'organization_form')" />
+                </div>
+                <div class="row" style="display: none" data-base="$formbase" data-label="organization_form">
+                    <div class="delete_item">
+                        <a style="color: red">
+                            <i class="fa fa-trash-o" title="Delete" onclick="deleteRow(this, 'organization_form' )"></i>
+                        </a>
+                    </div>
+                    <div class="delete_item_content">
+                        <div class="row">
+                            <div class="key">
+                                #formLabel("Managing organization")
+                            </div>
+                            <div class="value">
+                                #xdatStringBox("Managing organization" $item "Reference" $vr)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <h2>Link</h2>
+            #set($formbase = "fhir:patient/link")
+            #parse("screens/xnat_patientData/subforms/link.vm")
+        </div>
+
+        <br/>
         #xdatEditProps($item $edit_screen)
         <input type="button" onclick="validateForm();" name="eventSubmit_doInsert" value="Submit"/>
     </form>
+
 
 <script type="text/javascript">
     function validateForm() {
