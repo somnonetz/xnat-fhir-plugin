@@ -238,7 +238,7 @@ public class Datatypes {
                     subkey.append("." + k);
                 }
 
-                Object type = allowed.get(subkey.toString());
+                Object type = resolvedAllowedTypes.get(subkey.toString());
                 if (type != null && type instanceof DatatypeValidatable) {
                     DatatypeValidatable validator = (DatatypeValidatable)type;
                     Collection<String> subRequired = validator.getRequiredKeys(subkey.toString());
