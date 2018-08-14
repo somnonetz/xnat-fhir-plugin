@@ -1,6 +1,5 @@
 {
   "resourceType" : "Patient",
-  "id": "4952",
 
 "identifier" : [{"value":"pat002" }],
   "active" : true,
@@ -20,14 +19,6 @@
   },
   { "language" : { "text":"englisch" },
     "preferred" : false
-  }],
-
-
- "careProvider": [
-    {
-      "reference": "Practitioner/9952"
-    }
-  ]
-
+  }]
 
 }
