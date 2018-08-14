@@ -1,0 +1,29 @@
+<div class="form_block">
+    <div class="row">
+        <input type="button" name="add-animal" value="Add animal" onclick="addRow(this, 'animal_form')" />
+    </div>
+    <div class="row" style="display: none" data-base="$formbase" data-label="animal_form">
+        <div class="delete_item">
+            <a style="color: red">
+                <i class="fa fa-trash-o" title="Delete" onclick="deleteRow(this, 'animal_form' )"></i>
+            </a>
+        </div>
+        <div class="delete_item_content">
+            <div class="row">
+                <h3>Animal Species</h3>
+                #set($formbase = "fhir:patient/codeable_concept")
+                #parse("/screens/xnat_patientData/subforms/codeable_concept.vm")
+            </div>
+            <div class="row">
+                <h3>Animal Breed</h3>
+                #set($formbase = "fhir:patient/codeable_concept")
+                #parse("/screens/xnat_patientData/subforms/codeable_concept.vm")
+            </div>
+            <div class="row">
+                <h3>Gender Status</h3>
+                #set($formbase = "fhir:patient/codeable_concept")
+                #parse("/screens/xnat_patientData/subforms/codeable_concept.vm")
+            </div>
+        </div>
+    </div>
+</div>

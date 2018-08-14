@@ -1,0 +1,31 @@
+<div class="form_block">
+    <div class="row">
+        <input type="button" name="add-link" value="Add link" onclick="addRow(this, 'link_form')" />
+    </div>
+    <div class="row" style="display: none" data-base="$formbase" data-label="link_form">
+        <div class="delete_item">
+            <a style="color: red">
+                <i class="fa fa-trash-o" title="Delete" onclick="deleteRow(this, 'link_form' )"></i>
+            </a>
+        </div>
+        <div class="delete_item_content">
+            <div class="row">
+                <div class="row">
+                    <div class="key">
+                        #formLabel("Related patient or person")
+                    </div>
+                    <div class="value">
+                        #xdatStringBox("Related patient/ person" $item "Reference" $vr)
+                    </div>
+                </div>
+            </div>
+            <div class="key">
+                #formLabel("Type")
+            </div>
+            <div class="value">
+                #set($systemValues = ["replaced-by", "replaces", "refer", "seealso"])
+                    #xdatSimpleSelectBoxLbl("SELECT" "Type" $item $systemValues $vr)
+            </div>
+        </div>
+    </div>
+</div>
