@@ -1,0 +1,89 @@
+<div class="form_block">
+    <div class="row">
+        <input type="button" name="add-attachment" value="Add Attachment" onclick="addRow(this, 'attachment_form')" />
+    </div>
+    <div class="row" style="display: none" data-base="$formbase" data-label="attachment_form">
+        <div class="delete_item">
+            <a style="color: red">
+                <i class="fa fa-trash-o" title="Delete" onclick="deleteRow(this, 'attachment_form')"></i>
+            </a>
+        </div>
+        <div class="delete_item_content">
+
+            <div class="row">
+                <div class="key">
+                    #formLabel("Content type")
+                </div>
+                <div class="value">
+                    #set($systemValues = ["image/bmp", "image/gif", "image/jpeg"])
+                    #xdatSimpleSelectBoxLbl("SELECT" "type of content" $item $systemValues $vr)
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="key">
+                    #formLabel("Language")
+                </div>
+                <div class="value">
+                    #set($systemValues = ["de", "en", "es", "de-AT"])
+                    #xdatSimpleSelectBoxLbl("SELECT" "language" $item $systemValues $vr)
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="key">
+                    #formLabel("Data")
+                </div>
+                <div class="value">
+                    #xdatStringBox("Data" $item "A stream of bytes, base64 encoded (RFC 4648 )" $vr)
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="key">
+                    #formLabel("url")
+                </div>
+                <div class="value">
+                    <input type="url" name="uri" />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="key">
+                    #formLabel("Size")
+                </div>
+                <div class="value">
+                    <input type="number" name="imageSize"  />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="key">
+                    #formLabel("Hash")
+                </div>
+                <div class="value">
+                    #xdatStringBox("Hash" $item "A stream of bytes, base64 encoded (RFC 4648 )" $vr)
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="key">
+                    #formLabel("Title")
+                </div>
+                <div class="value">
+                    #xdatStringBox("Title" $item "Title" $vr)
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="key">
+                    #formLabel("Creation Date Time")
+                </div>
+                <div class="value">
+                    #xdatDateBox("CreationDateTime" $item $vr $years)
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

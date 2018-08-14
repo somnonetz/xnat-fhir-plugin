@@ -190,6 +190,12 @@ $page.setVlinkColor($ui.vlink)
                 </div>
             </div>
         </div>
+
+        <div>
+            <h2>Photo</h2>
+            #set($formbase = "fhir:patient/photo")
+            #parse("/screens/xnat_patientData/subforms/attachment.vm")
+        </div>
         #xdatEditProps($item $edit_screen)
         <input type="button" onclick="validateForm();" name="eventSubmit_doInsert" value="Submit"/>
     </form>
