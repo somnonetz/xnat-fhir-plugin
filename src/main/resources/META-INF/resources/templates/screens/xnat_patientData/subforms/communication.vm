@@ -1,0 +1,27 @@
+<div class="form_block">
+    <div class="row">
+        <input type="button" name="add-communication" value="Add communication " onclick="addRow(this, 'communication_form')" />
+    </div>
+    <div class="row" style="display: none" data-base="$formbase" data-label="communication_form">
+        <div class="delete_item">
+            <a style="color: red">
+                <i class="fa fa-trash-o" title="Delete" onclick="deleteRow(this, 'communication_form' )"></i>
+            </a>
+        </div>
+        <div class="delete_item_content">
+            <div class="row">
+                <h3>Language</h3>
+                #set($formbase = "fhir:patient/codeable_concept")
+                #parse("/screens/xnat_patientData/subforms/codeable_concept.vm")
+            </div>
+            <div class="row">
+                <div class="key">
+                    #formLabel("Is this the preferred language to communicate?")
+                </div>
+                <div class="value">
+                    #xdatBooleanRadioYesNo("preferredBoolean" $item $defaultValue $vr)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
