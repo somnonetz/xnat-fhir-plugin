@@ -1,0 +1,208 @@
+#* @vtlvariable name="siteConfig" type="org.nrg.xdat.preferences.SiteConfigPreferences" *#
+<!-- imports jQuery UI javascript and base CSS theme -->
+<script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" async
+        xmlns="http://www.w3.org/1999/html"></script>
+<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+<link rel="stylesheet" type="text/css" href="../../style/xnat-on-fhir/styles.css" />
+<script type="text/javascript" src="/scripts/xnat-on-fhir/add-row.js"></script>
+<script type="text/javascript" src="/scripts/xnat-on-fhir/delete-row.js"></script>
+
+#set ($part_id = $request.get("part_id"))
+#set($years = [ $!turbineUtils.getYear()..1900])
+
+$page.setTitle("Patient")
+$page.setLinkColor($ui.alink)
+$page.setVlinkColor($ui.vlink)
+<script type="text/javascript">
+    window.currentID="$!om.getId()";
+        #if($om.getProject())
+            #if($om.getProject().equals(""))
+            window.currentProject="$!project";
+            #else
+            window.currentProject="$!om.getProject()";
+            #end
+        #else
+        window.currentProject="$!project";
+        #end
+
+    window.currentSubject="$!om.getSubjectId()";
+    window.currentLabel="$!om.getLabel()";
+</script>
+
+#if ($data.message)
+<div class="error">$data.message</div>
+#end
+<div id="patientFormDiv">
+    <form ID="patientForm" name="patientForm" method="post" action="$link.setAction("ModifySubjectAssessorData")">
+        <input type="hidden" name="project" value="$!{project}">
+        <input type="hidden" name="part_id" value="$!{subjectId}">
+        <input type="hidden" name="fhir:patient/ID" value='$!item.getProperty("ID")'/>
+        <input type="hidden" name="fhir:patient/project" value='$!{project}'/>
+        <input type="hidden" name="fhir:patient/subject_ID" value='$!{subjectId}'/>
+        <input type="hidden" name="fhir:patient/label" value='$!label'/>
+        <input type="hidden" name="$om.getXSIType()/ID" id="$om.getXSIType()/ID" value="$!om.getId()"/>
+
+        #if($vr)
+            <div class="error">Invalid parameters:<BR>$vr.toHTML()</div>
+            <HR>
+        #end
+
+        <div>
+            <h1>Patient Information</h1>
+
+            <div class="form_block">
+                <div class="row">
+                    <div class="key">
+                        $displayManager.getSingularDisplayNameForProject():
+                    </div>
+                    <div class="value">
+                        $!om.getProject($project,false).getDisplayID()
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="key">
+                        $displayManager.getSingularDisplayNameForSubject():
+                    </div>
+                    <div class="value">
+                        $!{subjectId}
+                    </div>
+                </div>
+            </div>
+
+            <h2>Patient identifier</h2>
+            #set($formbase = "fhir:patient/identifier")
+            #parse("/screens/xnat_patientData/subforms/identifier.vm")
+        </div>
+
+        <div>
+            <h2>Active</h2>
+
+            <div class="form_block">
+                <div class="row">
+                    <div class="key">
+                        #formLabel("Is record active in use?")
+                    </div>
+                    <div class="value">
+                        #xdatBooleanRadioYesNo("active" $item $defaultValue $vr)
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <h2>Patient name</h2>
+            #set($formbase = "fhir:patient/name")
+            #parse("/screens/xnat_patientData/subforms/human_name.vm")
+        </div>
+
+        <div>
+            <h1>Patient contact point</h1>
+            #set($formbase = "fhir:patient/telecom")
+            #parse("/screens/xnat_patientData/subforms/contact_point.vm")
+        </div>
+
+        <div>
+            <h2>Gender</h2>
+
+            <div class="form_block">
+                <div class="row">
+                    <div class="value">
+                        #set($systemValues = ["male", "female", "other", "unknown"])
+                        #xdatSimpleSelectBoxLbl("SELECT" "gender" $item $systemValues $vr)
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <h2>Date of birth</h2>
+
+            <div class="form_block">
+                <div class="row">
+                    <div class="value">
+                        #xdatDateBox("birthDate" $item $vr $years)
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <h2>Deceased</h2>
+
+            <div class="form_block">
+                <div class="row">
+                    <div class="key">
+                        #formLabel("Is the patient deceased?")
+                    </div>
+                    <div class="value">
+                        #xdatBooleanRadioYesNo("deceasedBoolean" $item $defaultValue $vr)
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="key">
+                        #formLabel("Deceased date time")
+                    </div>
+                    <div class="value">
+                        #xdatDateBox("deceasedDateTime" $item $vr $years)
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <h2>Patient address</h2>
+            #set($formbase = "fhir:patient/address")
+            #parse("/screens/xnat_patientData/subforms/address.vm")
+        </div>
+
+        <div>
+            <h2>Marital status</h2>
+
+            <div class="form_block">
+                <div class="row">
+                    <div class="value">
+                        #set($systemValues = ["A", "D", "I", "L", "M", "P", "S", "T", "U", "W", "UNK"])
+                        #xdatSimpleSelectBoxLbl("SELECT" "maritalStatus" $item $systemValues $vr)
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <h2>Multiple Birth</h2>
+
+            <div class="form_block">
+                <div class="row">
+                    <div class="key">
+                        #formLabel("Is the patient part of a multiple birth?")
+                    </div>
+                    <div class="value">
+                        #xdatBooleanRadioYesNo("multipleBirthBoolean" $item $defaultValue $vr)
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="key">
+                        #formLabel("Birth number")
+                    </div>
+                    <div class="value">
+                        <input type="number" name="multipleBirthInteger" value="$!item.getProperty("multipleBirthInteger")" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <h2>Photo</h2>
+            #set($formbase = "fhir:patient/photo")
+            #parse("/screens/xnat_patientData/subforms/attachment.vm")
+        </div>
+        #xdatEditProps($item $edit_screen)
+        <input type="button" onclick="validateForm();" name="eventSubmit_doInsert" value="Submit"/>
+    </form>
+
+<script type="text/javascript">
+    function validateForm() {
+        document.patientForm.submit();
+        return true;
+    }
+</script>
