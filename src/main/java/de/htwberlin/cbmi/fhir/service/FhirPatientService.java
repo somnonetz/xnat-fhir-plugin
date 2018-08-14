@@ -578,8 +578,13 @@ public class FhirPatientService extends DatatypeValidatable {
         HashMap<String, Object> result = new HashMap<>();
 
         // Push simple elements
-        Datatypes.addIfPresent(result, "relationship", _codeableConceptService.makePropertyMap(entity.getRelationship(), user));
-        Datatypes.addIfPresent(result, "name", entity.getName());
+        Map<String, Object> relationship = _codeableConceptService.makePropertyMap(entity.getRelationship(), user);
+        if (relationship != null) {
+            List<Map<String, Object>> relationships = Datatypes.makeList(relationship);
+            Datatypes.addIfPresent(result, "relationship", relationships);
+        }
+
+        Datatypes.addIfPresent(result, "name", _nameService.makePropertyMap(entity.getName(), user));
         Datatypes.addIfPresent(result, "address", _addressService.makePropertyMap(entity.getAddress(), user));
         Datatypes.addIfPresent(result, "gender", entity.getGender());
         Datatypes.addIfPresent(result, "organization", _referenceService.makePropertyMap(entity.getOrganization(), user));
@@ -589,7 +594,7 @@ public class FhirPatientService extends DatatypeValidatable {
         for (FhirContactpointI item : entity.getTelecom()) {
             items.add(_contactPointService.makePropertyMap(item, user));
         }
-        Datatypes.addIfNotEmpty(result, "line", items);
+        Datatypes.addIfNotEmpty(result, "telecom", items);
         return result;
     }
 
