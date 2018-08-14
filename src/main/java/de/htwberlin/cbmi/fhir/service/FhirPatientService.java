@@ -409,9 +409,12 @@ public class FhirPatientService extends DatatypeValidatable {
         try {
             // Build the result object
             FhirPatientContact result = new FhirPatientContact(user);
-            FhirCodeableconceptI relationship = _codeableConceptService.createCodeableConcept((Map<String, Object>)data.get("relationship"), user);
-            if (relationship != null) {
-                result.setRelationship(relationship);
+            List<Map<String, Object>> relationships = (List<Map<String, Object>>)data.get("relationship");
+            if (relationships != null && relationships.size() > 0) {
+                FhirCodeableconceptI relationship = _codeableConceptService.createCodeableConcept(relationships.get(0), user);
+                if (relationship != null) {
+                    result.setRelationship(relationship);
+                }
             }
             result.setGender((String) data.get("gender"));
 
