@@ -597,7 +597,7 @@ This repeating element order: The order in which lines should appear in an addre
                             </xs:sequence>
                         </xs:complexType>
                     </xs:element>
-                    <xs:element name="" type="fhir:attachment" minOccurs="0" maxOccurs="unbounded">
+                    <xs:element name="photo" type="fhir:attachment" minOccurs="0" maxOccurs="unbounded">
                         <xs:annotation>
                             <xs:documentation>Addresses for the individual</xs:documentation>
                             <xs:appinfo>
