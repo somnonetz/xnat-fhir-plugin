@@ -1,4 +1,6 @@
-.identifier_form, .human_name_form, .contact_point_form, .address_form, .codeable_concept_form, .attachment_form, .animal_form, .communication_form, .link_form, .practitioner_form{
+.identifier_form, .human_name_form, .contact_point_form, .address_form,
+.codeable_concept_form, .attachment_form, .animal_form, .communication_form,
+.link_form, .practitioner_form, .contact_party_form {
     background-color: #f0f0f0;
     margin-left: 20px;
     margin-top: 20px;

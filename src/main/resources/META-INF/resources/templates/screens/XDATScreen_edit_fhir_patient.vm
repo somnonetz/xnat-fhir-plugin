@@ -97,7 +97,7 @@ $page.setVlinkColor($ui.vlink)
         </div>
 
         <div>
-            <h1>Patient contact point</h1>
+            <h2>Patient contact point</h2>
             #set($formbase = "fhir:patient/telecom")
             #parse("/screens/xnat_patientData/subforms/contact_point.vm")
         </div>
@@ -203,6 +203,8 @@ $page.setVlinkColor($ui.vlink)
         <div>
             <h2>Contact party for the patient</h2>
 
+            #set($formbase = "fhir:patient/contact")
+            #parse("/screens/xnat_patientData/subforms/contact_party.vm")
         </div>
 
         <div>
