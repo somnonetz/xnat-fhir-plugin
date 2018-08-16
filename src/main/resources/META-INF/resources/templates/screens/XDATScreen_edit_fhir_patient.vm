@@ -190,6 +190,63 @@ $page.setVlinkColor($ui.vlink)
                 </div>
             </div>
         </div>
+        <div>
+            <h2>Contact Person</h2>
+            <div class="form_block">
+                <div class="row">
+                    <input type="button" name="add-contact-person" value="Add Contact Person" onclick="addRow(this, 'contact_form')" />
+                </div>
+                <div class="row" style="display: none" data-base="$formbase" data-label="contact_form">
+                    <div class="delete_item">
+                        <a style="color: red">
+                            <i class="fa fa-trash-o" title="Delete" onclick="deleteRow(this, 'contact_form')"></i>
+                        </a>
+                    </div>
+                    <div class="delete_item_content">
+                    <div class="row">
+                        #set($formbase= "fhir:patient/contact/relationship")
+                        #parse("/screens/xnat_patientData/subforms/relationship.vm")
+                    </div>
+                    <div class="row">
+                        #set($formbase = "fhir:patient/contact/name")
+                        #parse("/screens/xnat_patientData/subforms/human_name.vm")
+                    </div>
+                    <div class="row">
+                        #set($formbase = "fhir:patient/contact/telecom")
+                        #parse("screens/xnat_patientData/subforms/contact_point.vm")
+                    </div>
+                    <div class="row">
+                        #set($formbase = "fhir:patient/contact/address")
+                        #parse("screens/xnat_patientData/subforms/address.vm")
+                    </div>
+                    <div class="row">
+                        <h3>Gender</h3>
+
+                        <div class="form_block">
+                            <div class="row">
+                                <div class="value">
+                                    #set($systemValues = ["male", "female", "other", "unknown"])
+                            #xdatSimpleSelectBoxLbl("SELECT" "gender" $item $systemValues $vr)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="key">
+                            #formLabel("Organization")
+                        </div>
+                        <div class="value">
+                            #xdatStringBox("oraganization_ID" $item "Reference" $vr)
+                        </div>
+                    </div>
+                    <div class="row">
+                        <h2>Period</h2>
+                        #parse("/screens/xnat_patientData/subforms/period.vm")
+                    </div>
+
+                </div>
+            </div>
+        </div>
         #xdatEditProps($item $edit_screen)
         <input type="button" onclick="validateForm();" name="eventSubmit_doInsert" value="Submit"/>
     </form>
