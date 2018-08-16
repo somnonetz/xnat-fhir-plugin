@@ -10,6 +10,10 @@
     color: white;
 }
 
+.animal_form {
+    background-color: #f0f0f0;
+}
+
 .codeable_concept_form {
     margin: 20px 40px 20px 40px;
     border-top: 1px solid #afafaf;

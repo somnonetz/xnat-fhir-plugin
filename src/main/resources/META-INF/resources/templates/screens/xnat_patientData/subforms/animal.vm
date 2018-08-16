@@ -1,13 +1,5 @@
 <div class="form_block">
-    <div class="row">
-        <input type="button" name="add-animal" value="Add animal" onclick="addRow(this, 'animal_form')" />
-    </div>
-    <div class="row" style="display: none" data-base="$formbase" data-label="animal_form">
-        <div class="delete_item">
-            <a style="color: red">
-                <i class="fa fa-trash-o" title="Delete" onclick="deleteRow(this, 'animal_form' )"></i>
-            </a>
-        </div>
+    <div class="animal_form" data-base="$formbase" data-label="animal_form">
         <div class="delete_item_content">
             <div class="row">
                 <div class="key">

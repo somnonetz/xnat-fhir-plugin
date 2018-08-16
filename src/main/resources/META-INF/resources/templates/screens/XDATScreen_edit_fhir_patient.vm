@@ -91,6 +91,7 @@ $page.setVlinkColor($ui.vlink)
 
         <div>
             <h2>Patient name</h2>
+
             #set($formbase = "fhir:patient/name")
             #parse("/screens/xnat_patientData/subforms/human_name.vm")
         </div>
@@ -151,6 +152,7 @@ $page.setVlinkColor($ui.vlink)
 
         <div>
             <h2>Patient address</h2>
+
             #set($formbase = "fhir:patient/address")
             #parse("/screens/xnat_patientData/subforms/address.vm")
         </div>
@@ -161,8 +163,8 @@ $page.setVlinkColor($ui.vlink)
             <div class="form_block">
                 <div class="row">
                     <div class="value">
-                        #set($systemValues = ["A", "D", "I", "L", "M", "P", "S", "T", "U", "W", "UNK"])
-                        #xdatSimpleSelectBoxLbl("SELECT" "maritalStatus" $item $systemValues $vr)
+                        #set($formbase = "fhir:patient/maritalStatus")
+                        #parse("/screens/xnat_patientData/subforms/codeable_concept.vm")
                     </div>
                 </div>
             </div>
@@ -193,18 +195,26 @@ $page.setVlinkColor($ui.vlink)
 
         <div>
             <h2>Photo</h2>
+
             #set($formbase = "fhir:patient/photo")
             #parse("/screens/xnat_patientData/subforms/attachment.vm")
         </div>
 
         <div>
-            <h2>Animal</h2>
+            <h2>Contact party for the patient</h2>
+
+        </div>
+
+        <div>
+            <h2>Animal Patient</h2>
+
             #set($formbase = "fhir:patient/animal")
             #parse("/screens/xnat_patientData/subforms/animal.vm")
         </div>
 
         <div>
             <h2>Communication</h2>
+
             #set($formbase= "fhir:patient:communication")
             #parse("/screens/xnat_patientData/subforms/communication.vm")
         </div>
