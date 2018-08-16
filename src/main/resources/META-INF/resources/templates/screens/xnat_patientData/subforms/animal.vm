@@ -10,19 +10,31 @@
         </div>
         <div class="delete_item_content">
             <div class="row">
-                <h3>Animal Species</h3>
-                #set($formbase = "fhir:patient/codeable_concept")
-                #parse("/screens/xnat_patientData/subforms/codeable_concept.vm")
+                <div class="key">
+                    #formLabel("Animal Species")
+                </div>
+                <div class="value">
+                    #set($formbase = "fhir:patient/codeable_concept")
+                    #parse("/screens/xnat_patientData/subforms/codeable_concept.vm")
+                </div>
             </div>
             <div class="row">
-                <h3>Animal Breed</h3>
-                #set($formbase = "fhir:patient/codeable_concept")
-                #parse("/screens/xnat_patientData/subforms/codeable_concept.vm")
+                <div class="key">
+                    #formLabel("Animal Breed")
+                </div>
+                <div class="value">
+                    #set($formbase = "fhir:patient/codeable_concept")
+                    #parse("/screens/xnat_patientData/subforms/codeable_concept.vm")
+                </div>
             </div>
             <div class="row">
-                <h3>Gender Status</h3>
-                #set($formbase = "fhir:patient/codeable_concept")
-                #parse("/screens/xnat_patientData/subforms/codeable_concept.vm")
+                <div class="key">
+                    #formLabel("Gender Status")
+                </div>
+                <div class="value">
+                    #set($formbase = "fhir:patient/codeable_concept")
+                    #parse("/screens/xnat_patientData/subforms/codeable_concept.vm")
+                </div>
             </div>
         </div>
     </div>

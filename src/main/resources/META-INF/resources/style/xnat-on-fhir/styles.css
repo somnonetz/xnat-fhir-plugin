@@ -5,6 +5,11 @@
     padding: 20px 0 20px 20px;
 }
 
+.submit_button {
+    margin-top: 2em;
+    color: white;
+}
+
 .codeable_concept_form {
     margin: 20px 40px 20px 40px;
     border-top: 1px solid #afafaf;

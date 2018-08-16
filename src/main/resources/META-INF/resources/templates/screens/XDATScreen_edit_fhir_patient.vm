@@ -255,9 +255,8 @@ $page.setVlinkColor($ui.vlink)
             #parse("/screens/xnat_patientData/subforms/link.vm")
         </div>
 
-
         #xdatEditProps($item $edit_screen)
-        <input type="button" onclick="validateForm();" name="eventSubmit_doInsert" value="Submit"/>
+        <input type="button" onclick="validateForm();" name="eventSubmit_doInsert" value="Submit Patient Form" class="submit_button" style="background: #2b4189;" />
     </form>
 
     <br/>
