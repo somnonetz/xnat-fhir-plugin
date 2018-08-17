@@ -443,63 +443,44 @@ This repeating element order: The order in which lines should appear in an addre
     </xs:simpleType>
 
     <xs:complexType name="attachment">
-        <xs:sequence>
-            <xs:element name="contentType" type="xs:string" minOccurs="0" maxOccurs="1">
-                <xs:annotation>
-                    <xs:documentation>Mime type of the content, with charset etc.</xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="language" minOccurs="0" maxOccurs="1" type="fhir:commonLanguages">
-                <xs:annotation>
-                    <xs:documentation>Human language of the content (BCP-47)</xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="data" minOccurs="0" maxOccurs="1">
-                <xs:annotation>
-                    <xs:documentation>Data inline, base64ed</xs:documentation>
-                </xs:annotation>
-                <xs:restriction base="xs:string">
-                    <xs:maxLength value="65535"/>
-                </xs:restriction>
-            </xs:element>
-            <xs:element name="url" type="xs:string" minOccurs="0" maxOccurs="1">
-                <xs:annotation>
-                    <xs:documentation>Uri where the data can be found</xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="size" type="xs:unsignedInt" minOccurs="0" maxOccurs="1">
-                <xs:annotation>
-                    <xs:documentation>Number of bytes of content (if url provided)</xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="hash" minOccurs="0" maxOccurs="1">
-                <xs:annotation>
-                    <xs:documentation>Hash of the data (sha-1, base64ed)</xs:documentation>
-                </xs:annotation>
-                <xs:restriction base="xs:string">
-                    <xs:maxLength value="255"/>
-                </xs:restriction>
-            </xs:element>
-            <xs:element name="title" type="xs:string" minOccurs="0" maxOccurs="1">
-                <xs:annotation>
-                    <xs:documentation>Label to display in place of the data</xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="creation" type="xs:dateTime" minOccurs="0" maxOccurs="1">
-                <xs:annotation>
-                    <xs:documentation>Date attachment was first created</xs:documentation>
-                </xs:annotation>
-            </xs:element>
-        </xs:sequence>
-        <xs:attribute name="ID" type="xs:integer">
-            <xs:annotation>
-                <xs:appinfo>
-                    <xdat:field>
-                        <xdat:sqlField primaryKey="true" autoIncrement="true"/>
-                    </xdat:field>
-                </xs:appinfo>
-            </xs:annotation>
-        </xs:attribute>
+        <xs:complexContent>
+            <xs:extension base="xnat:resource">
+                <xs:sequence>
+                    <xs:element name="contentType" type="xs:string" minOccurs="0" maxOccurs="1">
+                        <xs:annotation>
+                            <xs:documentation>Mime type of the content, with charset etc.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="language" minOccurs="0" maxOccurs="1" type="fhir:commonLanguages">
+                        <xs:annotation>
+                            <xs:documentation>Human language of the content (BCP-47)</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="hash" minOccurs="0" maxOccurs="1">
+                        <xs:annotation>
+                            <xs:documentation>Hash of the data (sha-1, base64ed)</xs:documentation>
+                        </xs:annotation>
+                        <xs:restriction base="xs:string">
+                            <xs:maxLength value="255"/>
+                        </xs:restriction>
+                    </xs:element>
+                    <xs:element name="creation" type="xs:dateTime" minOccurs="0" maxOccurs="1">
+                        <xs:annotation>
+                            <xs:documentation>Date attachment was first created</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+                <!--<xs:attribute name="ID" type="xs:integer">
+                    <xs:annotation>
+                        <xs:appinfo>
+                            <xdat:field>
+                                <xdat:sqlField primaryKey="true" autoIncrement="true"/>
+                            </xdat:field>
+                        </xs:appinfo>
+                    </xs:annotation>
+                </xs:attribute>-->
+            </xs:extension>
+        </xs:complexContent>
     </xs:complexType>
 
     <xs:simpleType name="linkType">

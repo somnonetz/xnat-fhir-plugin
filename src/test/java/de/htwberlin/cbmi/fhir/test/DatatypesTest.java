@@ -78,7 +78,7 @@ public class DatatypesTest {
     @Test
     public void testPatientValidation() {
         String directory = System.getProperty("user.dir") + "/src/test/resources/json/";
-        File f = new File(directory + "Patient1_Isa");
+        File f = new File(directory + "patient_animal.json");
 
         Map<String, Object> result = null;
         try {

@@ -97,7 +97,7 @@ public class FhirCodingService extends DatatypeValidatable {
      * Allowed key types in this datatype
      * @return Collection of types aligned to getAllowedKeys() allowed to be present
      */
-    public Collection<Object> getAllowedKeyTypes() {
+    public Collection<? extends Object> getAllowedKeyTypes() {
         return Datatypes.makeList(String.class, String.class, String.class, String.class, Boolean.class);
     }
 
