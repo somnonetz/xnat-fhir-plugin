@@ -2,6 +2,7 @@ group 'de.htwberlin.cbmi'
 version '0.0.1-prealpha'
 
 def vXnat = '1.7.0-SNAPSHOT'
+def vXnatPrefs = '1.7.0'
 def vJunit = '4.12'
 def vSpring = '4.2.5.RELEASE'
 def vSlf4j = '1.7.15'
@@ -147,6 +148,7 @@ dependencies {
         transitive = false
     }
     compile "org.nrg:framework:${vXnat}"
+    compile "org.nrg:prefs:${vXnat}"
 
     compile "org.reflections:reflections:0.9.10"
     compile "javax.servlet:javax.servlet-api:3.1.0"

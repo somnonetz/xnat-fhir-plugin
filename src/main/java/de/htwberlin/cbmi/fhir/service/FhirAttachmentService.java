@@ -7,14 +7,17 @@ import javax.xml.bind.DatatypeConverter;
 import de.htwberlin.cbmi.fhir.utils.DatatypeValidatable;
 import de.htwberlin.cbmi.fhir.utils.Datatypes;
 import org.apache.commons.lang3.ArrayUtils;
+import org.nrg.xdat.XDAT;
 import org.nrg.xdat.bean.FhirIdentifierBean;
 import org.nrg.xdat.base.BaseElement;
 import org.nrg.xdat.model.*;
 import org.nrg.xdat.om.*;
+import org.nrg.xdat.preferences.SiteConfigPreferences;
 import org.nrg.xft.search.ItemSearch;
 import org.nrg.xft.ItemI;
 import org.nrg.xft.collections.ItemCollection;
 import org.nrg.xft.security.UserI;
+import org.nrg.xnat.utils.CatalogUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,9 +65,9 @@ public class FhirAttachmentService extends DatatypeValidatable {
             if (base64Data != null) {
                 // Build local URI
                 byte bytes[] = DatatypeConverter.parseBase64Binary(base64Data);
-                result.setUri("/data/xnat/archive/" + FhirAttachment.SCHEMA_ELEMENT_NAME + "/" + UUID.randomUUID().toString());
-                File path = new File(this.getResourcePath(result));
-                File parent = new File(path.getParent());
+                result.setUri(this.getResourceUri(result));
+                File path = new File(result.getUri());
+                File parent = path.getParentFile();
                 if (!parent.exists() && !parent.mkdirs()) {
                     _log.error("Failed to create parent directory to store the file");
                     return null;
@@ -141,7 +144,7 @@ public class FhirAttachmentService extends DatatypeValidatable {
         Datatypes.addIfPresent(result, "contentType", entity.getContenttype());
         Datatypes.addIfPresent(result, "language", entity.getLanguage());
 
-        File path = new File(this.getResourcePath(entity));
+        File path = new File(entity.getUri());
         if (path.exists() && path.isFile()) {
             try {
                 byte[] fileContent = Files.readAllBytes(path.toPath());
@@ -178,10 +181,14 @@ public class FhirAttachmentService extends DatatypeValidatable {
                 String.class, String.class);
     }
 
-    private String getResourcePath(FhirAttachment attachement) {
-        return attachement.getFullPath("/");
+    private String getResourceUri(FhirAttachment attachement) {
+        return this.siteConfigPreferences.getArchivePath() + "/" + FhirAttachment.SCHEMA_ELEMENT_NAME + "/" + UUID.randomUUID().toString();
     }
 
     /// We want a logger to tell everyone about errors
-    private static final Logger _log = LoggerFactory.getLogger(FhirAddressService.class);
+    private static final Logger _log = LoggerFactory.getLogger(FhirAttachmentService.class);
+
+    /// We need to access the site configuration
+    @Autowired
+    private SiteConfigPreferences siteConfigPreferences;
 }

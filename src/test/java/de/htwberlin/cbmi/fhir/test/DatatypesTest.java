@@ -93,6 +93,12 @@ public class DatatypesTest {
         }
 
         // Validate input
+        try {
+            patientService.validateProperties(result);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
         assertNull(patientService.validateProperties(result));
     }
 

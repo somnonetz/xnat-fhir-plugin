@@ -1,8 +1,20 @@
 package de.htwberlin.cbmi.fhir.test;
 
 import de.htwberlin.cbmi.fhir.service.*;
+import org.hibernate.SessionFactory;
+import org.nrg.framework.services.NrgEventService;
+import org.nrg.prefs.repositories.ToolRepository;
+import org.nrg.prefs.services.NrgPreferenceService;
+import org.nrg.prefs.services.PreferenceService;
+import org.nrg.prefs.services.ToolService;
+import org.nrg.prefs.services.impl.DefaultNrgPreferenceService;
+import org.nrg.prefs.services.impl.hibernate.HibernatePreferenceService;
+import org.nrg.prefs.services.impl.hibernate.HibernateToolService;
+import org.nrg.xdat.preferences.SiteConfigPreferences;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import reactor.bus.EventBus;
 
 @Configuration
 public class SpringTestBeans {
@@ -49,5 +61,10 @@ public class SpringTestBeans {
     @Bean
     public FhirReferenceService frs() {
         return new FhirReferenceService();
+    }
+
+    @Bean
+    public SiteConfigPreferences scp() {
+        return null;
     }
 }
