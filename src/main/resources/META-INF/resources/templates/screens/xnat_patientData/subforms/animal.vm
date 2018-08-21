@@ -1,0 +1,33 @@
+<div class="form_block">
+    <div class="animal_form" data-base="$formbase" data-label="animal_form">
+        <div class="delete_item_content">
+            <div class="row">
+                <div class="key">
+                    #formLabel("Animal Species")
+                </div>
+                <div class="value">
+                    #set($formbase = "fhir:patient/codeable_concept")
+                    #parse("/screens/xnat_patientData/subforms/codeable_concept.vm")
+                </div>
+            </div>
+            <div class="row">
+                <div class="key">
+                    #formLabel("Animal Breed")
+                </div>
+                <div class="value">
+                    #set($formbase = "fhir:patient/codeable_concept")
+                    #parse("/screens/xnat_patientData/subforms/codeable_concept.vm")
+                </div>
+            </div>
+            <div class="row">
+                <div class="key">
+                    #formLabel("Gender Status")
+                </div>
+                <div class="value">
+                    #set($formbase = "fhir:patient/codeable_concept")
+                    #parse("/screens/xnat_patientData/subforms/codeable_concept.vm")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -91,12 +91,13 @@ $page.setVlinkColor($ui.vlink)
 
         <div>
             <h2>Patient name</h2>
+
             #set($formbase = "fhir:patient/name")
             #parse("/screens/xnat_patientData/subforms/human_name.vm")
         </div>
 
         <div>
-            <h1>Patient contact point</h1>
+            <h2>Patient contact point</h2>
             #set($formbase = "fhir:patient/telecom")
             #parse("/screens/xnat_patientData/subforms/contact_point.vm")
         </div>
@@ -151,6 +152,7 @@ $page.setVlinkColor($ui.vlink)
 
         <div>
             <h2>Patient address</h2>
+
             #set($formbase = "fhir:patient/address")
             #parse("/screens/xnat_patientData/subforms/address.vm")
         </div>
@@ -161,8 +163,8 @@ $page.setVlinkColor($ui.vlink)
             <div class="form_block">
                 <div class="row">
                     <div class="value">
-                        #set($systemValues = ["A", "D", "I", "L", "M", "P", "S", "T", "U", "W", "UNK"])
-                        #xdatSimpleSelectBoxLbl("SELECT" "maritalStatus" $item $systemValues $vr)
+                        #set($formbase = "fhir:patient/maritalStatus")
+                        #parse("/screens/xnat_patientData/subforms/codeable_concept.vm")
                     </div>
                 </div>
             </div>
@@ -190,70 +192,89 @@ $page.setVlinkColor($ui.vlink)
                 </div>
             </div>
         </div>
+
         <div>
-            <h2>Contact Person</h2>
+            <h2>Photo</h2>
+
+            #set($formbase = "fhir:patient/photo")
+            #parse("/screens/xnat_patientData/subforms/attachment.vm")
+        </div>
+
+        <div>
+            <h2>Contact party for the patient</h2>
+
+            #set($formbase = "fhir:patient/contact")
+            #parse("/screens/xnat_patientData/subforms/contact_party.vm")
+        </div>
+
+        <div>
+            <h2>Animal Patient</h2>
+
+            #set($formbase = "fhir:patient/animal")
+            #parse("/screens/xnat_patientData/subforms/animal.vm")
+        </div>
+
+        <div>
+            <h2>Communication</h2>
+
+            #set($formbase= "fhir:patient:communication")
+            #parse("/screens/xnat_patientData/subforms/communication.vm")
+        </div>
+
+        <div>
+            <h2>General Practitioner</h2>
             <div class="form_block">
                 <div class="row">
-                    <input type="button" name="add-contact-person" value="Add Contact Person" onclick="addRow(this, 'contact_form')" />
+                    <input type="button" name="add-practitioner" value="Add practitioner" onclick="addRow(this, 'practitioner_form')" />
                 </div>
-                <div class="row" style="display: none" data-base="$formbase" data-label="contact_form">
+                <div class="row" style="display: none" data-base="$formbase" data-label="practitioner_form">
                     <div class="delete_item">
                         <a style="color: red">
-                            <i class="fa fa-trash-o" title="Delete" onclick="deleteRow(this, 'contact_form')"></i>
+                            <i class="fa fa-trash-o" title="Delete" onclick="deleteRow(this, 'practitioner_form' )"></i>
                         </a>
                     </div>
                     <div class="delete_item_content">
-                    <div class="row">
-                        #set($formbase= "fhir:patient/contact/relationship")
-                        #parse("/screens/xnat_patientData/subforms/relationship.vm")
-                    </div>
-                    <div class="row">
-                        #set($formbase = "fhir:patient/contact/name")
-                        #parse("/screens/xnat_patientData/subforms/human_name.vm")
-                    </div>
-                    <div class="row">
-                        #set($formbase = "fhir:patient/contact/telecom")
-                        #parse("screens/xnat_patientData/subforms/contact_point.vm")
-                    </div>
-                    <div class="row">
-                        #set($formbase = "fhir:patient/contact/address")
-                        #parse("screens/xnat_patientData/subforms/address.vm")
-                    </div>
-                    <div class="row">
-                        <h3>Gender</h3>
-
-                        <div class="form_block">
+                        <div class="row">
                             <div class="row">
+                                <div class="key">
+                                    #formLabel("General Practitioner")
+                                </div>
                                 <div class="value">
-                                    #set($systemValues = ["male", "female", "other", "unknown"])
-                            #xdatSimpleSelectBoxLbl("SELECT" "gender" $item $systemValues $vr)
+                                    #xdatStringBox("General Practitioner" $item "Reference" $vr)
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="key">
-                            #formLabel("Organization")
-                        </div>
-                        <div class="value">
-                            #xdatStringBox("oraganization_ID" $item "Reference" $vr)
-                        </div>
-                    </div>
-                    <div class="row">
-                        <h2>Period</h2>
-                        #parse("/screens/xnat_patientData/subforms/period.vm")
-                    </div>
-
                 </div>
             </div>
         </div>
+
+        <div>
+            <h2>Managing Organization</h2>
+            <div class="row">
+                <div class="key">
+                    #formLabel("Managing Organization")
+                </div>
+                <div class="value">
+                    #xdatStringBox("Managing Organization" $item "Reference" $vr)
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <h2>Link</h2>
+            #set($formbase= "fhir:patient:link")
+            #parse("/screens/xnat_patientData/subforms/link.vm")
+        </div>
+
         #xdatEditProps($item $edit_screen)
-        <input type="button" onclick="validateForm();" name="eventSubmit_doInsert" value="Submit"/>
+        <input type="button" onclick="validateForm();" name="eventSubmit_doInsert" value="Submit Patient Form" class="submit_button" style="background: #2b4189;" />
     </form>
 
-<script type="text/javascript">
-    function validateForm() {
-        document.patientForm.submit();
-        return true;
-    }
-</script>
+    <br/>
+    <script type="text/javascript">
+        function validateForm() {
+            document.patientForm.submit();
+            return true;
+        }
+    </script>

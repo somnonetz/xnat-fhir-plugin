@@ -86,6 +86,7 @@ public class FhirPatientService extends DatatypeValidatable {
 
             // Create patient record and assign inherited attributes
             FhirPatient patient = new FhirPatient(user);
+            patient.setSubjectId(subject.getId());
             patient.setId("FHIR_" + subject.getId());
             patient.setLabel("fhir_patient_" + subject.getLabel());
             patient.setProject(subject.getProject());
@@ -408,9 +409,12 @@ public class FhirPatientService extends DatatypeValidatable {
         try {
             // Build the result object
             FhirPatientContact result = new FhirPatientContact(user);
-            FhirCodeableconceptI relationship = _codeableConceptService.createCodeableConcept((Map<String, Object>)data.get("relationship"), user);
-            if (relationship != null) {
-                result.setRelationship(relationship);
+            List<Map<String, Object>> relationships = (List<Map<String, Object>>)data.get("relationship");
+            if (relationships != null && relationships.size() > 0) {
+                FhirCodeableconceptI relationship = _codeableConceptService.createCodeableConcept(relationships.get(0), user);
+                if (relationship != null) {
+                    result.setRelationship(relationship);
+                }
             }
             result.setGender((String) data.get("gender"));
 
@@ -574,8 +578,13 @@ public class FhirPatientService extends DatatypeValidatable {
         HashMap<String, Object> result = new HashMap<>();
 
         // Push simple elements
-        Datatypes.addIfPresent(result, "relationship", _codeableConceptService.makePropertyMap(entity.getRelationship(), user));
-        Datatypes.addIfPresent(result, "name", entity.getName());
+        Map<String, Object> relationship = _codeableConceptService.makePropertyMap(entity.getRelationship(), user);
+        if (relationship != null) {
+            List<Map<String, Object>> relationships = Datatypes.makeList(relationship);
+            Datatypes.addIfPresent(result, "relationship", relationships);
+        }
+
+        Datatypes.addIfPresent(result, "name", _nameService.makePropertyMap(entity.getName(), user));
         Datatypes.addIfPresent(result, "address", _addressService.makePropertyMap(entity.getAddress(), user));
         Datatypes.addIfPresent(result, "gender", entity.getGender());
         Datatypes.addIfPresent(result, "organization", _referenceService.makePropertyMap(entity.getOrganization(), user));
@@ -585,7 +594,7 @@ public class FhirPatientService extends DatatypeValidatable {
         for (FhirContactpointI item : entity.getTelecom()) {
             items.add(_contactPointService.makePropertyMap(item, user));
         }
-        Datatypes.addIfNotEmpty(result, "line", items);
+        Datatypes.addIfNotEmpty(result, "telecom", items);
         return result;
     }
 

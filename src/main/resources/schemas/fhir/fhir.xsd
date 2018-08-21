@@ -19,7 +19,7 @@
 
     <xs:complexType name="coding">
         <xs:sequence>
-            <xs:element name="system" type="xs:anyURI" minOccurs="0" maxOccurs="1">
+            <xs:element name="system" type="xs:string" minOccurs="0" maxOccurs="1">
                 <xs:annotation>
                     <xs:documentation>Identity of the terminology system</xs:documentation>
                 </xs:annotation>
@@ -235,7 +235,7 @@
                     <xs:documentation>Description of identifier</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="system" type="xs:anyURI" minOccurs="0" maxOccurs="1">
+            <xs:element name="system" type="xs:string" minOccurs="0" maxOccurs="1">
                 <xs:annotation>
                     <xs:documentation>The namespace for the identifier value</xs:documentation>
                 </xs:annotation>
@@ -462,7 +462,7 @@ This repeating element order: The order in which lines should appear in an addre
                     <xs:maxLength value="65535"/>
                 </xs:restriction>
             </xs:element>
-            <xs:element name="url" type="xs:anyURI" minOccurs="0" maxOccurs="1">
+            <xs:element name="url" type="xs:string" minOccurs="0" maxOccurs="1">
                 <xs:annotation>
                     <xs:documentation>Uri where the data can be found</xs:documentation>
                 </xs:annotation>
