@@ -199,6 +199,7 @@ public class FhirPatientService extends DatatypeValidatable {
                         return null;
                     }
                     patient.addPhoto(photo);
+                    patient.addResources_resource(photo);
                 }
             }
 
@@ -311,7 +312,7 @@ public class FhirPatientService extends DatatypeValidatable {
         // Push photo
         items = new ArrayList<>();
         for (FhirAttachmentI item : patient.getPhoto()) {
-            Datatypes.appendIfPresent(items, _attachmentService.makePropertyMap(item, user));
+            Datatypes.appendIfPresent(items, _attachmentService.makePropertyMap((FhirAttachment)item, user));
         }
         Datatypes.addIfNotEmpty(result, "photo", items);
 
@@ -673,7 +674,7 @@ public class FhirPatientService extends DatatypeValidatable {
      * Allowed key types in this datatype
      * @return Collection of types aligned to getAllowedKeys() allowed to be present
      */
-    public Collection<Object> getAllowedKeyTypes() {
+    public Collection<? extends Object> getAllowedKeyTypes() {
         return Datatypes.makeList(String.class, _identityService, Boolean.class, _nameService, _contactPointService, String.class,
                 String.class, Boolean.class, String.class, _addressService, _codeableConceptService,
                 Boolean.class, Integer.class, _attachmentService,

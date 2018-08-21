@@ -13,9 +13,9 @@ public abstract class DatatypeValidatable {
         // Validate keys
         Collection<String> required = getRequiredKeys();
         Collection<String> allowed = getAllowedKeys();
-        Collection<Object> types = getAllowedKeyTypes();
+        Collection<? extends Object> types = getAllowedKeyTypes();
 
-        Map<String, Object> allowedTypes = Datatypes.makeMap(allowed, types);
+        Map<String, ? extends Object> allowedTypes = Datatypes.makeMap(allowed, types);
 
         // Validate required keys
         Collection<String> invalidKeys = Datatypes.validateKeys(attributes, required, allowedTypes);
@@ -66,7 +66,7 @@ public abstract class DatatypeValidatable {
      * Allowed key types in this datatype
      * @return Collection of types aligned to getAllowedKeys() allowed to be present
      */
-    public Collection<Object> getAllowedKeyTypes() {
+    public Collection<? extends Object> getAllowedKeyTypes() {
         return null;
     }
 

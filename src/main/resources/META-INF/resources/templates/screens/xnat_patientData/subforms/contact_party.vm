@@ -1,0 +1,75 @@
+<div class="form_block">
+    <div class="row">
+        <input type="button" name="add-contactParty" value="Add Contact Party" onclick="addRow(this, 'contact_party_form')" />
+    </div>
+    <div class="row" style="display: none" data-base="$formbase" data-label="contact_party_form">
+        <div class="delete_item">
+            <a style="color: red">
+                <i class="fa fa-trash-o" title="Delete" onclick="deleteRow(this, 'contact_party_form')"></i>
+            </a>
+        </div>
+        <div class="delete_item_content">
+            <div class="row">
+                <div class="key">
+                    #formLabel("Relationship")
+                </div>
+                <div class="value">
+                    #parse("/screens/xnat_patientData/subforms/codeable_concept.vm")
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="key">
+                    #formLabel("Name")
+                </div>
+                <div class="value">
+                    #parse("/screens/xnat_patientData/subforms/human_name.vm")
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="key">
+                    #formLabel("Contact Point *")
+                </div>
+                <div class="value">
+                    #parse("/screens/xnat_patientData/subforms/contact_point.vm")
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="key">
+                    #formLabel("Address")
+                </div>
+                <div class="value">
+                    #parse("/screens/xnat_patientData/subforms/address.vm")
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="key">
+                    #formLabel("Gender")
+                </div>
+                <div class="value">
+                    <div class="value">
+                        #set($systemValues = ["male", "female", "other", "unknown"])
+                        #xdatSimpleSelectBoxLbl("SELECT" "gender" $item $systemValues $vr)
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="key">
+                    #formLabel("Organisation")
+                </div>
+                <div class="value">
+                    <div class="value">
+                        #xdatStringBox("text" $item "Reference" $vr)
+                    </div>
+                </div>
+            </div>
+
+            <h3>Period</h3>
+            #parse("/screens/xnat_patientData/subforms/period.vm")
+        </div>
+    </div>
+</div>

@@ -9,6 +9,9 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.nrg.framework.annotations.XapiRestController;
 import org.nrg.xdat.model.FhirPatientI;
+import org.nrg.xdat.model.XnatAbstractresourceI;
+import org.nrg.xdat.model.XnatResourceI;
+import org.nrg.xdat.om.XnatImagescandata;
 import org.nrg.xdat.rest.AbstractXapiRestController;
 import org.nrg.xdat.security.services.RoleHolder;
 import org.nrg.xdat.security.services.UserManagementServiceI;
@@ -47,7 +50,7 @@ public class FhirPatientApi extends AbstractXapiRestController {
             @ApiResponse(code = 401, message = "Must be authenticated to access this REST API."),
             @ApiResponse(code = 500, message = "Unexpected error")})
     @RequestMapping(value = "{id}", produces = {MediaType.APPLICATION_JSON_VALUE}, method = RequestMethod.GET)
-    public ResponseEntity<Map<String, ?>> get(@PathVariable final Integer id, HttpServletRequest request) {
+    public ResponseEntity<Map<String, Object>> get(@PathVariable final Integer id, HttpServletRequest request) {
         Hashtable<String, Object> properties = new Hashtable<>();
         final UserI user = getSessionUser();
 
@@ -74,7 +77,7 @@ public class FhirPatientApi extends AbstractXapiRestController {
             @ApiResponse(code = 401, message = "Must be authenticated to access this REST API."),
             @ApiResponse(code = 500, message = "Unexpected error")})
     @RequestMapping(produces = {MediaType.APPLICATION_JSON_VALUE}, method = RequestMethod.POST)
-    public ResponseEntity<Map<String, ?>> create(@RequestBody Map<String, Object> data, HttpServletRequest request) {
+    public ResponseEntity<Map<String, Object>> create(@RequestBody Map<String, Object> data, HttpServletRequest request) {
         final UserI user = getSessionUser();
 
         // Read the JSON from the request

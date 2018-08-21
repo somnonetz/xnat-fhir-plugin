@@ -1,22 +1,32 @@
 package de.htwberlin.cbmi.fhir.service;
 
+import javax.activation.MimetypesFileTypeMap;
 import javax.annotation.Nullable;
+import javax.xml.bind.DatatypeConverter;
 
 import de.htwberlin.cbmi.fhir.utils.DatatypeValidatable;
 import de.htwberlin.cbmi.fhir.utils.Datatypes;
+import org.apache.commons.lang3.ArrayUtils;
+import org.nrg.xdat.XDAT;
 import org.nrg.xdat.bean.FhirIdentifierBean;
 import org.nrg.xdat.base.BaseElement;
 import org.nrg.xdat.model.*;
 import org.nrg.xdat.om.*;
+import org.nrg.xdat.preferences.SiteConfigPreferences;
 import org.nrg.xft.search.ItemSearch;
 import org.nrg.xft.ItemI;
 import org.nrg.xft.collections.ItemCollection;
 import org.nrg.xft.security.UserI;
+import org.nrg.xnat.utils.CatalogUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.security.MessageDigest;
 import java.util.*;
 
 /**
@@ -48,16 +58,68 @@ public class FhirAttachmentService extends DatatypeValidatable {
             FhirAttachment result = new FhirAttachment(user);
             result.setContenttype((String) data.get("contentType"));
             result.setLanguage((String) data.get("language"));
+            result.setLabel((String) data.get("title"));
+            result.setCreation(data.get("creation"));
+
+            String base64Data = (String) data.get("data");
+            if (base64Data != null) {
+                // Build local URI
+                byte bytes[] = DatatypeConverter.parseBase64Binary(base64Data);
+                result.setUri(this.getResourceUri(result));
+                File path = new File(result.getUri());
+                File parent = path.getParentFile();
+                if (!parent.exists() && !parent.mkdirs()) {
+                    _log.error("Failed to create parent directory to store the file");
+                    return null;
+                }
+
+                FileOutputStream fos = new FileOutputStream(path);
+                fos.write(bytes);
+                fos.close();
+
+                MessageDigest digest = MessageDigest.getInstance("SHA-1");
+                byte[] hash = digest.digest(bytes);
+
+                // Validate hashes
+                String base64Hash = (String) data.get("hash");
+                if (base64Hash != null) {
+                    byte[] testHash = DatatypeConverter.parseBase64Binary(base64Hash);
+                    if (!Arrays.equals(testHash, hash)) {
+                        _log.error("Submitted hash does not match calculated hash of input data");
+                        return null;
+                    }
+                }
+
+                result.setFileSize(bytes.length);
+                result.setHash(DatatypeConverter.printBase64Binary(hash));
+                if (result.getContenttype() == null) {
+                    result.setContenttype(Files.probeContentType(Paths.get(path.toURI())));
+                }
+            }
+            else {
+                result.setUri((String) data.get("url"));
+                result.setFileSize(data.get("size"));
+                result.setHash((String)data.get("hash"));
+            }
+
+            // Set XNAT resource properties
+            result.setFileCount(1);
+
+            /*
+            result.setContenttype((String) data.get("contentType"));
+            result.setLanguage((String) data.get("language"));
             result.setData((String)data.get("data"));
             result.setUrl((String) data.get("url"));
             result.setSize(data.get("size"));
             result.setHash((String)data.get("hash"));
             result.setTitle((String) data.get("title"));
             result.setCreation(data.get("creation"));
+             */
 
             return result;
         }
         catch (Exception e) {
+            _log.error("Attachement generation failed", e);
             return null;
         }
     }
@@ -69,7 +131,7 @@ public class FhirAttachmentService extends DatatypeValidatable {
      * @return Map with keys and values to transfer
      */
     @Nullable
-    public Map<String, Object> makePropertyMap(FhirAttachmentI entity, UserI user) {
+    public Map<String, Object> makePropertyMap(FhirAttachment entity, UserI user) {
         // An entity record should be present for export
         if (entity == null) {
             return null;
@@ -81,11 +143,22 @@ public class FhirAttachmentService extends DatatypeValidatable {
         // Push simple elements
         Datatypes.addIfPresent(result, "contentType", entity.getContenttype());
         Datatypes.addIfPresent(result, "language", entity.getLanguage());
-        Datatypes.addIfPresent(result, "data", entity.getData());
-        Datatypes.addIfPresent(result, "url", entity.getUrl());
-        Datatypes.addIfPresent(result, "size", entity.getSize());
+
+        File path = new File(entity.getUri());
+        if (path.exists() && path.isFile()) {
+            try {
+                byte[] fileContent = Files.readAllBytes(path.toPath());
+                Datatypes.addIfPresent(result, "data", DatatypeConverter.printBase64Binary(fileContent));
+            } catch (IOException e) {
+                _log.error("Failed to read file bytes", e);
+                return null;
+            }
+        }
+
         Datatypes.addIfPresent(result, "hash", entity.getHash());
-        Datatypes.addIfPresent(result, "title", entity.getTitle());
+        Datatypes.addIfPresent(result, "url", entity.getUri());
+        Datatypes.addIfPresent(result, "size", entity.getFileSize());
+        Datatypes.addIfPresent(result, "title", entity.getLabel());
         Datatypes.addIfPresent(result, "creation", entity.getCreation());
 
         return result;
@@ -103,10 +176,19 @@ public class FhirAttachmentService extends DatatypeValidatable {
      * Allowed key types in this datatype
      * @return Collection of types aligned to getAllowedKeys() allowed to be present
      */
-    public Collection<Object> getAllowedKeyTypes() {
-        return Datatypes.makeList(String.class, String.class, String.class, String.class, Number.class, String.class, String.class, String.class);
+    public Collection<? extends Object> getAllowedKeyTypes() {
+        return Datatypes.makeList(String.class, String.class, String.class, String.class, Number.class, String.class,
+                String.class, String.class);
+    }
+
+    private String getResourceUri(FhirAttachment attachement) {
+        return this.siteConfigPreferences.getArchivePath() + "/" + FhirAttachment.SCHEMA_ELEMENT_NAME + "/" + UUID.randomUUID().toString();
     }
 
     /// We want a logger to tell everyone about errors
-    private static final Logger _log = LoggerFactory.getLogger(FhirAddressService.class);
+    private static final Logger _log = LoggerFactory.getLogger(FhirAttachmentService.class);
+
+    /// We need to access the site configuration
+    @Autowired
+    private SiteConfigPreferences siteConfigPreferences;
 }

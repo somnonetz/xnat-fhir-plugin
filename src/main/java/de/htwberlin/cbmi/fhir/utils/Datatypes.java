@@ -191,9 +191,9 @@ public class Datatypes {
      * @param types Corresponding types of the given keys
      * @return The name of the key that failed validation or null if the map passed validation
      */
-    public static String validateMap(Map<String, ?> map, Iterable<String> keys, Iterable<Object> types) {
+    public static String validateMap(Map<String, ?> map, Iterable<String> keys, Iterable<? extends Object> types) {
         Iterator<String> keyIterator = keys.iterator();
-        Iterator<Object> typeIterator = types.iterator();
+        Iterator<? extends Object> typeIterator = types.iterator();
 
         while (keyIterator.hasNext() && typeIterator.hasNext()) {
             String key = keyIterator.next();
@@ -214,7 +214,7 @@ public class Datatypes {
      * @param allowed Allowed keys (. is supported for sub-structures)
      * @return null if no problems were found or a list of keys either missing or not allowed
      */
-    public static Collection<String> validateKeys(Map<String, ?> map, Collection<String> required, Map<String, Object> allowed) {
+    public static Collection<String> validateKeys(Map<String, ?> map, Collection<String> required, Map<String, ? extends Object> allowed) {
         Collection<String> presentKeys = getMapKeys(map, null);
         HashMap<String, Object> resolvedAllowedTypes = new HashMap<>();
         if (allowed != null) {

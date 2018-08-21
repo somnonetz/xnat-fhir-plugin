@@ -6,10 +6,13 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.nrg.framework.annotations.XapiRestController;
+import org.nrg.xdat.model.XnatAbstractresourceI;
+import org.nrg.xdat.model.XnatResourceI;
 import org.nrg.xdat.model.XnatSubjectassessordataI;
 import org.nrg.xdat.model.XnatSubjectdataI;
 import org.nrg.xdat.om.FhirContactpoint;
 import org.nrg.xdat.om.FhirPatient;
+import org.nrg.xdat.om.XnatResourcecatalog;
 import org.nrg.xdat.om.XnatSubjectdata;
 import org.nrg.xdat.rest.AbstractXapiRestController;
 import org.nrg.xdat.security.services.RoleHolder;
@@ -63,9 +66,9 @@ public class MichasCooleRestApi extends AbstractXapiRestController {
         XnatSubjectdataI subject = _service.getSubject(id, user);
 
         List<XnatSubjectassessordataI> experiments = subject.getExperiments_experiment();
-        ArrayList<Hashtable<String, String>> experimentList = new ArrayList<>();
+        ArrayList<Hashtable<String, Object>> experimentList = new ArrayList<>();
         for (XnatSubjectassessordataI experiment : experiments) {
-            Hashtable<String, String> experimentData = new Hashtable<>();
+            Hashtable<String, Object> experimentData = new Hashtable<>();
             experimentData.put("ID", _s(experiment.getId()));
             experimentData.put("xsiType", _s(experiment.getXSIType()));
             experimentData.put("original", _s(experiment.getOriginal()));
@@ -73,6 +76,27 @@ public class MichasCooleRestApi extends AbstractXapiRestController {
             experimentData.put("label", _s(experiment.getLabel()));
             experimentData.put("age", _s(experiment.getAge()));
             experimentData.put("note", _s(experiment.getNote()));
+
+            List<XnatAbstractresourceI> resources = experiment.getResources_resource();
+            ArrayList<Hashtable<String, String>> resourceList = new ArrayList<>();
+            for (XnatAbstractresourceI resource : resources) {
+                Hashtable<String, String> resourceData = new Hashtable<>();
+                resourceData.put("size", resource.getFileSize().toString());
+
+                if (resource instanceof XnatResourceI) {
+                    resourceData.put("path", _s(((XnatResourceI) resource).getCachepath()));
+                    resourceData.put("uri", _s(((XnatResourceI) resource).getUri()));
+                    resourceData.put("content", _s(((XnatResourceI) resource).getContent()));
+                }
+
+                if (resource instanceof XnatResourcecatalog) {
+                    resourceData.put("base_path", _s(((XnatResourcecatalog) resource).getCatalogFile("/data/xnat/archive").getAbsolutePath()));
+                }
+
+                resourceList.add(resourceData);
+            }
+
+            experimentData.put("resources", resourceList);
             experimentList.add(experimentData);
         }
 
