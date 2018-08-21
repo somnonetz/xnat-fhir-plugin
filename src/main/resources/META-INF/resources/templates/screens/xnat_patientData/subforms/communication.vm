@@ -11,8 +11,62 @@
         <div class="delete_item_content">
             <div class="row">
                 <h3>Language</h3>
-                #set($formbase = "fhir:patient/codeable_concept")
-                #parse("/screens/xnat_patientData/subforms/codeable_concept.vm")
+                <div class="row">
+                    <div class="key">
+                        #formLabel("Coding system")
+                    </div>
+                    <div class="value">
+                        <input type="url" name="system" placeholder="Identity of the terminology system">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="key">
+                        #formLabel("Coding Version")
+                    </div>
+                    <div class="value">
+                        #xdatStringBox("version" $item "Version of the system" $vr)
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="key">
+                        #formLabel("Code")
+                    </div>
+                    <div class="value">
+                        #xdatStringBox("code" $item "Symbol in syntax" $vr)
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="key">
+                        #formLabel("Display")
+                    </div>
+                    <div class="value">
+                        #xdatStringBox("display" $item "Representation" $vr)
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="key">
+                        #formLabel("Selected user")
+                    </div>
+                    <div class="value">
+                        #xdatBooleanRadioYesNo("userSelected" $item $defaultValue $vr)
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="row">
+                <div class="key">
+                    #formLabel("Text")
+                </div>
+                <div class="value">
+                    #xdatStringBox("text" $item "Plain text representation of the concept" $vr)
+                </div>
+            </div>
             </div>
             <div class="row">
                 <div class="key">
