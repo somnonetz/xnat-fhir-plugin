@@ -26,18 +26,7 @@ $page.setVlinkColor($ui.vlink)
                         <span style="font-family: $ui.sansSerifFonts; font-size: small; "><b>Patient Information</b></span>
                     </td>
                 </tr>
-                <tr>
-                    <th valign="top" align="left" width=200>Literal reference, Relative, internal or absolute URL </th>
-                    <td>$!om.getProperty("fhir:reference.reference")</td>
-                </tr>
-                <tr>
-                    <th valign="top" align="left" width=200>Logical reference, when literal reference is not known</th>
-                    <td>$!om.getProperty("fhir:identifier.identifier")</td>
-                </tr>
-                <tr>
-                    <th valign="top" align="left" width=200>Text alternative for the resource </th>
-                    <td>$!om.getProperty("fhir:reference.display")</td>
-                </tr>
+
                 <tr>
                     <th valign="top" align="left" width=200>Subject ID: </th>
                     <td>$!om.getProperty("fhir:patient.subject_ID")</td>
@@ -79,163 +68,150 @@ $page.setVlinkColor($ui.vlink)
                 <h2>No telecom records</h2>
             #end
 
+            #set($num_name=$item.getChildItems("fhir:patient/name").size() - 1)
+            #if($num_name>=0)
+                #foreach($name_counter in [0..$num_name])
+                    <h2>Name $name_counter</h2>
+                    <TABLE>
+                        <tr>
+                            <th valign="top" align="left" width=200>Use</th>
+                            <td>$!item.getStringProperty("fhir:patient/name[$name_counter]/use")</td>
+                        </tr>
+                        <tr>
+                            <th valign="top" align="left" width=200>Full name</th>
+                            <td>$!item.getStringProperty("fhir:patient/name[$name_counter]/text")</td>
+                        </tr>
+                    <th valign="top" align="left" width=200>Given</th>
+
+                        <tr>
+
+                            <td>$!item.getStringProperty("fhir:patient/name[$name_counter_given]/given")</td>
+                        </tr>
+
+                        <tr>
+                            <th valign="top" align="left" width=200>Prefix</th>
+                            <td>$!item.getStringProperty("fhir:patient/name[$name_counter]/prefix")</td>
+                        </tr>
+                        <tr>
+                            <th valign="top" align="left" width=200>Suffix</th>
+                            <td>$!item.getStringProperty("fhir:patient/name[$name_counter]/suffix")</td>
+                        </tr>
+                        <tr>
+                            <th valign="top" align="left" width=200>Valid from</th>
+                            <td>$!item.getProperty("fhir:patient/name[$name_counter]/period/start")</td>
+                        </tr>
+                        <tr>
+                            <th valign="top" align="left" width=200>Valid until</th>
+                            <td>$!item.getProperty("fhir:patient/name[$name_counter]/period/end")</td>
+                        </tr>
+                    </TABLE>
+                #end
+            #else
+                <h2>No name records</h2>
+            #end
+
+            #set($num_address=$item.getChildItems("fhir:patient/address").size() - 1)
+            #if($num_address>=0)
+                #foreach($address_counter in [0..$num_address])
+                    <h2>Address Nr. $address_counter</h2>
+                    <TABLE>
+                        <tr>
+                            <th valign="top" align="left" width=200>Use</th>
+                            <td>$!item.getStringProperty("fhir:patient/address[$address_counter]/use")</td>
+                        </tr>
+                        <tr>
+                            <th valign="top" align="left" width=200>Type</th>
+                            <td>$!item.getStringProperty("fhir:patient/address[$address_counter]/type")</td>
+                        </tr>
+                        <tr>
+                            <th valign="top" align="left" width=200>Address Text</th>
+                            <td>$!item.getStringProperty("fhir:patient/address[$address_counter]/text")</td>
+                        </tr>
+                        <tr>
+                            <th valign="top" align="left" width=200>Address Line</th>
+                            <td>$!item.getStringProperty("fhir:patient/address[$address_counter]/line")</td>
+                        </tr>
+                        <tr>
+                            <th valign="top" align="left" width=200>City</th>
+                            <td>$!item.getStringProperty("fhir:patient/address[$address_counter]/city")</td>
+                        </tr>
+                        <tr>
+                            <th valign="top" align="left" width=200>District</th>
+                            <td>$!item.getStringProperty("fhir:patient/address[$address_counter]/district")</td>
+                        </tr>
+                        <tr>
+                            <th valign="top" align="left" width=200>State</th>
+                            <td>$!item.getStringProperty("fhir:patient/address[$address_counter]/state")</td>
+                        </tr>
+                        <tr>
+                            <th valign="top" align="left" width=200>Postal code</th>
+                            <td>$!item.getStringProperty("fhir:patient/address[$address_counter]/postalCode")</td>
+                        </tr>
+                        <tr>
+                            <th valign="top" align="left" width=200>Country</th>
+                            <td>$!item.getStringProperty("fhir:patient/address[$address_counter]/country")</td>
+                        </tr>
+                        <tr>
+                            <th valign="top" align="left" width=200>Valid from</th>
+                            <td>$!item.getProperty("fhir:patient/address[$address_counter]/period/start")</td>
+                        </tr>
+                        <tr>
+                            <th valign="top" align="left" width=200>Valid until</th>
+                            <td>$!item.getProperty("fhir:patient/address[$address_counter]/period/end")</td>
+                        </tr>
+                    </TABLE>
+                #end
+            #else
+                <h2>No address records</h2>
+            #end
+            #set($num_identifier=$item.getChildItems("fhir:patient/identifier").size() - 1)
+            #if($num_identifier>=0)
+                #foreach($identifier_counter in [0..$num_identifier])
+                    <h2>Identifier Nr. $identifier_counter</h2>
+                    <TABLE>
+                        <tr>
+                            <th valign="top" align="left" width=200>Use</th>
+                            <td>$!item.getStringProperty("fhir:patient/identifier[$identifier_counter]/use")</td>
+                        </tr>
+                        <tr>
+                            <th valign="top" align="left" width=200>Description</th>
+                            <td>$!item.getStringProperty("fhir:patient/identifier[$identifier_counter]/type")</td>
+                        </tr>
+                        <tr>
+                            <th valign="top" align="left" width=200>System URI</th>
+                            <td>$!item.getStringProperty("fhir:patient/identifier[$identifier_counter]/system")</td>
+                        </tr>
+                        <tr>
+                            <th valign="top" align="left" width=200>Value</th>
+                            <td>$!item.getStringProperty("fhir:patient/identifier[$identifier_counter]/value")</td>
+                        </tr>
+                        <tr>
+                            <th valign="top" align="left" width=200>Valid from</th>
+                            <td>$!item.getProperty("fhir:patient/identifier[$identifier_counter]/period/start")</td>
+                        </tr>
+                        <tr>
+                            <th valign="top" align="left" width=200>Valid until</th>
+                            <td>$!item.getProperty("fhir:patient/identifier[$identifier_counter]/period/end")</td>
+                        </tr>
+                        <tr>
+                            <th valign="top" align="left" width=200>Assigner</th>
+                            <td>$!item.getIntegerProperty("fhir:patient/identifier[$identifier_counter]/assigner_ID")</td>
+                        </tr>
+                    </TABLE>
+                #end
+            #else
+                <h2>No identifier records</h2>
+            #end
 
             <table>
+
                 <tr>
-                    <th valign="top" align="left" width=200>Value:</th>
-                    <td>$!om.getProperty("fhir:contactPoint.value")</td>
-                </tr>
-                <tr>
-                    <th valign="top" align="left" width=200>Purpose of the contact:</th>
-                    <td>$!om.getProperty("fhir:contactPoint.use")</td>
-                </tr>
-                <tr>
-                    <th valign="top" align="left" width=200>Rank:</th>
-                    <td>$!om.getProperty("fhir:contactPoint.rank")</td>
-                </tr>
-                <tr>
-                    <th valign="top" align="left" width=200>Contact in use:</th>
-                </tr>
-                <tr>
-                    <td>Start:</td>
-                    <td>$!om.getProperty("fhir:contactPoint.period/start")</td>
-                </tr>
-                <tr>
-                    <td>End:</td>
-                    <td>$!om.getProperty("fhir:contactPoint.period/end")</td>
-                </tr>
-                <tr>
-                    <th valign="top" align="left" width=200>NameUse:</th>
-                    <td>$!om.getProperty("fhir:humanName.use")</td>
-                </tr>
-                <tr>
-                    <th valign="top" align="left" width=200>Text:</th>
-                    <td>$!om.getProperty("fhir:humanName.text")</td>
-                </tr>
-                <tr>
-                    <th valign="top" align="left" width=200>Family:</th>
-                    <td>$!om.getProperty("fhir:humanName.family")</td>
-                </tr>
-                <tr>
-                    <th valign="top" align="left" width=200>Given:</th>
-                    <td>$!om.getProperty("fhir:humanName.given")</td>
-                </tr>
-                <tr>
-                    <th valign="top" align="left" width=200>Prefix:</th>
-                    <td>$!om.getProperty("fhir:humanName.prefix")</td>
-                </tr>
-                <tr>
-                    <th valign="top" align="left" width=200>Suffix:</th>
-                    <td>$!om.getProperty("fhir:humanName.suffix")</td>
-                </tr>
-                <tr>
-                    <th valign="top" align="left" width=200>Name in use:</th>
-                </tr>
-                <tr>
-                    <td>Start:</td>
-                    <td>$!om.getProperty("fhir:humanName.period/start")</td>
-                </tr>
-                <tr>
-                    <td>End:</td>
-                    <td>$!om.getProperty("fhir:humanName.period/end")</td>
-                </tr>
-                <tr>
-                    <th valign="top" align="left" width=200>Identifier Use:</th>
-                    <td>$!om.getProperty("fhir:identifier.use")</td>
-                </tr>
-                <tr>
-                    <th valign="top" align="left" width=200>Description of Identifier:</th>
-                    <td>$!om.getProperty("fhir:identifier.type")</td>
-                </tr>
-                <tr>
-                    <th valign="top" align="left" width=200>The namespace for the Identifier value</th>
-                    <td>$!om.getProperty("fhir:identifier.system")</td>
-                </tr>
-                <tr>
-                    <th valign="top" align="left" width=200>The value that is unique</th>
-                    <td>$!om.getProperty("fhir:identifier.value")</td>
-                </tr>
-                <tr>
-                    <th valign="top" align="left" width=200>Time period when id is/was valid for use</th>
-                </tr>
-                <tr>
-                    <td>Start:</td>
-                    <td>$!om.getProperty("fhir:identifier.period/start")</td>
-                </tr>
-                <tr>
-                    <td>End:</td>
-                    <td>$!om.getProperty("fhir:identifier.period/end")</td>
-                </tr>
-                <tr>
-                    <th valign="top" align="left" width=200>Organization that issued id</th>
-                    <td>$!om.getProperty("fhir:identifier.assigner_ID")</td>
-                </tr>
-                <tr>
-                    <th valign="top" align="left" width=200>AddressUse</th>
-                    <td>$!om.getProperty("fhir:address.use")</td>
-                </tr>
-                <tr>
-                    <th valign="top" align="left" width=200>AddressType</th>
-                    <td>$!om.getProperty("fhir:address.type")</td>
-                </tr>
-                <tr>
-                    <th valign="top" align="left" width=200>Text representation of the address</th>
-                    <td>$!om.getProperty("fhir:address.text")</td>
-                </tr>
-                <tr>
-                    <th valign="top" align="left" width=200>Street name, number, direction &amp; P.O. Box etc.</th>
-                    <td>$!om.getProperty("fhir:address.line")</td>
-                </tr>
-                <tr>
-                    <th valign="top" align="left" width=200>Name of City, Town etc.</th>
-                    <td>$!om.getProperty("fhir:address.city")</td>
-                </tr>
-                <tr>
-                    <th valign="top" align="left" width=200>District name (aka county)</th>
-                    <td>$!om.getProperty("fhir:address.district")</td>
-                </tr>
-                <tr>
-                    <th valign="top" align="left" width=200>Sub-unit of country (abbreviations ok)</th>
-                    <td>$!om.getProperty("fhir:address.state")</td>
-                </tr>
-                <tr>
-                    <th valign="top" align="left" width=200>Postal code for area</th>
-                    <td>$!om.getProperty("fhir:address.postalCode")</td>
-                </tr>
-                <tr>
-                    <th valign="top" align="left" width=200>Country</th>
-                    <td>$!om.getProperty("fhir:address.country")</td>
-                </tr>
-                <tr>
-                    <th valign="top" align="left" width=200>Time period when address is/was valid for use</th>
-                </tr>
-                <tr>
-                    <td>Start:</td>
-                    <td>$!om.getProperty("fhir:address.period/start")</td>
-                </tr>
-                <tr>
-                    <td>End:</td>
-                    <td>$!om.getProperty("fhir:address.period/end")</td>
-                </tr>
-                <tr>
-                    <th valign="top" align="left" width=200>Patient Identifier</th>
-                    <td>$!om.getProperty("fhir:patient.identifier")</td>
-                </tr>
-                <tr>
-                    <th valign="top" align="left" width=200>Wheather this patient's record is in active use</th>
-                    <td>$!om.getProperty("fhir:patient.active")</td>
-                </tr>
-                <tr>
-                    <th valign="top" align="left" width=200>Name</th>
-                    <td>$!om.getProperty("fhir:patient.name")</td>
-                </tr>
-                <tr>
-                    <th valign="top" align="left" width=200>Contact Detail</th>
-                    <td>$!om.getProperty("fhir:patient.telecom")</td>
+                    <th valign="top" align="left" width=200>Patient's record in active use</th>
+                    <td>#showBoolean("fhir:patient/active" $item)</td>
                 </tr>
                 <tr>
                     <th valign="top" align="left" width=200>Gender </th>
-                    <td>$!om.getProperty("fhir:patient.gender")</td>
+                    <td>$!item.getProperty("fhir:patient.gender")</td>
                 </tr>
                 <tr>
                     <th valign="top" align="left" width=200>Date of birth</th>
@@ -248,10 +224,6 @@ $page.setVlinkColor($ui.vlink)
                 <tr>
                     <th valign="top" align="left" width=200>Deceased Date and Time</th>
                     <td>$!om.getProperty("fhir:patient.deceased/deceasedDateTime")</td>
-                </tr>
-                <tr>
-                    <th valign="top" align="left" width=200>Addresses</th>
-                    <td>$!om.getProperty("fhir:patient.address")</td>
                 </tr>
                 <tr>
                     <th valign="top" align="left" width=200>Marital (civil) status</th>
