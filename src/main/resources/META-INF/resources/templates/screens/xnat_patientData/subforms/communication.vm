@@ -1,6 +1,7 @@
 <div class="form_block">
     <div class="row">
-        <input type="button" name="add-communication" value="Add communication " onclick="addRow(this, 'communication_form')" />
+        <input type="button" name="add-communication" value="Add communication "
+               onclick="addRow(this, 'communication_form')"/>
     </div>
     <div class="row" style="display: none" data-base="$formbase" data-label="communication_form">
         <div class="delete_item">
@@ -66,7 +67,6 @@
                 <div class="value">
                     #xdatStringBox("text" $item "Plain text representation of the concept" $vr)
                 </div>
-            </div>
             </div>
             <div class="row">
                 <div class="key">
