@@ -42,10 +42,45 @@ $page.setVlinkColor($ui.vlink)
                     <th valign="top" align="left" width=200>Subject ID: </th>
                     <td>$!om.getProperty("fhir:patient.subject_ID")</td>
                 </tr>
-                <tr>
-                    <th valign="top" align="left" width=200>Way of contact:</th>
-                    <td>$!om.getProperty("fhir:contactPoint.system")</td>
-                </tr>
+            </table>
+
+            #set($num_telecom=$item.getChildItems("fhir:patient/telecom").size() - 1)
+            #if($num_telecom>=0)
+                #foreach($telecom_counter in [0..$num_telecom])
+                    <h2>Telecom Nr. $telecom_counter</h2>
+                    <TABLE>
+                        <tr>
+                            <th valign="top" align="left" width=200>Way of contact</th>
+                            <td>$!item.getStringProperty("fhir:patient/telecom[$telecom_counter]/system")</td>
+                        </tr>
+                        <tr>
+                            <th valign="top" align="left" width=200>Value</th>
+                            <td>$!item.getStringProperty("fhir:patient/telecom[$telecom_counter]/value")</td>
+                        </tr>
+                        <tr>
+                            <th valign="top" align="left" width=200>Purpose of the contact</th>
+                            <td>$!item.getStringProperty("fhir:patient/telecom[$telecom_counter]/use")</td>
+                        </tr>
+                        <tr>
+                            <th valign="top" align="left" width=200>Rank</th>
+                            <td>$!item.getIntegerProperty("fhir:patient/telecom[$telecom_counter]/rank")</td>
+                        </tr>
+                        <tr>
+                            <th valign="top" align="left" width=200>Valid from</th>
+                            <td>$!item.getProperty("fhir:patient/telecom[$telecom_counter]/period/start")</td>
+                        </tr>
+                        <tr>
+                            <th valign="top" align="left" width=200>Valid until</th>
+                            <td>$!item.getProperty("fhir:patient/telecom[$telecom_counter]/period/end")</td>
+                        </tr>
+                    </TABLE>
+                #end
+            #else
+                <h2>No telecom records</h2>
+            #end
+
+
+            <table>
                 <tr>
                     <th valign="top" align="left" width=200>Value:</th>
                     <td>$!om.getProperty("fhir:contactPoint.value")</td>
