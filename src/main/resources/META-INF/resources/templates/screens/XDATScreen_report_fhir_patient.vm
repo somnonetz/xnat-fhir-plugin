@@ -164,6 +164,7 @@ $page.setVlinkColor($ui.vlink)
             #else
                 <h2>No address records</h2>
             #end
+
             #set($num_identifier=$item.getChildItems("fhir:patient/identifier").size() - 1)
             #if($num_identifier>=0)
                 #foreach($identifier_counter in [0..$num_identifier])
@@ -207,8 +208,12 @@ $page.setVlinkColor($ui.vlink)
 
                 <tr>
                     <th valign="top" align="left" width=200>Patient's record in active use</th>
-                    <td>#showBoolean("fhir:patient/active" $item)</td>
+                    <td>$!item.getBooleanProperty("fhir:patient/active")</td>
                 </tr>
+
+            </table>
+
+            <table>
                 <tr>
                     <th valign="top" align="left" width=200>Gender </th>
                     <td>$!item.getProperty("fhir:patient.gender")</td>
@@ -219,7 +224,7 @@ $page.setVlinkColor($ui.vlink)
                 </tr>
                 <tr>
                     <th valign="top" align="left" width=200>Deceased</th>
-                    <td>$!om.getProperty("fhir:patient.deceased/deceasedBoolean")</td>
+                    <td>$!item.getBooleanProperty("fhir:patient.deceased/deceasedBoolean")</td>
                 </tr>
                 <tr>
                     <th valign="top" align="left" width=200>Deceased Date and Time</th>
@@ -231,35 +236,41 @@ $page.setVlinkColor($ui.vlink)
                 </tr>
                 <tr>
                     <th valign="top" align="left" width=200>Patient is part of multiple birth</th>
-                    <td>$!om.getProperty("fhir:patient.multipleBirth/multipleBirthBoolean")</td>
+                    <td>$!item.getBooleanProperty("fhir:patient.multipleBirth/multipleBirthBoolean")</td>
                 </tr>
                 <tr>
                     <th valign="top" align="left" width=200>Multiple Birth Number</th>
                     <td>$!om.getProperty("fhir:patient.multipleBirth/multipleBirthInteger")</td>
                 </tr>
+
+                #set($num_contact=$item.getChildItems("fhir:patient/contact").size() - 1)
+            #if($num_contact>=0)
+            #foreach($contact_counter in [0..$num_contact])
+                <h2>A Person's Contact. $contact_counter</h2>
+                <TABLE>
                 <tr>
                     <th valign="top" align="left" width=200>A contact party (e.g. guardian, partner, friend)</th>
-                    <td>$!om.getProperty("fhir:patient.contact")</td>
+                    <td>$!om.getStringProperty("fhir:patient.contact")</td>
                 </tr>
                 <tr>
                     <th valign="top" align="left" width=200>Relationship</th>
-                    <td>$!om.getProperty("fhir:patient.contact/relationship")</td>
+                    <td>$!om.getStringProperty("fhir:patient.contact/relationship")</td>
                 </tr>
                 <tr>
                     <th valign="top" align="left" width=200>Contact person's name</th>
-                    <td>$!om.getProperty("fhir:patient.contact/name")</td>
+                    <td>$!om.getStringProperty("fhir:patient.contact/name")</td>
                 </tr>
                 <tr>
                     <th valign="top" align="left" width=200>Contact Detail for contact person</th>
-                    <td>$!om.getProperty("fhir:patient.contact/telecom")</td>
+                    <td>$!om.getStringProperty("fhir:patient.contact/telecom")</td>
                 </tr>
                 <tr>
                     <th valign="top" align="left" width=200>Address for contact person</th>
-                    <td>$!om.getProperty("fhir:patient.contact/address")</td>
+                    <td>$!om.getStringProperty("fhir:patient.contact/address")</td>
                 </tr>
                 <tr>
                     <th valign="top" align="left" width=200>Contact person's gender</th>
-                    <td>$!om.getProperty("fhir:patient.contact/gender")</td>
+                    <td>$!om.getStringProperty("fhir:patient.contact/gender")</td>
                 </tr>
                 <tr>
                     <th valign="top" align="left" width=200>Organization that is associated with the contact</th>
@@ -277,6 +288,17 @@ $page.setVlinkColor($ui.vlink)
                     <td>$!om.getProperty("fhir:contact.period/end")</td>
                 </tr>
                 <tr>
+                </TABLE>
+            #end
+            #else
+                <h2>No contact person recorded</h2>
+            #end
+
+                #set($num_animal=$item.getChildItems("fhir:patient/animal").size() - 1)
+            #if($num_animal>=0)
+            #foreach($animal_counter in [0..$num_animal])
+                <h2>Animal Patient. $contact_counter</h2>
+                <TABLE>
                     <th valign="top" align="left" width=200>This patient is known to be an animal (non-human)</th>
                     <td>$!om.getProperty("fhir:patient.animal")</td>
                 </tr>
@@ -292,14 +314,31 @@ $page.setVlinkColor($ui.vlink)
                     <th valign="top" align="left" width=200>Gender Status</th>
                     <td>$!om.getProperty("fhir:patient.animal/genderStatus")</td>
                 </tr>
+                </TABLE>
+            #end
+            #else
+                <h2>No animal records</h2>
+            #end
+
+                #set($num_language=$item.getChildItems("fhir:patient/language").size() - 1)
+            #if($num_language>=0)
+            #foreach($language_counter in [0..$num_language])
+                <h2>Preferred Language. $langauage_counter</h2>
+                <TABLE>
                 <tr>
                     <th valign="top" align="left" width=200>Patient's Language</th>
-                    <td>$!om.getProperty("fhir:patient.communication/language")</td>
+                    <td>$!om.getStringProperty("fhir:patient.communication/language")</td>
                 </tr>
                 <tr>
                     <th valign="top" align="left" width=200>Language preference indicator</th>
                     <td>$!om.getProperty("fhir:patient.communication/preferred")</td>
                 </tr>
+                </TABLE>
+            #end
+            #else
+                <h2>No language records</h2>
+            #end
+
                 <tr>
                     <th valign="top" align="left" width=200>Patient's nominated primary care provider</th>
                     <td>$!om.getProperty("fhir:patient.generalPracticioner")</td>
