@@ -30,7 +30,7 @@ public class FhirPatientService extends DatatypeValidatable {
      * @return Name of subject project to associate with
      */
     @Nonnull
-    public String getPatientProject(UserI user) {
+    public static String getPatientProject(UserI user) {
         return "fhir";
     }
 
@@ -41,8 +41,8 @@ public class FhirPatientService extends DatatypeValidatable {
      * @return FhirPatientI record or null if none was found
      */
     @Nullable
-    public FhirPatientI getPatientForSubject(String subjectId, UserI user) {
-        return this.getFromDB("subject_ID", subjectId, user);
+    public static FhirPatientI getPatientForSubject(String subjectId, UserI user) {
+        return getFromDB("subject_ID", subjectId, user);
     }
 
     /**
@@ -52,9 +52,68 @@ public class FhirPatientService extends DatatypeValidatable {
      * @return FhirPatientI record or null if none was found
      */
     @Nullable
-    public FhirPatientI getPatient(Integer id, UserI user) {
+    public static FhirPatientI getPatient(Integer id, UserI user) {
+        return getFromDB("ID", makeDatabaseId(id), user);
+    }
 
-        return this.getFromDB("ID", this.makeDatabaseId(id), user);
+    /**
+     * Build the unique label for the given subject id
+     * @param subjectId Subject id to build the label for
+     * @return Record label
+     */
+    @Nonnull
+    public static String getLabelForSubjectId(String subjectId) {
+        return "fhir_subject_" + subjectId;
+    }
+
+    /**
+     * Build the unique label for the given subject
+     * @param subject Subject to build the label for
+     * @return Record label
+     */
+    @Nonnull
+    public static String getLabelForSubject(XnatSubjectdataI subject) {
+        return getLabelForSubjectId(subject.getId());
+    }
+
+    /**
+     * Build the unique id for the patient data for the given subject id
+     * @param subjectId Subject id to build the label for
+     * @return Record id string
+     */
+    @Nonnull
+    public static String getPatientDataIdForSubjectId(String subjectId) {
+        return "FHIR_" + subjectId;
+    }
+
+    /**
+     * Build the unique id for the patient data for the given subject
+     * @param subject Subject to build the label for
+     * @return Record id string
+     */
+    @Nonnull
+    public static String getPatientDataIdForSubject(XnatSubjectdataI subject) {
+        return getPatientDataIdForSubjectId(subject.getId());
+    }
+
+    /**
+     * Build the unique label for the patient data for the given subject id
+     * @param subjectId Subject id to build the label for
+     * @return Record label
+     */
+    @Nonnull
+    public static String getPatientDataLabelForSubjectId(String subjectId) {
+        return "fhir_patient_" + subjectId;
+    }
+
+    /**
+     * Build the unique label for the patient data for the given subject
+     * @param subject Subject to build the label for
+     * @return Record label
+     */
+    @Nonnull
+    public static String getPatientDataLabelForSubject(XnatSubjectdataI subject) {
+        return getPatientDataLabelForSubjectId(subject.getId());
     }
 
     /**
@@ -76,8 +135,8 @@ public class FhirPatientService extends DatatypeValidatable {
             // Build subject record to associate the patient record with
             XnatSubjectdata subject = new XnatSubjectdata(user);
             subject.setId(this.makeSubjectId(subject, user));
-            subject.setProject(this.getPatientProject(user));
-            subject.setLabel("fhir_subject_" + subject.getId());
+            subject.setProject(getPatientProject(user));
+            subject.setLabel(getLabelForSubject(subject));
 
             if (!subject.save(user, true, false, null)) {
                 _log.error("Failed to save subject record");
@@ -87,8 +146,8 @@ public class FhirPatientService extends DatatypeValidatable {
             // Create patient record and assign inherited attributes
             FhirPatient patient = new FhirPatient(user);
             patient.setSubjectId(subject.getId());
-            patient.setId("FHIR_" + subject.getId());
-            patient.setLabel("fhir_patient_" + subject.getLabel());
+            patient.setId(getPatientDataIdForSubject(subject));
+            patient.setLabel(getPatientDataLabelForSubject(subject));
             patient.setProject(subject.getProject());
 
             // Assign basic attributes
@@ -526,8 +585,17 @@ public class FhirPatientService extends DatatypeValidatable {
      * @param id ID to build the identifier for
      * @return Result string
      */
-    private String makeDatabaseId(Integer id) {
-        return String.format("FHIR_XNAT_S%05d", id);
+    private static String makeDatabaseId(Integer id) {
+        return getPatientDataIdForSubjectId(getSubjectIdFromId(id));
+    }
+
+    /**
+     * Build the subject id like it is stored in the database
+     * @param id ID to build the identifier for
+     * @return Result string
+     */
+    private static String getSubjectIdFromId(Integer id) {
+        return String.format("XNAT_S%05d", id);
     }
 
     /**
@@ -555,7 +623,7 @@ public class FhirPatientService extends DatatypeValidatable {
                 subjectId = Integer.parseInt(result.group(0)) + 1;
             }
 
-            return String.format("XNAT_S%05d", subjectId);
+            return getSubjectIdFromId(subjectId);
         }
         catch (Exception e) {
             _log.error(e.getMessage());
@@ -633,7 +701,7 @@ public class FhirPatientService extends DatatypeValidatable {
      * @return FhirIdentifier record or null if none was found
      */
     @Nullable
-    private FhirPatientI getFromDB(String path, Object value, UserI user) {
+    private static FhirPatientI getFromDB(String path, Object value, UserI user) {
         try {
             String xmlPath = String.format("%s/%s", FhirPatientBean.SCHEMA_ELEMENT_NAME, path);
             ItemCollection results = ItemSearch.GetItems(xmlPath, value, user, true);

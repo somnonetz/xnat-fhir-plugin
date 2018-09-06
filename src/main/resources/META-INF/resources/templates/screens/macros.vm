@@ -1,0 +1,39 @@
+#set($years = [ $!turbineUtils.getYear()..1900])
+#parse("/screens/xnat_patientData/subforms/identifier.vm")
+#parse("/screens/xnat_patientData/subforms/codeable_concept.vm")
+#parse("/screens/xnat_patientData/subforms/human_name.vm")
+#parse("/screens/xnat_patientData/subforms/contact_point.vm")
+#parse("/screens/xnat_patientData/subforms/address.vm")
+#parse("/screens/xnat_patientData/subforms/contact_party.vm")
+#parse("/screens/xnat_patientData/subforms/communication.vm")
+#parse("/screens/xnat_patientData/subforms/reference.vm")
+#parse("/screens/xnat_patientData/subforms/link.vm")
+
+
+#macro (stringListBox $path $attribute $item $default $placeholder $vr)
+    #set($value = "")
+    #foreach ($element in $item.getChildItems($attribute))
+        #set($v = $element.getStringProperty($attribute))
+        #set($value = "$value $v")
+    #end
+
+    #if ($value == "")
+        #set($value = $default)
+    #end
+    <input type="text" name="${path}/${attribute}_joined" id="${path}/${attribute}_joined" value="${value}" placeholder="${placeholder}" />
+#end
+
+
+#macro (stringListTextArea $path $attribute $item $default $placeholder $vr)
+    #set($value = "")
+    #foreach ($element in $item.getChildItems($attribute))
+        #set($v = $element.getStringProperty($attribute))
+        #set($value = "$value\n$v")
+    #end
+
+    #if ($value == "")
+        #set($value = $default)
+    #end
+
+<textarea cols="30" rows="10" name="${path}/${attribute}_joined" id="${path}/${attribute}_joined" placeholder="${placeholder}">$value</textarea>
+#end

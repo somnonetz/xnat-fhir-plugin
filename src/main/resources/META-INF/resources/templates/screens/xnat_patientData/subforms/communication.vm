@@ -1,81 +1,50 @@
-<div class="form_block">
-    <div class="row">
-        <input type="button" name="add-communication" value="Add communication "
-               onclick="addRow(this, 'communication_form')"/>
-    </div>
-    <div class="row" style="display: none" data-base="$formbase" data-label="communication_form">
+#macro(communication_form $form_name $parent $child_path $child $child_index $force_present)
+## Start the subform
+    #if ($child || $force_present)
+    <div class="$form_name" style="display: block" data-base="$child_path" data-label="$form_name" id="${form_name}${child_index}">
+    #else
+    <div style="display: none" data-base="$child_path" data-label="$form_name">
+    #end
+    #if (!$force_present)
         <div class="delete_item">
             <a style="color: red">
-                <i class="fa fa-trash-o" title="Delete" onclick="deleteRow(this, 'communication_form' )"></i>
+                <i class="fa fa-trash-o" title="Delete" onclick="deleteRow(this, '$form_name')"></i>
             </a>
         </div>
+    #end
         <div class="delete_item_content">
             <div class="row">
-                <h3>Language</h3>
-                <div class="row">
-                    <div class="key">
-                        #formLabel("Coding system")
-                    </div>
-                    <div class="value">
-                        <input type="url" name="system" placeholder="Identity of the terminology system">
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="key">
-                        #formLabel("Coding Version")
-                    </div>
-                    <div class="value">
-                        #xdatStringBox("version" $item "Version of the system" $vr)
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="key">
-                        #formLabel("Code")
-                    </div>
-                    <div class="value">
-                        #xdatStringBox("code" $item "Symbol in syntax" $vr)
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="key">
-                        #formLabel("Display")
-                    </div>
-                    <div class="value">
-                        #xdatStringBox("display" $item "Representation" $vr)
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="key">
-                        #formLabel("Selected user")
-                    </div>
-                    <div class="value">
-                        #xdatBooleanRadioYesNo("userSelected" $item $defaultValue $vr)
-                    </div>
-                </div>
-
-            </div>
-        </div>
-        <div class="row">
-            <div class="row">
                 <div class="key">
-                    #formLabel("Text")
+                    #formLabel("Language")
                 </div>
                 <div class="value">
-                    #xdatStringBox("text" $item "Plain text representation of the concept" $vr)
+                    #codeable_concept_form("${form_name}_language" $parent "${child_path}/language" $!child.getProperty("language") "" true)
                 </div>
             </div>
             <div class="row">
                 <div class="key">
-                    #formLabel("Is this the preferred language to communicate?")
+                    #formLabel("Preferred")
                 </div>
                 <div class="value">
-                    #xdatBooleanRadioYesNo("preferredBoolean" $item $defaultValue $vr)
+                    #xdatBooleanRadioYesNo("${child_path}/preferred" $item true $vr)
                 </div>
             </div>
         </div>
     </div>
+#end
+
+#macro(communications_form $add_title $prefix $parent $item_path $item $child_key)
+    #set($form_name = "${prefix}communication_form")
+<div class="form_block">
+    <div class="row">
+        <input type="button" value="${add_title}" onclick="addRow(this, '${form_name}')" />
+    </div>
+    #communication_form($form_name $parent "${item_path}/${child_key}[__COUNTER__]" $null $null false)
+    #if($item)
+        #set($items = $item.getChildItems($child_key))
+        #foreach($child in $items)
+            #communication_form($form_name $parent "${item_path}/${child_key}[${foreach.index}]" $child $foreach.index false)
+        #end
+    #end
 </div>
+#end

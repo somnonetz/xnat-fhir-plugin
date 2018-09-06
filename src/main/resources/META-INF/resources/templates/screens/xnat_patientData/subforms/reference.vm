@@ -1,0 +1,51 @@
+#macro(reference_form $form_name $parent $child_path $child $child_index $force_present)
+## Start the subform
+    #if ($child || $force_present)
+    <div class="$form_name" style="display: block" data-base="$child_path" data-label="$form_name" id="${form_name}${child_index}">
+    #else
+    <div style="display: none" data-base="$child_path" data-label="$form_name">
+    #end
+    #if (!$force_present)
+        <div class="delete_item">
+            <a style="color: red">
+                <i class="fa fa-trash-o" title="Delete" onclick="deleteRow(this, '$form_name')"></i>
+            </a>
+        </div>
+    #end
+    <div class="delete_item_content">
+        <div class="row">
+            <div class="key">
+                #formLabel("Reference")
+            </div>
+            <div class="value">
+                #xdatStringBox("${child_path}/reference" $parent "Add Value" $vr)
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="key">
+                #formLabel("Display")
+            </div>
+            <div class="value">
+                #xdatStringBox("${child_path}/display" $parent "Text alternative for the resource" $vr)
+            </div>
+        </div>
+    </div>
+</div>
+#end
+
+#macro(references_form $add_title $prefix $parent $item_path $item $child_key)
+    #set($form_name = "${prefix}reference_form")
+    <div class="form_block">
+        <div class="row">
+            <input type="button" value="${add_title}" onclick="addRow(this, '${form_name}')" />
+        </div>
+        #reference_form($form_name $parent "${item_path}/${child_key}[__COUNTER__]" $null $null false)
+        #if($item)
+            #set($items = $item.getChildItems($child_key))
+            #foreach($child in $items)
+                #reference_form($form_name $parent "${item_path}/${child_key}[${foreach.index}]" $child $foreach.index false)
+            #end
+        #end
+    </div>
+#end

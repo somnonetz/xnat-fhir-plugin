@@ -1,13 +1,17 @@
-<div class="form_block">
-    <div class="row">
-        <input type="button" name="add-address" value="Add address" onclick="addRow(this, 'address_form')" />
-    </div>
-    <div class="row" style="display: none" data-base="$formbase" data-label="address_form">
+#macro(address_form $form_name $parent $child_path $child $child_index $force_present)
+## Start the subform
+    #if ($child || $force_present)
+    <div class="$form_name" style="display: block" data-base="$child_path" data-label="$form_name" id="${form_name}${child_index}">
+    #else
+    <div style="display: none" data-base="$child_path" data-label="$form_name">
+    #end
+    #if (!$force_present)
         <div class="delete_item">
             <a style="color: red">
-                <i class="fa fa-trash-o" title="Delete" onclick="deleteRow(this, 'address_form' )"></i>
+                <i class="fa fa-trash-o" title="Delete" onclick="deleteRow(this, '$form_name')"></i>
             </a>
         </div>
+    #end
         <div class="delete_item_content">
             <div class="row">
                 <div class="key">
@@ -15,7 +19,7 @@
                 </div>
                 <div class="value">
                     #set($systemValues = ["home", "work", "temp", "old"])
-                    #xdatSimpleSelectBoxLbl("SELECT" "use" $item $systemValues $vr)
+                    #xdatSimpleSelectBoxLbl("SELECT" "${child_path}/use" $parent $systemValues $vr)
                 </div>
             </div>
 
@@ -25,7 +29,7 @@
                 </div>
                 <div class="value">
                     #set($systemValues = ["postal", "physical", "both"])
-                    #xdatSimpleSelectBoxLbl("SELECT" "type" $item $systemValues $vr)
+                    #xdatSimpleSelectBoxLbl("SELECT" "${child_path}/type" $parent $systemValues $vr)
                 </div>
             </div>
 
@@ -34,7 +38,7 @@
                     #formLabel("Address text")
                 </div>
                 <div class="value">
-                    #xdatStringBox("text" $item "Address" $vr)
+                    #xdatStringBox("${child_path}/text" $parent "Address" $vr)
                 </div>
             </div>
 
@@ -43,7 +47,7 @@
                     #formLabel("Address line *")
                 </div>
                 <div class="value">
-                    <textarea cols="30" rows="10" name="line" id="line" placeholder="Separate with line break"></textarea>
+                    #stringListBox(${child_path} "line" $child "" "Separate with line break" $vr)
                 </div>
             </div>
 
@@ -52,7 +56,7 @@
                     #formLabel("City")
                 </div>
                 <div class="value">
-                    #xdatStringBox("city" $item "City" $vr)
+                    #xdatStringBox("${child_path}/city" $parent "City" $vr)
                 </div>
             </div>
 
@@ -61,7 +65,7 @@
                     #formLabel("District")
                 </div>
                 <div class="value">
-                    #xdatStringBox("district" $item "District" $vr)
+                    #xdatStringBox("${child_path}/district" $parent "District" $vr)
                 </div>
             </div>
 
@@ -70,7 +74,7 @@
                     #formLabel("State")
                 </div>
                 <div class="value">
-                    #xdatStringBox("state" $item "State" $vr)
+                    #xdatStringBox("${child_path}/state" $parent "State" $vr)
                 </div>
             </div>
 
@@ -79,7 +83,7 @@
                     #formLabel("Postal code")
                 </div>
                 <div class="value">
-                    #xdatStringBox("postalCode" $item "Postal code" $vr)
+                    #xdatStringBox("${child_path}/postalCode" $parent "Postal code" $vr)
                 </div>
             </div>
 
@@ -88,7 +92,7 @@
                     #formLabel("Country")
                 </div>
                 <div class="value">
-                    #xdatStringBox("country" $item "Country" $vr)
+                    #xdatStringBox("${child_path}/country" $parent "Country" $vr)
                 </div>
             </div>
 
@@ -96,4 +100,20 @@
             #parse("/screens/xnat_patientData/subforms/period.vm")
         </div>
     </div>
+#end
+
+#macro(addresses_form $add_title $prefix $parent $item_path $item $child_key)
+    #set($form_name = "${prefix}address_form")
+<div class="form_block">
+    <div class="row">
+        <input type="button" value="${add_title}" onclick="addRow(this, '${form_name}')" />
+    </div>
+    #address_form($form_name $parent "${item_path}/${child_key}[__COUNTER__]" $null $null false)
+    #if($item)
+        #set($items = $item.getChildItems($child_key))
+        #foreach($child in $items)
+            #address_form($form_name $parent "${item_path}/${child_key}[${foreach.index}]" $child $foreach.index false)
+        #end
+    #end
 </div>
+#end

@@ -4,6 +4,6 @@
 <!-- Sequence: 6 -->
 <li class="yuimenuitem">
     <A href="$link.setPage('XDATScreen_edit_fhir_patient.vm').addQueryData("part_id", $!om.getId()).addQueryData("project", $project)">
-        <div class="ic">&nbsp;</div><div class="ic_spacer">&nbsp;</div>Add patient info
+        <div class="ic">&nbsp;</div><div class="ic_spacer">&nbsp;</div>Edit FHIR patient data
     </A>
 </li>

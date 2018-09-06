@@ -1,13 +1,17 @@
-<div class="form_block">
-    <div class="row">
-        <input type="button" name="add-name" value="Add Name" onclick="addRow(this, 'human_name_form')" />
-    </div>
-    <div class="row" style="display: none" data-base="$formbase" data-label="human_name_form">
+#macro(human_name_form $form_name $parent $child_path $child $child_index $force_present)
+    ## Start the subform
+    #if ($child || $force_present)
+    <div class="$form_name" style="display: block" data-base="$child_path" data-label="$form_name" id="${form_name}${child_index}">
+    #else
+    <div style="display: none" data-base="$child_path" data-label="$form_name">
+    #end
+    #if (!$force_present)
         <div class="delete_item">
             <a style="color: red">
-                <i class="fa fa-trash-o" title="Delete" onclick="deleteRow(this, 'human_name_form')"></i>
+                <i class="fa fa-trash-o" title="Delete" onclick="deleteRow(this, '$form_name')"></i>
             </a>
         </div>
+    #end
         <div class="delete_item_content">
             <div class="row">
                 <div class="key">
@@ -16,7 +20,7 @@
                 <div class="value">
                     #set($systemValues = ["usual", "official", "temp", "nickname", "anonymous", "old", "maiden"])
                     #set($lbl="Select Use")
-                    #xdatSimpleSelectBoxLbl("SELECT" "use" $item $systemValues $vr)
+                    #xdatSimpleSelectBoxLbl("SELECT" "${child_path}/use" $parent $systemValues $vr)
                 </div>
             </div>
 
@@ -25,7 +29,7 @@
                     #formLabel("Full name")
                 </div>
                 <div class="value">
-                    #xdatStringBox("text" $item "Full name" $vr)
+                    #xdatStringBox("${child_path}/text" $parent "Full name" $vr)
                 </div>
             </div>
 
@@ -34,7 +38,7 @@
                     #formLabel("Given *")
                 </div>
                 <div class="value">
-                    #xdatStringBox("given" $item "Given name" $vr)
+                    #stringListBox(${child_path} "given" $child "" "Given name" $vr)
                 </div>
             </div>
 
@@ -43,7 +47,7 @@
                     #formLabel("Prefix *")
                 </div>
                 <div class="value">
-                    #xdatStringBox("prefix" $item "Prefix" $vr)
+                    #stringListBox(${child_path} "prefix" $child "" "Prefix" $vr)
                 </div>
             </div>
 
@@ -52,7 +56,7 @@
                     #formLabel("Suffix *")
                 </div>
                 <div class="value">
-                    #xdatStringBox("suffix" $item "Suffix" $vr)
+                    #stringListBox(${child_path} "suffix" $child "" "Suffix" $vr)
                 </div>
             </div>
 
@@ -60,4 +64,21 @@
             #parse("/screens/xnat_patientData/subforms/period.vm")
         </div>
     </div>
+#end
+
+
+#macro(human_names_form $add_title $prefix $parent $item_path $item $child_key)
+    #set($form_name = "${prefix}human_name_form")
+<div class="form_block">
+    <div class="row">
+        <input type="button" value="${add_title}" onclick="addRow(this, '${form_name}')" />
+    </div>
+    #human_name_form($form_name $parent "${item_path}/${child_key}[__COUNTER__]" $null $null false)
+    #if($item)
+        #set($items = $item.getChildItems($child_key))
+        #foreach($child in $items)
+            #human_name_form($form_name $parent "${item_path}/${child_key}[${foreach.index}]" $child $foreach.index false)
+        #end
+    #end
 </div>
+#end

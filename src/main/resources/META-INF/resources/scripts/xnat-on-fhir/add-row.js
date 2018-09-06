@@ -6,10 +6,10 @@ function findForm(element) {
     return result;
 }
 
-function fixInputNames(base, fields, counter) {
+function fixInputNames(fields, counter) {
     for (var i = 0; i < fields.length; i++) {
         var e = fields[i];
-        e.id = base + "[" + counter + "]/" + e.name;
+        e.id = e.name.replace('__COUNTER__', counter)
         e.name = e.id;
     }
 }
@@ -36,16 +36,15 @@ function addRow(element, baseFormLabel) {
     var baseFormElement = findBaseFormElement(element, baseFormLabel);
     var f = findForm(baseFormElement);
 
-    var base = baseFormElement.dataset.base;
     var existing = document.getElementsByClassName(baseFormLabel);
     var counter = existing.length;
 
     var newForm = baseFormElement.cloneNode(true);
     newForm.className = baseFormLabel;
 
-    fixInputNames(base, newForm.getElementsByTagName("input"), counter);
-    fixInputNames(base, newForm.getElementsByTagName("select"), counter);
-    fixInputNames(base, newForm.getElementsByTagName("textarea"), counter);
+    fixInputNames(newForm.getElementsByTagName("input"), counter);
+    fixInputNames(newForm.getElementsByTagName("select"), counter);
+    fixInputNames(newForm.getElementsByTagName("textarea"), counter);
 
     newForm.id = baseFormLabel + counter;
     newForm.style.display = "block";

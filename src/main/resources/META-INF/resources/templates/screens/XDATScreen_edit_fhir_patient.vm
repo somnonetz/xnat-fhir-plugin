@@ -1,4 +1,6 @@
 #* @vtlvariable name="siteConfig" type="org.nrg.xdat.preferences.SiteConfigPreferences" *#
+#parse("/screens/macros.vm")
+
 <!-- imports jQuery UI javascript and base CSS theme -->
 <script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" async
         xmlns="http://www.w3.org/1999/html"></script>
@@ -33,7 +35,7 @@ $page.setVlinkColor($ui.vlink)
 <div class="error">$data.message</div>
 #end
 <div id="patientFormDiv">
-    <form ID="patientForm" name="patientForm" method="post" action="$link.setAction("ModifySubjectAssessorData")">
+    <form ID="patientForm" name="patientForm" method="post" action="$link.setAction("FhirPatientModifyAction")">
         <input type="hidden" name="project" value="$!{project}">
         <input type="hidden" name="part_id" value="$!{subjectId}">
         <input type="hidden" name="fhir:patient/ID" value='$!item.getProperty("ID")'/>
@@ -70,8 +72,7 @@ $page.setVlinkColor($ui.vlink)
             </div>
 
             <h2>Patient identifier</h2>
-            #set($formbase = "fhir:patient/identifier")
-            #parse("/screens/xnat_patientData/subforms/identifier.vm")
+            #idenfifiers_form("Add identifier" "" $item "fhir:patient" $item "identifier")
         </div>
 
         <div>
@@ -83,7 +84,7 @@ $page.setVlinkColor($ui.vlink)
                         #formLabel("Is record active in use?")
                     </div>
                     <div class="value">
-                        #xdatBooleanRadioYesNo("active" $item $defaultValue $vr)
+                        #xdatBooleanRadioYesNo("active" $item true $vr)
                     </div>
                 </div>
             </div>
@@ -91,15 +92,12 @@ $page.setVlinkColor($ui.vlink)
 
         <div>
             <h2>Patient name</h2>
-
-            #set($formbase = "fhir:patient/name")
-            #parse("/screens/xnat_patientData/subforms/human_name.vm")
+            #human_names_form("Add Name" "" $item "fhir:patient" $item "name")
         </div>
 
         <div>
             <h2>Patient contact point</h2>
-            #set($formbase = "fhir:patient/telecom")
-            #parse("/screens/xnat_patientData/subforms/contact_point.vm")
+            #contact_points_form("Add contact point" "" $item "fhir:patient" $item "telecom")
         </div>
 
         <div>
@@ -136,7 +134,7 @@ $page.setVlinkColor($ui.vlink)
                         #formLabel("Is the patient deceased?")
                     </div>
                     <div class="value">
-                        #xdatBooleanRadioYesNo("deceasedBoolean" $item $defaultValue $vr)
+                        #xdatBooleanRadioYesNo("deceasedBoolean" $item false $vr)
                     </div>
                 </div>
                 <div class="row">
@@ -152,9 +150,7 @@ $page.setVlinkColor($ui.vlink)
 
         <div>
             <h2>Patient address</h2>
-
-            #set($formbase = "fhir:patient/address")
-            #parse("/screens/xnat_patientData/subforms/address.vm")
+            #addresses_form("Add address" "" $item "fhir:patient" $item "address")
         </div>
 
         <div>
@@ -163,8 +159,7 @@ $page.setVlinkColor($ui.vlink)
             <div class="form_block">
                 <div class="row">
                     <div class="value">
-                        #set($formbase = "fhir:patient/maritalStatus")
-                        #parse("/screens/xnat_patientData/subforms/codeable_concept.vm")
+                        #codeable_concept_form("maritalStatus_" $item "fhir:patient/maritalStatus" $!item.getProperty("maritalStatus") "" true)
                     </div>
                 </div>
             </div>
@@ -172,14 +167,13 @@ $page.setVlinkColor($ui.vlink)
 
         <div>
             <h2>Multiple Birth</h2>
-
             <div class="form_block">
                 <div class="row">
                     <div class="key">
                         #formLabel("Is the patient part of a multiple birth?")
                     </div>
                     <div class="value">
-                        #xdatBooleanRadioYesNo("multipleBirthBoolean" $item $defaultValue $vr)
+                        #xdatBooleanRadioYesNo("multipleBirthBoolean" $item false $vr)
                     </div>
                 </div>
                 <div class="row">
@@ -196,75 +190,64 @@ $page.setVlinkColor($ui.vlink)
         <div>
             <h2>Photo</h2>
 
-            #set($formbase = "fhir:patient/photo")
-            #parse("/screens/xnat_patientData/subforms/attachment.vm")
+            TODO!!
         </div>
 
         <div>
             <h2>Contact party for the patient</h2>
-
-            #set($formbase = "fhir:patient/contact")
-            #parse("/screens/xnat_patientData/subforms/contact_party.vm")
+            #contact_parties_form("Add contact party" "" $item "fhir:patient" $item "contact")
         </div>
 
         <div>
             <h2>Animal Patient</h2>
-
-            #set($formbase = "fhir:patient/animal")
-            #parse("/screens/xnat_patientData/subforms/animal.vm")
-        </div>
-
-        <div>
-            <h2>Communication</h2>
-
-            #set($formbase= "fhir:patient:communication")
-            #parse("/screens/xnat_patientData/subforms/communication.vm")
-        </div>
-
-        <div>
-            <h2>General Practitioner</h2>
             <div class="form_block">
                 <div class="row">
-                    <input type="button" name="add-practitioner" value="Add practitioner" onclick="addRow(this, 'practitioner_form')" />
-                </div>
-                <div class="row" style="display: none" data-base="$formbase" data-label="practitioner_form">
-                    <div class="delete_item">
-                        <a style="color: red">
-                            <i class="fa fa-trash-o" title="Delete" onclick="deleteRow(this, 'practitioner_form' )"></i>
-                        </a>
+                    <div class="key">
+                        #formLabel("Animal Species")
                     </div>
-                    <div class="delete_item_content">
-                        <div class="row">
-                            <div class="row">
-                                <div class="key">
-                                    #formLabel("General Practitioner")
-                                </div>
-                                <div class="value">
-                                    #xdatStringBox("General Practitioner" $item "Reference" $vr)
-                                </div>
-                            </div>
-                        </div>
+                    <div class="value">
+                        #codeable_concept_form("animal_species_" $item "fhir:patient/animal/species" $!item.getProperty("animal/species") "" true)
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="key">
+                        #formLabel("Animal Breed")
+                    </div>
+                    <div class="value">
+                        #codeable_concept_form("animal_breed_" $item "fhir:patient/animal/breed" $!item.getProperty("animal/breed") "" true)
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="key">
+                        #formLabel("Gender Status")
+                    </div>
+                    <div class="value">
+                        #codeable_concept_form("animal_gender_status_" $item "fhir:patient/animal/genderStatus" $!item.getProperty("animal/genderStatus") "" true)
                     </div>
                 </div>
             </div>
         </div>
 
         <div>
+            <h2>Communication</h2>
+            #communications_form("Add communication" "" $item "fhir:patient" $item "communication")
+        </div>
+
+        <div>
+            <h2>General Practitioner</h2>
+            #references_form("Add practitioner" "" $item "fhir:patient" $item "generalPractitioner")
+        </div>
+
+        <div>
             <h2>Managing Organization</h2>
-            <div class="row">
-                <div class="key">
-                    #formLabel("Managing Organization")
-                </div>
-                <div class="value">
-                    #xdatStringBox("Managing Organization" $item "Reference" $vr)
-                </div>
+            <div class="form-block">
+                #reference_form("managing_organization" $item "fhir:patient/managingOrganization" $!item.getProperty("managingOrganization") "" true)
             </div>
         </div>
 
         <div>
             <h2>Link</h2>
-            #set($formbase= "fhir:patient:link")
-            #parse("/screens/xnat_patientData/subforms/link.vm")
+            #links_form("Add link" "" $item "fhir:patient" $item "link")
         </div>
 
         #xdatEditProps($item $edit_screen)

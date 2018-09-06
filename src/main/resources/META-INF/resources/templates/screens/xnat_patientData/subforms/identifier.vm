@@ -1,13 +1,17 @@
-<div class="form_block">
-    <div class="row">
-        <input type="button" name="add-identifier" value="Add Identifier" onclick="addRow(this, 'identifier_form')" />
-    </div>
-    <div class="row" style="display: none" data-base="$formbase" data-label="identifier_form">
+#macro(idenfifier_form $form_name $parent $child_path $child $child_index $force_present)
+    ## Start the subform
+    #if ($child || $force_present)
+    <div class="$form_name" style="display: block" data-base="$child_path" data-label="$form_name" id="${form_name}${child_index}">
+    #else
+    <div style="display: none" data-base="$child_path" data-label="$form_name">
+    #end
+        #if (!$force_present)
         <div class="delete_item">
             <a style="color: red">
-                <i class="fa fa-trash-o" title="Delete" onclick="deleteRow(this, 'identifier_form')"></i>
+                <i class="fa fa-trash-o" title="Delete" onclick="deleteRow(this, '$form_name')"></i>
             </a>
         </div>
+        #end
         <div class="delete_item_content">
             <div class="row">
                 <div class="key">
@@ -15,7 +19,7 @@
                 </div>
                 <div class="value">
                     #set($systemValues = ["usual", "official", "temp", "secondary"])
-                    #xdatSimpleSelectBoxLbl("SELECT" "use" $item $systemValues $vr)
+                    #xdatSimpleSelectBoxLbl("SELECT" "${child_path}/use" $parent $systemValues $vr)
                 </div>
             </div>
 
@@ -24,8 +28,7 @@
                     #formLabel("Type")
                 </div>
                 <div class="value">
-                    #set($formbase = "fhir:patient/identifier/type")
-                    #parse("/screens/xnat_patientData/subforms/codeable_concept.vm")
+                    #codeable_concept_form("${form_name}_type" $parent "${child_path}/type" $!child.getProperty("type") "" true)
                 </div>
             </div>
 
@@ -34,7 +37,7 @@
                     #formLabel("System")
                 </div>
                 <div class="value">
-                    #xdatStringBox("system" $item "URI" $vr)
+                    #xdatStringBox("${child_path}/system" $parent "URI" $vr)
                 </div>
             </div>
 
@@ -43,7 +46,7 @@
                     #formLabel("Value")
                 </div>
                 <div class="value">
-                    #xdatStringBox("value" $item "Add Value" $vr)
+                    #xdatStringBox("${child_path}/value" $parent "Add Value" $vr)
                 </div>
             </div>
 
@@ -55,9 +58,25 @@
                     #formLabel("Assigner")
                 </div>
                 <div class="value">
-                    #xdatStringBox("assigner_ID" $item "Reference" $vr)
+                    #xdatStringBox("${child_path}/assigner" $parent "Reference" $vr)
                 </div>
             </div>
         </div>
     </div>
+#end
+
+#macro(idenfifiers_form $add_title $prefix $parent $item_path $item $child_key)
+    #set($form_name = "${prefix}identifier_form")
+<div class="form_block">
+    <div class="row">
+        <input type="button" value="${add_title}" onclick="addRow(this, '${form_name}')" />
+    </div>
+    #idenfifier_form($form_name $parent "${item_path}/${child_key}[__COUNTER__]" $null $null false)
+    #if($item)
+        #set($items = $item.getChildItems($child_key))
+        #foreach($child in $items)
+            #idenfifier_form($form_name $parent "${item_path}/${child_key}[${foreach.index}]" $child $foreach.index false)
+        #end
+    #end
 </div>
+#end

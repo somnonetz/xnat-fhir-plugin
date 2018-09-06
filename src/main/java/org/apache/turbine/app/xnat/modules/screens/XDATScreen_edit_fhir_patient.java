@@ -1,14 +1,20 @@
 package org.apache.turbine.app.xnat.modules.screens;
 
+import de.htwberlin.cbmi.fhir.service.FhirPatientService;
 import org.apache.turbine.util.RunData;
 import org.apache.velocity.context.Context;
+import org.nrg.xdat.XDAT;
 import org.nrg.xdat.bean.FhirPatientBean;
+import org.nrg.xdat.model.FhirPatientI;
 import org.nrg.xdat.om.XnatSubjectdata;
+import org.nrg.xdat.turbine.utils.TurbineUtils;
 import org.nrg.xft.XFTItem;
 import org.nrg.xft.exception.ElementNotFoundException;
 import org.nrg.xft.exception.FieldNotFoundException;
 import org.nrg.xft.exception.XFTInitException;
 import org.nrg.xnat.turbine.modules.screens.EditSubjectAssessorScreen;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 public class XDATScreen_edit_fhir_patient extends EditSubjectAssessorScreen {
     @Override
@@ -38,13 +44,22 @@ public class XDATScreen_edit_fhir_patient extends EditSubjectAssessorScreen {
                 subjectId = (String) context.get("subjectId");
             }
 
-            context.put("label", subjectId + "_FHIR_patient");
-
-        } catch (XFTInitException | ElementNotFoundException | FieldNotFoundException e) {
+            context.put("label", FhirPatientService.getPatientDataLabelForSubjectId(subjectId));
+            // Try to find data associated with the given subject
+            // because a single subject can only have exactly one FHIR patient record
+            FhirPatientI item = FhirPatientService.getPatientForSubject(subjectId, TurbineUtils.getUser(data));
+            if (item != null) {
+                log.error("I will publish an existing item for " + subjectId);
+                context.put("item", item);
+            }
+            else {
+                log.error("I will create a new item for " + subjectId);
+            }
+        }
+        catch (XFTInitException | ElementNotFoundException | FieldNotFoundException e) {
             final String message = "An error occurred trying to get the subject ID when adding the patient information.";
             log.error(message, e);
             throw new RuntimeException(message, e);
         }
     }
-
 }
