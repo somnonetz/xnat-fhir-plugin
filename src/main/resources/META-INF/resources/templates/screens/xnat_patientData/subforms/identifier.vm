@@ -37,7 +37,7 @@
                     #formLabel("System")
                 </div>
                 <div class="value">
-                    #xdatStringBox("${child_path}/system" $parent "URI" $vr)
+                    #cbmiStringBox("${child_path}/system" $parent "" "URI" $vr)
                 </div>
             </div>
 
@@ -46,7 +46,7 @@
                     #formLabel("Value")
                 </div>
                 <div class="value">
-                    #xdatStringBox("${child_path}/value" $parent "Add Value" $vr)
+                    #cbmiStringBox("${child_path}/value" $parent "" "Add Value" $vr)
                 </div>
             </div>
 
@@ -58,7 +58,7 @@
                     #formLabel("Assigner")
                 </div>
                 <div class="value">
-                    #xdatStringBox("${child_path}/assigner" $parent "Reference" $vr)
+                    #cbmiStringBox("${child_path}/assigner" $parent "" "Reference" $vr)
                 </div>
             </div>
         </div>

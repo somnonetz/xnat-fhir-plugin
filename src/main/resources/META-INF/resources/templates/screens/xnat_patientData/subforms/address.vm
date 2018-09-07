@@ -38,7 +38,7 @@
                     #formLabel("Address text")
                 </div>
                 <div class="value">
-                    #xdatStringBox("${child_path}/text" $parent "Address" $vr)
+                    #cbmiStringBox("${child_path}/text" $parent "" "Address" $vr)
                 </div>
             </div>
 
@@ -47,7 +47,7 @@
                     #formLabel("Address line *")
                 </div>
                 <div class="value">
-                    #stringListBox(${child_path} "line" $child "" "Separate with line break" $vr)
+                    #stringListTextArea(${child_path} "line" $child "" "Separate with line break" $vr)
                 </div>
             </div>
 
@@ -56,7 +56,7 @@
                     #formLabel("City")
                 </div>
                 <div class="value">
-                    #xdatStringBox("${child_path}/city" $parent "City" $vr)
+                    #cbmiStringBox("${child_path}/city" $parent "" "City" $vr)
                 </div>
             </div>
 
@@ -65,7 +65,7 @@
                     #formLabel("District")
                 </div>
                 <div class="value">
-                    #xdatStringBox("${child_path}/district" $parent "District" $vr)
+                    #cbmiStringBox("${child_path}/district" $parent "" "District" $vr)
                 </div>
             </div>
 
@@ -74,7 +74,7 @@
                     #formLabel("State")
                 </div>
                 <div class="value">
-                    #xdatStringBox("${child_path}/state" $parent "State" $vr)
+                    #cbmiStringBox("${child_path}/state" $parent "" "State" $vr)
                 </div>
             </div>
 
@@ -83,7 +83,7 @@
                     #formLabel("Postal code")
                 </div>
                 <div class="value">
-                    #xdatStringBox("${child_path}/postalCode" $parent "Postal code" $vr)
+                    #cbmiStringBox("${child_path}/postalCode" $parent "" "Postal code" $vr)
                 </div>
             </div>
 
@@ -92,7 +92,7 @@
                     #formLabel("Country")
                 </div>
                 <div class="value">
-                    #xdatStringBox("${child_path}/country" $parent "Country" $vr)
+                    #cbmiStringBox("${child_path}/country" $parent "" "Country" $vr)
                 </div>
             </div>
 

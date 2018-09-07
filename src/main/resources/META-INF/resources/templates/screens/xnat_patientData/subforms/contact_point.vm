@@ -28,7 +28,7 @@
                     #formLabel("Contact point value")
                 </div>
                 <div class="value">
-                    #xdatStringBox("${child_path}/value" $parent "Value here" $vr)
+                    #cbmiStringBox("${child_path}/value" $parent "" "Value here" $vr)
                 </div>
             </div>
 
@@ -47,7 +47,7 @@
                     #formLabel("Contact point rank")
                 </div>
                 <div class="value">
-                    <input type="number" name="${child_path}/rank" value="$!child.getProperty("rank")" />
+                    #cbmiStringBox("${child_path}/rank" $parent "" "Rank value" $vr)
                 </div>
             </div>
 

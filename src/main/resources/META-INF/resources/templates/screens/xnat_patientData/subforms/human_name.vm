@@ -29,7 +29,7 @@
                     #formLabel("Full name")
                 </div>
                 <div class="value">
-                    #xdatStringBox("${child_path}/text" $parent "Full name" $vr)
+                    #cbmiStringBox("${child_path}/text" $parent "" "Full name" $vr)
                 </div>
             </div>
 

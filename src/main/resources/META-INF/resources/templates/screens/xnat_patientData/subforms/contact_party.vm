@@ -67,7 +67,7 @@
                 </div>
                 <div class="value">
                     <div class="value">
-                        #xdatStringBox("${child_path}/organization" $item "Reference" $vr)
+                        #reference_form("${form_name}_organization" $parent "fhir:patient/organization" $!item.getProperty("organization") "" true)
                     </div>
                 </div>
             </div>

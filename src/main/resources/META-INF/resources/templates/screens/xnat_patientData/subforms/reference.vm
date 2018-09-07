@@ -18,7 +18,7 @@
                 #formLabel("Reference")
             </div>
             <div class="value">
-                #xdatStringBox("${child_path}/reference" $parent "Add Value" $vr)
+                #cbmiStringBox("${child_path}/reference" $parent "" "Add Value" $vr)
             </div>
         </div>
 
@@ -27,7 +27,7 @@
                 #formLabel("Display")
             </div>
             <div class="value">
-                #xdatStringBox("${child_path}/display" $parent "Text alternative for the resource" $vr)
+                #cbmiStringBox("${child_path}/display" $parent "" "Text alternative for the resource" $vr)
             </div>
         </div>
     </div>

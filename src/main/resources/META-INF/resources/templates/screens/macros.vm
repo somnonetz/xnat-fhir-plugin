@@ -37,3 +37,32 @@
 
 <textarea cols="30" rows="10" name="${path}/${attribute}_joined" id="${path}/${attribute}_joined" placeholder="${placeholder}">$value</textarea>
 #end
+
+#macro (cbmiStringBox $name $item $defaultValue $placeholder $vr)
+    #cbmiStringBoxOnChange($name $item $defaultValue $placeholder "" $vr "")
+#end
+
+#macro (cbmiStringBoxWClass $name $item $defaultValue $placeholder $vr $classes)
+    #cbmiStringBoxOnChange($name $item $defaultValue $placeholder "" $vr $classes)
+#end
+
+#macro (cbmiStringBoxOnChange $name $item $defaultValue $placeholder $onChange $vr $classes)
+    #if ($vr)
+        #if($vr.getField($name))
+        <span style="color:red;">&#8658</span>
+        #end
+    #end
+    #if ("$!classes" == "")
+        #set ($classes = "")
+    #end
+    #if ($item.getProperty($name))
+        #if($item.isPKField($name) && (!$vr.getField($name)))
+        <input id="$name" type="hidden" name="$name" placeholder="$!placeholder" value="$item.getStringProperty($name)" #if($!onChange != "") onchange="$!{onChange}(this)" #end/>
+            $item.getProperty($name)
+        #else
+        <input id="$name" class="$!classes" placeholder="$!placeholder" type="text" name="$name" value="$item.getStringProperty($name)" #if($!onChange != "") onchange="$!{onChange}(this)" #end/>
+        #end
+    #else
+    <input id="$name" class="$!classes" placeholder="$!placeholder" type="text" name="$name" value="$defaultValue" #if($!onChange != "") onchange="$!{onChange}(this)" #end/>
+    #end
+#end
