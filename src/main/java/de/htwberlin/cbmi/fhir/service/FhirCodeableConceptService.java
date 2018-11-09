@@ -2,7 +2,7 @@ package de.htwberlin.cbmi.fhir.service;
 
 import javax.annotation.Nullable;
 
-import de.htwberlin.cbmi.fhir.utils.DatatypeValidatable;
+import de.htwberlin.cbmi.fhir.utils.ComplexDatatypeValidatable;
 import de.htwberlin.cbmi.fhir.utils.Datatypes;
 import org.nrg.xdat.model.FhirCodeableconceptI;
 import org.nrg.xdat.model.FhirCodingI;
@@ -19,7 +19,7 @@ import java.util.*;
  * Service to build and request FHIRCodableConcept records
  */
 @Service
-public class FhirCodeableConceptService extends DatatypeValidatable {
+public class FhirCodeableConceptService extends ComplexDatatypeValidatable {
     /**
      * Build a new codeable concept out of the given data
      * @param data JSON data submitted to create the new codeable concept

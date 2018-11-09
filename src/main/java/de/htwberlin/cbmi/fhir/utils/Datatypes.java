@@ -5,8 +5,6 @@ import javax.annotation.Nullable;
 import javax.json.Json;
 import javax.json.stream.JsonParser;
 import java.io.Reader;
-import java.io.StringReader;
-import java.lang.reflect.Method;
 import java.util.*;
 
 public class Datatypes {
@@ -212,9 +210,10 @@ public class Datatypes {
      * @param map Map to check keys for
      * @param required Required keys (. is supported for sub-structures)
      * @param allowed Allowed keys (. is supported for sub-structures)
+     * @param allowUnknownKeys Set to true to allow keys in 'map' that are not present in 'allowed'
      * @return null if no problems were found or a list of keys either missing or not allowed
      */
-    public static Collection<String> validateKeys(Map<String, ?> map, Collection<String> required, Map<String, ? extends Object> allowed) {
+    public static Collection<String> validateKeys(Map<String, ?> map, Collection<String> required, Map<String, ? extends Object> allowed, boolean allowUnknownKeys) {
         Collection<String> presentKeys = getMapKeys(map, null);
         HashMap<String, Object> resolvedAllowedTypes = new HashMap<>();
         if (allowed != null) {
@@ -239,8 +238,8 @@ public class Datatypes {
                 }
 
                 Object type = resolvedAllowedTypes.get(subkey.toString());
-                if (type != null && type instanceof DatatypeValidatable) {
-                    DatatypeValidatable validator = (DatatypeValidatable)type;
+                if (type != null && type instanceof ComplexDatatypeValidatable) {
+                    ComplexDatatypeValidatable validator = (ComplexDatatypeValidatable)type;
                     Collection<String> subRequired = validator.getRequiredKeys(subkey.toString());
                     if (subRequired != null) {
                         resolvedRequired.addAll(subRequired);
@@ -261,7 +260,7 @@ public class Datatypes {
             return missingKeys;
         }
 
-        if (!resolvedAllowedTypes.keySet().containsAll(presentKeys)) {
+        if (!allowUnknownKeys && !resolvedAllowedTypes.keySet().containsAll(presentKeys)) {
             // Find disallowed keys
             Set<String> disallowedKeys = new HashSet<>(presentKeys);
             disallowedKeys.removeAll(resolvedAllowedTypes.keySet());
@@ -374,9 +373,9 @@ public class Datatypes {
 
             return true;
         }
-        else if (type instanceof DatatypeValidatable && Map.class.isInstance(o)) {
+        else if (type instanceof ComplexDatatypeValidatable && Map.class.isInstance(o)) {
             try {
-                return ((DatatypeValidatable)type).validateProperties((Map)o) == null;
+                return ((ComplexDatatypeValidatable)type).validateProperties((Map)o) == null;
             }
             catch (Exception e) {
                 return false;

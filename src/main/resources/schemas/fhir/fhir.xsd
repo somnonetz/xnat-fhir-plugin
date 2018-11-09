@@ -153,8 +153,16 @@
             <xs:element name="period" minOccurs="0">
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element name="start" type="xs:dateTime" minOccurs="0" maxOccurs="1" />
-                        <xs:element name="end" type="xs:dateTime" minOccurs="0" maxOccurs="1" />
+                        <xs:element name="start" minOccurs="0" maxOccurs="1">
+                            <xs:simpleType>
+                                <xs:union memberTypes="xs:dateTime xs:date xs:gYearMonth xs:gYear" />
+                            </xs:simpleType>
+                        </xs:element>
+                        <xs:element name="end" minOccurs="0" maxOccurs="1">
+                            <xs:simpleType>
+                                <xs:union memberTypes="xs:dateTime xs:date xs:gYearMonth xs:gYear" />
+                            </xs:simpleType>
+                        </xs:element>
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
@@ -197,8 +205,16 @@
             <xs:element name="period" minOccurs="0" maxOccurs="1">
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element name="start" type="xs:dateTime" minOccurs="0" maxOccurs="1" />
-                        <xs:element name="end" type="xs:dateTime" minOccurs="0" maxOccurs="1" />
+                        <xs:element name="start" minOccurs="0" maxOccurs="1">
+                            <xs:simpleType>
+                                <xs:union memberTypes="xs:dateTime xs:date xs:gYearMonth xs:gYear" />
+                            </xs:simpleType>
+                        </xs:element>
+                        <xs:element name="end" minOccurs="0" maxOccurs="1">
+                            <xs:simpleType>
+                                <xs:union memberTypes="xs:dateTime xs:date xs:gYearMonth xs:gYear" />
+                            </xs:simpleType>
+                        </xs:element>
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
@@ -251,19 +267,21 @@
                 </xs:annotation>
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element name="start" type="xs:dateTime" minOccurs="0" maxOccurs="1" />
-                        <xs:element name="end" type="xs:dateTime" minOccurs="0" maxOccurs="1" />
+                        <xs:element name="start" minOccurs="0" maxOccurs="1">
+                            <xs:simpleType>
+                                <xs:union memberTypes="xs:dateTime xs:date xs:gYearMonth xs:gYear" />
+                            </xs:simpleType>
+                        </xs:element>
+                        <xs:element name="end" minOccurs="0" maxOccurs="1">
+                            <xs:simpleType>
+                                <xs:union memberTypes="xs:dateTime xs:date xs:gYearMonth xs:gYear" />
+                            </xs:simpleType>
+                        </xs:element>
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
-            <xs:element name="assigner_ID" type="xs:integer" minOccurs="0" maxOccurs="1">
+            <xs:element name="assigner" type="fhir:reference" minOccurs="0" maxOccurs="1">
                 <xs:annotation>
-                    <xs:appinfo>
-                        <xdat:field baseElement="fhir:reference" baseCol="id" uniqueComposite="IDENTIFIER_REFERENCE">
-                            <xdat:relation onDelete="setnull"/>
-                            <xdat:sqlField name="assigner_id"/>
-                        </xdat:field>
-                    </xs:appinfo>
                     <xs:documentation>Organization that issued id (may be just text)</xs:documentation>
                 </xs:annotation>
             </xs:element>
@@ -360,8 +378,16 @@ This repeating element order: The order in which lines should appear in an addre
                 </xs:annotation>
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element name="start" type="xs:dateTime" minOccurs="0" maxOccurs="1" />
-                        <xs:element name="end" type="xs:dateTime" minOccurs="0" maxOccurs="1" />
+                        <xs:element name="start" minOccurs="0" maxOccurs="1">
+                            <xs:simpleType>
+                                <xs:union memberTypes="xs:dateTime xs:date xs:gYearMonth xs:gYear" />
+                            </xs:simpleType>
+                        </xs:element>
+                        <xs:element name="end" minOccurs="0" maxOccurs="1">
+                            <xs:simpleType>
+                                <xs:union memberTypes="xs:dateTime xs:date xs:gYearMonth xs:gYear" />
+                            </xs:simpleType>
+                        </xs:element>
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
@@ -464,7 +490,10 @@ This repeating element order: The order in which lines should appear in an addre
                             <xs:maxLength value="255"/>
                         </xs:restriction>
                     </xs:element>
-                    <xs:element name="creation" type="xs:dateTime" minOccurs="0" maxOccurs="1">
+                    <xs:element name="creation" minOccurs="0" maxOccurs="1">
+                        <xs:simpleType>
+                            <xs:union memberTypes="xs:dateTime xs:date xs:gYearMonth xs:gYear" />
+                        </xs:simpleType>
                         <xs:annotation>
                             <xs:documentation>Date attachment was first created</xs:documentation>
                         </xs:annotation>
@@ -548,7 +577,11 @@ This repeating element order: The order in which lines should appear in an addre
                         <xs:complexType>
                             <xs:sequence>
                                 <xs:element name="deceasedBoolean" type="xs:boolean" minOccurs="0" maxOccurs="1" />
-                                <xs:element name="deceasedDateTime" type="xs:dateTime" minOccurs="0" maxOccurs="1" />
+                                <xs:element name="deceasedDateTime" minOccurs="0" maxOccurs="1">
+                                    <xs:simpleType>
+                                        <xs:union memberTypes="xs:dateTime xs:date xs:gYearMonth xs:gYear" />
+                                    </xs:simpleType>
+                                </xs:element>
                             </xs:sequence>
                         </xs:complexType>
                     </xs:element>
@@ -646,8 +679,16 @@ This repeating element order: The order in which lines should appear in an addre
                                     </xs:annotation>
                                     <xs:complexType>
                                         <xs:sequence>
-                                            <xs:element name="start" type="xs:dateTime" minOccurs="0" maxOccurs="1" />
-                                            <xs:element name="end" type="xs:dateTime" minOccurs="0" maxOccurs="1" />
+                                            <xs:element name="start" minOccurs="0" maxOccurs="1">
+                                                <xs:simpleType>
+                                                    <xs:union memberTypes="xs:dateTime xs:date xs:gYearMonth xs:gYear" />
+                                                </xs:simpleType>
+                                            </xs:element>
+                                            <xs:element name="end" minOccurs="0" maxOccurs="1">
+                                                <xs:simpleType>
+                                                    <xs:union memberTypes="xs:dateTime xs:date xs:gYearMonth xs:gYear" />
+                                                </xs:simpleType>
+                                            </xs:element>
                                         </xs:sequence>
                                     </xs:complexType>
                                 </xs:element>

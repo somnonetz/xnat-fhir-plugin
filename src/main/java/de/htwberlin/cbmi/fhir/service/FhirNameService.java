@@ -2,15 +2,10 @@ package de.htwberlin.cbmi.fhir.service;
 
 import javax.annotation.Nullable;
 
-import de.htwberlin.cbmi.fhir.utils.DatatypeValidatable;
+import de.htwberlin.cbmi.fhir.utils.ComplexDatatypeValidatable;
 import de.htwberlin.cbmi.fhir.utils.Datatypes;
-import org.nrg.xdat.bean.FhirIdentifierBean;
-import org.nrg.xdat.base.BaseElement;
 import org.nrg.xdat.model.*;
 import org.nrg.xdat.om.*;
-import org.nrg.xft.search.ItemSearch;
-import org.nrg.xft.ItemI;
-import org.nrg.xft.collections.ItemCollection;
 import org.nrg.xft.security.UserI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +18,7 @@ import java.util.*;
  * Service to build and request FHIRIdentity records
  */
 @Service
-public class FhirNameService extends DatatypeValidatable {
+public class FhirNameService extends ComplexDatatypeValidatable {
     /**
      * Build a new name out of the given data
      * @param data JSON data submitted to create the new name
@@ -80,8 +75,8 @@ public class FhirNameService extends DatatypeValidatable {
 
             Map<String, Object> period = (Map<String, Object>)data.get("period");
             if (period != null) {
-                result.setPeriod_start(period.get("start"));
-                result.setPeriod_end(period.get("end"));
+                result.setPeriod_start((String)period.get("start"));
+                result.setPeriod_end((String)period.get("end"));
             }
 
             return result;

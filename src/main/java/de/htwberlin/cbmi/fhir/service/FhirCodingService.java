@@ -2,19 +2,13 @@ package de.htwberlin.cbmi.fhir.service;
 
 import javax.annotation.Nullable;
 
-import de.htwberlin.cbmi.fhir.utils.DatatypeValidatable;
+import de.htwberlin.cbmi.fhir.utils.ComplexDatatypeValidatable;
 import de.htwberlin.cbmi.fhir.utils.Datatypes;
-import org.nrg.xdat.bean.FhirIdentifierBean;
-import org.nrg.xdat.base.BaseElement;
 import org.nrg.xdat.model.*;
 import org.nrg.xdat.om.*;
-import org.nrg.xft.search.ItemSearch;
-import org.nrg.xft.ItemI;
-import org.nrg.xft.collections.ItemCollection;
 import org.nrg.xft.security.UserI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -23,7 +17,7 @@ import java.util.*;
  * Service to build and request FhirCoding records
  */
 @Service
-public class FhirCodingService extends DatatypeValidatable {
+public class FhirCodingService extends ComplexDatatypeValidatable {
     /**
      * Build a new coding out of the given data
      * @param data JSON data submitted to create the new coding

@@ -3,13 +3,23 @@ package de.htwberlin.cbmi.fhir.utils;
 import javax.annotation.Nullable;
 import java.util.*;
 
-public abstract class DatatypeValidatable {
+public class ComplexDatatypeValidatable {
     /**
-     * Validate the properites of the given object
+     * Validate the properties of the given object
      * @param attributes Attributes to validate
      * @return true if the properties match the requirements else false
      */
     public Collection<String> validateProperties(Map<String, ?> attributes) {
+        return this.validateProperties(attributes, true);
+    }
+
+    /**
+     * Validate the properties of the given object
+     * @param attributes Attributes to validate
+     * @param allowUnknownKeys true if you want to allow keys present in attributes that are unknown else false
+     * @return List of invalid keys (missing or disallowed) or null if no errors were found
+     */
+    public Collection<String> validateProperties(Map<String, ?> attributes, boolean allowUnknownKeys) {
         // Validate keys
         Collection<String> required = getRequiredKeys();
         Collection<String> allowed = getAllowedKeys();
@@ -18,7 +28,7 @@ public abstract class DatatypeValidatable {
         Map<String, ? extends Object> allowedTypes = Datatypes.makeMap(allowed, types);
 
         // Validate required keys
-        Collection<String> invalidKeys = Datatypes.validateKeys(attributes, required, allowedTypes);
+        Collection<String> invalidKeys = Datatypes.validateKeys(attributes, required, allowedTypes, allowUnknownKeys);
         if (invalidKeys != null) {
             return invalidKeys;
         }

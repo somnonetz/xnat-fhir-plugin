@@ -1,6 +1,6 @@
 package de.htwberlin.cbmi.fhir.service;
 
-import de.htwberlin.cbmi.fhir.utils.DatatypeValidatable;
+import de.htwberlin.cbmi.fhir.utils.ComplexDatatypeValidatable;
 import de.htwberlin.cbmi.fhir.utils.Datatypes;
 import org.nrg.xdat.base.BaseElement;
 import org.nrg.xdat.bean.FhirPatientBean;
@@ -23,7 +23,7 @@ import java.util.*;
 import java.util.regex.MatchResult;
 
 @Service
-public class FhirPatientService extends DatatypeValidatable {
+public class FhirPatientService extends ComplexDatatypeValidatable {
     /**
      * Return the name of the XNAT project where new Patient records will be published to
      * @param user User authenticated in the system
@@ -167,7 +167,7 @@ public class FhirPatientService extends DatatypeValidatable {
 
             // Check for deceased data (time preceeds boolean)
             if (data.get("deceasedDateTime") != null) {
-                patient.setDeceased_deceaseddatetime(data.get("deceasedDateTime"));
+                patient.setDeceased_deceaseddatetime((String)data.get("deceasedDateTime"));
             }
             else if (data.get("deceasedBoolean") != null) {
                 patient.setDeceased_deceasedboolean(data.get("deceasedBoolean"));
@@ -457,12 +457,14 @@ public class FhirPatientService extends DatatypeValidatable {
     private FhirPatientContactI createContact(Map<String, Object> data, UserI user) {
         // Don't create new object without any data
         if (data == null) {
+            _log.error("No data to build contact");
             return null;
         }
 
         // Verify handed properties
-        if (this.validateProperties(data) == null) {
-            _log.debug("Attribute validation failed");
+        Collection<String> failedAttributes = this.validateProperties(data);
+        if (failedAttributes != null) {
+            _log.error("Attribute validation failed: " + failedAttributes);
             return null;
         }
 
@@ -508,8 +510,8 @@ public class FhirPatientService extends DatatypeValidatable {
 
             Map<String, Object> period = (Map<String, Object>)data.get("period");
             if (period != null) {
-                result.setPeriod_start(period.get("start"));
-                result.setPeriod_end(period.get("end"));
+                result.setPeriod_start((String)period.get("start"));
+                result.setPeriod_end((String)period.get("end"));
             }
 
             return result;

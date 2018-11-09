@@ -2,7 +2,7 @@ package de.htwberlin.cbmi.fhir.service;
 
 import javax.annotation.Nullable;
 
-import de.htwberlin.cbmi.fhir.utils.DatatypeValidatable;
+import de.htwberlin.cbmi.fhir.utils.ComplexDatatypeValidatable;
 import de.htwberlin.cbmi.fhir.utils.Datatypes;
 import org.nrg.xdat.bean.FhirIdentifierBean;
 import org.nrg.xdat.base.BaseElement;
@@ -25,7 +25,7 @@ import java.util.*;
  * Service to build and request FHIRIdentity records
  */
 @Service
-public class FhirIdentityService extends DatatypeValidatable {
+public class FhirIdentityService extends ComplexDatatypeValidatable {
 
     /**
      * Search matching identifier based on the unique value field
@@ -87,7 +87,7 @@ public class FhirIdentityService extends DatatypeValidatable {
                 if (assigner == null) {
                     throw new Exception("Assigner with id " + data.get("assigner") + " not found in the system");
                 }
-                result.setAssignerId(assigner.getId());
+                result.setAssigner(assigner);
             }
 
             return result;
@@ -126,7 +126,7 @@ public class FhirIdentityService extends DatatypeValidatable {
             result.put("period", period);
         }
 
-        Datatypes.addIfPresent(result, "assigner", _referenceService.get(entity.getAssignerId(), user));
+        Datatypes.addIfPresent(result, "assigner", _referenceService.makePropertyMap(entity.getAssigner(), user));
 
         return result;
     }

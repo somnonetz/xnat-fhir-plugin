@@ -1,23 +1,13 @@
 package de.htwberlin.cbmi.fhir.service;
 
-import javax.activation.MimetypesFileTypeMap;
 import javax.annotation.Nullable;
 import javax.xml.bind.DatatypeConverter;
 
-import de.htwberlin.cbmi.fhir.utils.DatatypeValidatable;
+import de.htwberlin.cbmi.fhir.utils.ComplexDatatypeValidatable;
 import de.htwberlin.cbmi.fhir.utils.Datatypes;
-import org.apache.commons.lang3.ArrayUtils;
-import org.nrg.xdat.XDAT;
-import org.nrg.xdat.bean.FhirIdentifierBean;
-import org.nrg.xdat.base.BaseElement;
-import org.nrg.xdat.model.*;
 import org.nrg.xdat.om.*;
 import org.nrg.xdat.preferences.SiteConfigPreferences;
-import org.nrg.xft.search.ItemSearch;
-import org.nrg.xft.ItemI;
-import org.nrg.xft.collections.ItemCollection;
 import org.nrg.xft.security.UserI;
-import org.nrg.xnat.utils.CatalogUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +23,7 @@ import java.util.*;
  * Service to build and request FHIRAttachment records
  */
 @Service
-public class FhirAttachmentService extends DatatypeValidatable {
+public class FhirAttachmentService extends ComplexDatatypeValidatable {
     /**
      * Build a new Attachment out of the given data
      * @param data JSON data submitted to create the new Attachment
@@ -59,7 +49,7 @@ public class FhirAttachmentService extends DatatypeValidatable {
             result.setContenttype((String) data.get("contentType"));
             result.setLanguage((String) data.get("language"));
             result.setLabel((String) data.get("title"));
-            result.setCreation(data.get("creation"));
+            result.setCreation((String)data.get("creation"));
 
             String base64Data = (String) data.get("data");
             if (base64Data != null) {

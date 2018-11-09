@@ -1,6 +1,6 @@
 package de.htwberlin.cbmi.fhir.service;
 
-import de.htwberlin.cbmi.fhir.utils.DatatypeValidatable;
+import de.htwberlin.cbmi.fhir.utils.ComplexDatatypeValidatable;
 import de.htwberlin.cbmi.fhir.utils.Datatypes;
 import org.nrg.xdat.base.BaseElement;
 import org.nrg.xdat.bean.*;
@@ -18,12 +18,11 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class FhirReferenceService extends DatatypeValidatable {
+public class FhirReferenceService extends ComplexDatatypeValidatable {
 
     /**
      * Search matching reference based on the unique reference field
