@@ -1,5 +1,5 @@
 group 'de.htwberlin.cbmi'
-version '0.0.1-prealpha'
+version '0.2-alpha1'
 
 def vXnat = '1.7.0-SNAPSHOT'
 def vXnatPrefs = '1.7.0'
@@ -15,11 +15,11 @@ buildscript {
         mavenLocal()
         jcenter()
         maven {
-            url 'https://nrgxnat.artifactoryonline.com/nrgxnat/libs-release'
+            url 'https://nrgxnat.jfrog.io/nrgxnat/libs-release'
             name 'XNAT Release Repository'
         }
         maven {
-            url 'https://nrgxnat.artifactoryonline.com/nrgxnat/libs-snapshot'
+            url 'https://nrgxnat.jfrog.io/nrgxnat/libs-snapshot'
             name 'XNAT Snapshot Repository'
         }
     }
@@ -77,15 +77,15 @@ apply plugin: 'xnat-data-builder'
 repositories {
     mavenLocal()
     maven {
-        url 'https://nrgxnat.artifactoryonline.com/nrgxnat/libs-release'
+        url 'https://nrgxnat.jfrog.io/nrgxnat/libs-release'
         name 'XNAT Release Repository'
     }
     maven {
-        url 'https://nrgxnat.artifactoryonline.com/nrgxnat/libs-snapshot'
+        url 'https://nrgxnat.jfrog.io/nrgxnat/libs-snapshot'
         name 'XNAT Snapshot Repository'
     }
     maven {
-        url 'https://nrgxnat.artifactoryonline.com/nrgxnat/ext-release'
+        url 'https://nrgxnat.jfrog.io/nrgxnat/ext-release'
         name 'XNAT External Release Repository'
     }
     mavenCentral()
