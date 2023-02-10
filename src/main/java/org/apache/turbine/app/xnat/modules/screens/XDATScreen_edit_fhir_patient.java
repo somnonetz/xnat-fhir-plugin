@@ -49,16 +49,13 @@ public class XDATScreen_edit_fhir_patient extends EditSubjectAssessorScreen {
             // because a single subject can only have exactly one FHIR patient record
             FhirPatientI item = FhirPatientService.getPatientForSubject(subjectId, TurbineUtils.getUser(data));
             if (item != null) {
-                log.error("I will publish an existing item for " + subjectId);
+                // Publish an existing item for subjectId
                 context.put("item", item);
             }
-            else {
-                log.error("I will create a new item for " + subjectId);
-            }
+                // create a new item for subjectId
         }
         catch (XFTInitException | ElementNotFoundException | FieldNotFoundException e) {
             final String message = "An error occurred trying to get the subject ID when adding the patient information.";
-            log.error(message, e);
             throw new RuntimeException(message, e);
         }
     }

@@ -1,2 +1,25 @@
-rootProject.name = 'xnat-on-fhir'
+/*
+ * xnat-on-fhir: settings.gradle
+ * XNAT https://www.xnat.org
+ * Copyright (c) 2005-2021, Washington University School of Medicine
+ * All Rights Reserved
+ *
+ * Released under the Simplified BSD.
+ */
+
+// This tells Gradle where it can look for plugins that may be referenced
+// by your build.
+pluginManagement {
+    repositories {
+        mavenLocal()
+        gradlePluginPortal()
+        maven { url "https://nrgxnat.jfrog.io/nrgxnat/gradle-plugins-release" }
+        maven { url "https://nrgxnat.jfrog.io/nrgxnat/libs-release" }
+        mavenCentral()
+    }
+}
+
+// TODO: Replace this with your project name. The project name should indicate
+//       the function of the plugin.
+rootProject.name = "xnat-on-fhir"
 
