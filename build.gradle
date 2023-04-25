@@ -12,9 +12,9 @@ buildscript {
 plugins {
     id "jacoco"
     id "java"
-    id "com.palantir.git-version" version "0.12.1"
+    id "com.palantir.git-version" version "2.0.0"
     id "io.franzbecker.gradle-lombok" version "4.0.0"
-    id "io.spring.dependency-management" version "1.0.11.RELEASE"
+    id "io.spring.dependency-management" version "1.1.0"
     id "org.nrg.xnat.build.xnat-data-builder" version "1.8.6"
 }
 
