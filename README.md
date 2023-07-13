@@ -16,10 +16,16 @@ git clone git@github.com:somnonetz/xnat-fhir-plugin.git && cd xnat-fhir-plugin
 
 Please follow the instructions in the official [XNAT documentation](https://wiki.xnat.org/display/XNAT18/Deploying+Plugins+in+XNAT).
 
+## Data Import
+
+### FHIR Profile Patient
+Since in XNAT one subject means one patient, we should only create one FHIR Patient per subject to keep the reliability of our data.
+To import data by .csv file we need to take care of data type validation and error messages if failed. 
+
 ## Authors
 
-Maryna Khvastova, Michael Witt, Sabina Mollenhauer, Tabea Herrmann, Isabella Kaupp Rivadeneira, James Bowden
+Maryna Khvastova, Michael Witt, Sabina Mollenhauer, Tabea Herrmann, Isabella Kaupp Rivadeneira, James Bowden, Yufei Zhu
 
 ## Acknowledgements
 
-XNAT FHIR Plugin is developed at [CBMI](https://cbmi.htw-berlin.de/) (HTW Berlin - University of Applied Sciences).
+XNAT FHIR Plugin is developed at [CBMI](https://cbmi.htw-berlin.de/) (HTW Berlin - University of Applied Sciences) and [MI](https://medizininformatik.umg.eu/) (UMG, Universitätsmedizin Göttingen).
