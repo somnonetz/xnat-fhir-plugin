@@ -6,8 +6,8 @@
         xmlns="http://www.w3.org/1999/html"></script>
 <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
 <link rel="stylesheet" type="text/css" href="../../style/xnat-on-fhir/styles.css" />
-<script type="text/javascript" src="/scripts/xnat-on-fhir/add-row.js"></script>
-<script type="text/javascript" src="/scripts/xnat-on-fhir/delete-row.js"></script>
+<!-- script type="text/javascript" src="/scripts/xnat-on-fhir/add-row.js"></script>
+<script type="text/javascript" src="/scripts/xnat-on-fhir/delete-row.js"></script -->
 
 #set ($part_id = $request.get("part_id"))
 #set($years = [ $!turbineUtils.getYear()..1900])
@@ -259,5 +259,67 @@ $page.setVlinkColor($ui.vlink)
         function validateForm() {
             document.patientForm.submit();
             return true;
+        }
+
+        function findForm(element) {
+            var result = element;
+            while (result && result.tagName.toLowerCase() !== "form") {
+                result = result.parentNode;
+            }
+            return result;
+        }
+
+        function fixInputNames(fields, counter) {
+            for (var i = 0; i < fields.length; i++) {
+                var e = fields[i];
+                e.id = e.name.replace('__COUNTER__', counter)
+                e.name = e.id;
+            }
+        }
+
+        function findBaseFormElement(element, label) {
+            // First we search for a div with class "form_block"
+            var e = element;
+            while (e.className !== "form_block") {
+                e = e.parentNode;
+            }
+
+            // Afterwards we search a child with the given label
+            for (var index = 0; index < e.children.length; index++) {
+                var child = e.children[index];
+                if (child.dataset.label === label) {
+                    return child;
+                }
+            }
+
+            return undefined;
+        }
+
+        function addRow(element, baseFormLabel) {
+            var baseFormElement = findBaseFormElement(element, baseFormLabel);
+            var f = findForm(baseFormElement);
+
+            var existing = document.getElementsByClassName(baseFormLabel);
+            var counter = existing.length;
+
+            var newForm = baseFormElement.cloneNode(true);
+            newForm.className = baseFormLabel;
+
+            fixInputNames(newForm.getElementsByTagName("input"), counter);
+            fixInputNames(newForm.getElementsByTagName("select"), counter);
+            fixInputNames(newForm.getElementsByTagName("textarea"), counter);
+
+            newForm.id = baseFormLabel + counter;
+            newForm.style.display = "block";
+            baseFormElement.parentNode.appendChild(newForm);
+        }
+
+        function deleteRow(element, baseFormLabel) {
+            // Removes an element from the document
+            while (element.className !== baseFormLabel) {
+                element = element.parentNode;
+            }
+
+            element.parentNode.removeChild(element);
         }
     </script>
