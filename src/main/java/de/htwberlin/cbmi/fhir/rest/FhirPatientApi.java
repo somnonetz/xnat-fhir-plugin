@@ -49,13 +49,13 @@ public class FhirPatientApi extends AbstractXapiRestController {
             @ApiResponse(code = 200, message = "Record successfully received."),
             @ApiResponse(code = 401, message = "Must be authenticated to access this REST API."),
             @ApiResponse(code = 500, message = "Unexpected error")})
-    @RequestMapping(value = "{id}", produces = {MediaType.APPLICATION_JSON_VALUE}, method = RequestMethod.GET)
-    public ResponseEntity<Map<String, Object>> get(@PathVariable final Integer id, HttpServletRequest request) {
+    @RequestMapping(value = "{subject_id}", produces = {MediaType.APPLICATION_JSON_VALUE}, method = RequestMethod.GET)
+    public ResponseEntity<Map<String, Object>> get(@PathVariable final String subject_id, HttpServletRequest request) {
         Hashtable<String, Object> properties = new Hashtable<>();
         final UserI user = getSessionUser();
 
         // Read the patient record from the data service
-        FhirPatientI record = _patientService.getPatient(id, user);
+        FhirPatientI record = _patientService.getPatientForSubject(subject_id, user);
         if (record == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
