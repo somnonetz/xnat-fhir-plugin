@@ -20,7 +20,11 @@ Please follow the instructions in the official [XNAT documentation](https://wiki
 
 ### FHIR Profile Patient
 Since in XNAT one subject means one patient, we should only create one FHIR Patient per subject to keep the reliability of our data.
+If there are more than one patient (as Experiment) in a subject, by search only the first object will be returnen. 
 To import data by .csv file we need to take care of data type validation and error messages if failed. 
+
+**Update to version 1.8.x:**
+"search" in REST API wants a string parameter as "subject ID", not an integer ID.
 
 ## Authors
 
