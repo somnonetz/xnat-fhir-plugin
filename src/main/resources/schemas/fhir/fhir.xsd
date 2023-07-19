@@ -12,34 +12,37 @@
     <xs:element name="FHIRIdentifier" type="fhir:identifier"/>
     <xs:element name="FHIRAddress" type="fhir:address"/>
     <xs:element name="FHIRAttachment" type="fhir:attachment"/>
-    <xs:element name="FHIRPatient" type="fhir:patient"/>
     <xs:element name="FHIRReference" type="fhir:reference"/>
     <xs:element name="FHIRCoding" type="fhir:coding"/>
     <xs:element name="FHIRCodeableConcept" type="fhir:codeableConcept"/>
+    <xs:element name="FHIRPatient" type="fhir:patient"/>
+    <xs:element name="FHIRExtension" type="fhir:extension"/>
+    <xs:element name="FHIRBackboneElement" type="fhir:backboneElement"/>
+    <xs:element name="FHIREncounter" type="fhir:encounter"/>
 
     <xs:complexType name="coding">
         <xs:sequence>
-            <xs:element name="system" type="xs:string" minOccurs="0" maxOccurs="1">
+            <xs:element name="system" type="xs:string" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>Identity of the terminology system</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="version" type="xs:string" minOccurs="0" maxOccurs="1">
+            <xs:element name="version" type="xs:string" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>Version of the system - if relevant</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="code" type="xs:string" minOccurs="0" maxOccurs="1" >
+            <xs:element name="code" type="xs:string" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>Symbol in syntax defined by the system</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="display" type="xs:string" minOccurs="0" maxOccurs="1" >
+            <xs:element name="display" type="xs:string" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>Representation defined by the system</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="userSelected" type="xs:boolean" minOccurs="0" maxOccurs="1" >
+            <xs:element name="userSelected" type="xs:boolean" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>Representation defined by the system</xs:documentation>
                 </xs:annotation>
@@ -68,7 +71,7 @@
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="text" type="xs:string" minOccurs="0" maxOccurs="1">
+            <xs:element name="text" type="xs:string" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>Plain text representation of the concept</xs:documentation>
                 </xs:annotation>
@@ -87,17 +90,22 @@
 
     <xs:complexType name="reference">
         <xs:sequence>
-            <xs:element name="reference" type="xs:string" minOccurs="0" maxOccurs="1">
+            <xs:element name="reference" type="xs:string" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>Literal reference, Relative, internal or absolute URL</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="identifier" minOccurs="0" maxOccurs="1" type="fhir:identifier">
+            <xs:element name="type" minOccurs="0" type="xs:anyURI" >
+                <xs:annotation>
+                    <xs:documentation>Type the reference refers to</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="identifier" minOccurs="0" type="fhir:identifier">
                 <xs:annotation>
                     <xs:documentation>Logical reference, when literal reference is not known</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="display" type="xs:string" minOccurs="0" maxOccurs="1" >
+            <xs:element name="display" type="xs:string" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>Text alternative for the resource</xs:documentation>
                 </xs:annotation>
@@ -138,27 +146,27 @@
 
     <xs:complexType name="contactPoint">
         <xs:sequence>
-            <xs:element name="system" minOccurs="0" maxOccurs="1" type="fhir:contactPointSystem">
+            <xs:element name="system" minOccurs="0" type="fhir:contactPointSystem">
                 <xs:annotation>
                     <xs:documentation>Way of contact:</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="value" type="xs:string" minOccurs="0" maxOccurs="1" />
-            <xs:element name="use" minOccurs="0" maxOccurs="1" type="fhir:contactPointUse">
+            <xs:element name="value" type="xs:string" minOccurs="0"/>
+            <xs:element name="use" minOccurs="0"  type="fhir:contactPointUse">
                 <xs:annotation>
                     <xs:documentation>Purpose of the contact:</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="rank" type="xs:positiveInteger" minOccurs="0" maxOccurs="1" />
-            <xs:element name="period" minOccurs="0">
+            <xs:element name="rank" type="xs:positiveInteger" minOccurs="0"  />
+            <xs:element name="period" minOccurs="0" >
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element name="start" minOccurs="0" maxOccurs="1">
+                        <xs:element name="start">
                             <xs:simpleType>
                                 <xs:union memberTypes="xs:dateTime xs:date xs:gYearMonth xs:gYear" />
                             </xs:simpleType>
                         </xs:element>
-                        <xs:element name="end" minOccurs="0" maxOccurs="1">
+                        <xs:element name="end" minOccurs="0">
                             <xs:simpleType>
                                 <xs:union memberTypes="xs:dateTime xs:date xs:gYearMonth xs:gYear" />
                             </xs:simpleType>
@@ -192,25 +200,25 @@
 
     <xs:complexType name="humanName">
         <xs:sequence>
-            <xs:element name="use" minOccurs="0" maxOccurs="1" type="fhir:humanNameUse">
+            <xs:element name="use" minOccurs="0"  type="fhir:humanNameUse">
                 <xs:annotation>
                     <xs:documentation>NameUse</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="text" type="xs:string" minOccurs="0" maxOccurs="1" />
-            <xs:element name="family" type="xs:string" minOccurs="0" maxOccurs="1" />
+            <xs:element name="text" type="xs:string" minOccurs="0"  />
+            <xs:element name="family" type="xs:string" minOccurs="0"  />
             <xs:element name="given" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
             <xs:element name="prefix" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
             <xs:element name="suffix" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
-            <xs:element name="period" minOccurs="0" maxOccurs="1">
+            <xs:element name="period" minOccurs="0" >
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element name="start" minOccurs="0" maxOccurs="1">
+                        <xs:element name="start">
                             <xs:simpleType>
                                 <xs:union memberTypes="xs:dateTime xs:date xs:gYearMonth xs:gYear" />
                             </xs:simpleType>
                         </xs:element>
-                        <xs:element name="end" minOccurs="0" maxOccurs="1">
+                        <xs:element name="end" minOccurs="0">
                             <xs:simpleType>
                                 <xs:union memberTypes="xs:dateTime xs:date xs:gYearMonth xs:gYear" />
                             </xs:simpleType>
@@ -241,38 +249,38 @@
 
     <xs:complexType name="identifier">
         <xs:sequence>
-            <xs:element name="use" minOccurs="0" maxOccurs="1" type="fhir:identifierUse">
+            <xs:element name="use" minOccurs="0"  type="fhir:identifierUse">
                 <xs:annotation>
                     <xs:documentation>Identifier use</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="type" minOccurs="0" maxOccurs="1" type="fhir:codeableConcept">
+            <xs:element name="type" minOccurs="0"  type="fhir:codeableConcept">
                 <xs:annotation>
                     <xs:documentation>Description of identifier</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="system" type="xs:string" minOccurs="0" maxOccurs="1">
+            <xs:element name="system" type="xs:string" minOccurs="0" >
                 <xs:annotation>
                     <xs:documentation>The namespace for the identifier value</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="value" type="xs:string" minOccurs="0" maxOccurs="1">
+            <xs:element name="value" type="xs:string" minOccurs="0" >
                 <xs:annotation>
                     <xs:documentation>The value that is unique</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="period" minOccurs="0" maxOccurs="1">
+            <xs:element name="period" minOccurs="0" >
                 <xs:annotation>
                     <xs:documentation>Time period when id is/was valid for use</xs:documentation>
                 </xs:annotation>
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element name="start" minOccurs="0" maxOccurs="1">
+                        <xs:element name="start">
                             <xs:simpleType>
                                 <xs:union memberTypes="xs:dateTime xs:date xs:gYearMonth xs:gYear" />
                             </xs:simpleType>
                         </xs:element>
-                        <xs:element name="end" minOccurs="0" maxOccurs="1">
+                        <xs:element name="end" minOccurs="0">
                             <xs:simpleType>
                                 <xs:union memberTypes="xs:dateTime xs:date xs:gYearMonth xs:gYear" />
                             </xs:simpleType>
@@ -280,9 +288,9 @@
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
-            <xs:element name="assigner" type="fhir:reference" minOccurs="0" maxOccurs="1">
+            <xs:element name="assigner" type="fhir:reference" minOccurs="0" >
                 <xs:annotation>
-                    <xs:documentation>Organization that issued id (may be just text)</xs:documentation>
+                    <xs:documentation>Organization that issued id (maybe just text)</xs:documentation>
                 </xs:annotation>
             </xs:element>
         </xs:sequence>
@@ -326,17 +334,17 @@
 
     <xs:complexType name="address">
         <xs:sequence>
-            <xs:element name="use" minOccurs="0" maxOccurs="1" type="fhir:addressUse">
+            <xs:element name="use" minOccurs="0"  type="fhir:addressUse">
                 <xs:annotation>
                     <xs:documentation>AddressUse</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="type" minOccurs="0" maxOccurs="1" type="fhir:addressType">
+            <xs:element name="type" minOccurs="0"  type="fhir:addressType">
                 <xs:annotation>
                     <xs:documentation>AddressType</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="text" type="xs:string" minOccurs="0" maxOccurs="1">
+            <xs:element name="text" type="xs:string" minOccurs="0" >
                 <xs:annotation>
                     <xs:documentation>Text representation of the address</xs:documentation>
                 </xs:annotation>
@@ -344,46 +352,46 @@
             <xs:element name="line" type="xs:string" minOccurs="0" maxOccurs="unbounded">
                 <xs:annotation>
                     <xs:documentation>Street name, number, direction &amp; P.O. Box etc.
-This repeating element order: The order in which lines should appear in an address label</xs:documentation>
+                        This repeating element order: The order in which lines should appear in an address label</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="city" type="xs:string" minOccurs="0" maxOccurs="1">
+            <xs:element name="city" type="xs:string" minOccurs="0" >
                 <xs:annotation>
                     <xs:documentation>Name of city, town etc.</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="district" type="xs:string" minOccurs="0" maxOccurs="1">
+            <xs:element name="district" type="xs:string" minOccurs="0" >
                 <xs:annotation>
                     <xs:documentation>District name (aka county)</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="state" type="xs:string" minOccurs="0" maxOccurs="1">
+            <xs:element name="state" type="xs:string" minOccurs="0" >
                 <xs:annotation>
                     <xs:documentation>Sub-unit of country (abbreviations ok)</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="postalCode" type="xs:string" minOccurs="0" maxOccurs="1">
+            <xs:element name="postalCode" type="xs:string" minOccurs="0" >
                 <xs:annotation>
                     <xs:documentation>Postal code for area</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="country" type="xs:string" minOccurs="0" maxOccurs="1">
+            <xs:element name="country" type="xs:string" minOccurs="0" >
                 <xs:annotation>
-                    <xs:documentation>Country (e.g. can be ISO 3166 2 or 3 letter code)</xs:documentation>
+                    <xs:documentation>Country (e.g. can be ISO 3166 2 or 3-letter code)</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="period" minOccurs="0" maxOccurs="1">
+            <xs:element name="period" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>Time period when id is/was valid for use</xs:documentation>
                 </xs:annotation>
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element name="start" minOccurs="0" maxOccurs="1">
+                        <xs:element name="start">
                             <xs:simpleType>
                                 <xs:union memberTypes="xs:dateTime xs:date xs:gYearMonth xs:gYear" />
                             </xs:simpleType>
                         </xs:element>
-                        <xs:element name="end" minOccurs="0" maxOccurs="1">
+                        <xs:element name="end" minOccurs="0">
                             <xs:simpleType>
                                 <xs:union memberTypes="xs:dateTime xs:date xs:gYearMonth xs:gYear" />
                             </xs:simpleType>
@@ -391,9 +399,9 @@ This repeating element order: The order in which lines should appear in an addre
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
-            <xs:element name="assigner" type="fhir:reference" minOccurs="0" maxOccurs="1">
+            <xs:element name="assigner" type="fhir:reference" minOccurs="0" >
                 <xs:annotation>
-                    <xs:documentation>Organization that issued id (may be just text)</xs:documentation>
+                    <xs:documentation>Organization that issued id (maybe just text)</xs:documentation>
                 </xs:annotation>
             </xs:element>
         </xs:sequence>
@@ -472,17 +480,17 @@ This repeating element order: The order in which lines should appear in an addre
         <xs:complexContent>
             <xs:extension base="xnat:resource">
                 <xs:sequence>
-                    <xs:element name="contentType" type="xs:string" minOccurs="0" maxOccurs="1">
+                    <xs:element name="contentType" type="xs:string" minOccurs="0" >
                         <xs:annotation>
                             <xs:documentation>Mime type of the content, with charset etc.</xs:documentation>
                         </xs:annotation>
                     </xs:element>
-                    <xs:element name="language" minOccurs="0" maxOccurs="1" type="fhir:commonLanguages">
+                    <xs:element name="language" minOccurs="0"  type="fhir:commonLanguages">
                         <xs:annotation>
                             <xs:documentation>Human language of the content (BCP-47)</xs:documentation>
                         </xs:annotation>
                     </xs:element>
-                    <xs:element name="hash" minOccurs="0" maxOccurs="1">
+                    <xs:element name="hash" minOccurs="0" >
                         <xs:annotation>
                             <xs:documentation>Hash of the data (sha-1, base64ed)</xs:documentation>
                         </xs:annotation>
@@ -490,7 +498,7 @@ This repeating element order: The order in which lines should appear in an addre
                             <xs:maxLength value="255"/>
                         </xs:restriction>
                     </xs:element>
-                    <xs:element name="creation" minOccurs="0" maxOccurs="1">
+                    <xs:element name="creation" minOccurs="0" >
                         <xs:simpleType>
                             <xs:union memberTypes="xs:dateTime xs:date xs:gYearMonth xs:gYear" />
                         </xs:simpleType>
@@ -521,6 +529,48 @@ This repeating element order: The order in which lines should appear in an addre
         </xs:restriction>
     </xs:simpleType>
 
+    <xs:complexType name="meta">
+        <xs:sequence>
+            <xs:element name="versionId" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="value" minOccurs="0" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="lastUpdated" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="value" minOccurs="0" type="xs:dateTime"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="source" minOccurs="0" maxOccurs="unbounded" type="xs:anyURI"/>
+            <xs:element name="profile" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="value" minOccurs="0" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="security" minOccurs="0" maxOccurs="unbounded" type="fhir:coding"/>
+            <xs:element name="tag" minOccurs="0" maxOccurs="unbounded" type="fhir:coding"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="extension">
+        <xs:sequence>
+            <xs:element name="url" type="xs:string"/>
+            <xs:element name="value" minOccurs="0" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="backboneElement">
+        <xs:sequence>
+            <xs:element name="modifierExtension" minOccurs="0" maxOccurs="unbounded" type="fhir:extension"/>
+        </xs:sequence>
+    </xs:complexType>
+
     <xs:complexType name="patient">
         <xs:complexContent>
             <xs:extension base="xnat:subjectAssessorData">
@@ -535,7 +585,7 @@ This repeating element order: The order in which lines should appear in an addre
                             </xs:appinfo>
                         </xs:annotation>
                     </xs:element>
-                    <xs:element name="active" type="xs:boolean" minOccurs="0" maxOccurs="1">
+                    <xs:element name="active" type="xs:boolean" minOccurs="0">
                         <xs:annotation>
                             <xs:documentation>Whether this patient's record is in active use</xs:documentation>
                         </xs:annotation>
@@ -560,24 +610,24 @@ This repeating element order: The order in which lines should appear in an addre
                             </xs:appinfo>
                         </xs:annotation>
                     </xs:element>
-                    <xs:element name="gender" minOccurs="0" maxOccurs="1" type="fhir:administrativeGender">
+                    <xs:element name="gender" minOccurs="0" type="fhir:administrativeGender">
                         <xs:annotation>
                             <xs:documentation>AdministrativeGender</xs:documentation>
                         </xs:annotation>
                     </xs:element>
-                    <xs:element name="birthDate" type="xs:date" minOccurs="0" maxOccurs="1">
+                    <xs:element name="birthDate" type="xs:date" minOccurs="0">
                         <xs:annotation>
                             <xs:documentation>The date of birth for the individual</xs:documentation>
                         </xs:annotation>
                     </xs:element>
-                    <xs:element name="deceased" minOccurs="0" maxOccurs="1">
+                    <xs:element name="deceased" minOccurs="0">
                         <xs:annotation>
                             <xs:documentation>Indicates if the individual is deceased or not</xs:documentation>
                         </xs:annotation>
                         <xs:complexType>
                             <xs:sequence>
-                                <xs:element name="deceasedBoolean" type="xs:boolean" minOccurs="0" maxOccurs="1" />
-                                <xs:element name="deceasedDateTime" minOccurs="0" maxOccurs="1">
+                                <xs:element name="deceasedBoolean" type="xs:boolean" minOccurs="0" />
+                                <xs:element name="deceasedDateTime" minOccurs="0">
                                     <xs:simpleType>
                                         <xs:union memberTypes="xs:dateTime xs:date xs:gYearMonth xs:gYear" />
                                     </xs:simpleType>
@@ -595,19 +645,19 @@ This repeating element order: The order in which lines should appear in an addre
                             </xs:appinfo>
                         </xs:annotation>
                     </xs:element>
-                    <xs:element name="maritalStatus" minOccurs="0" maxOccurs="1" type="fhir:codeableConcept">
+                    <xs:element name="maritalStatus" minOccurs="0" type="fhir:codeableConcept">
                         <xs:annotation>
                             <xs:documentation>Marital (civil) status of a patient</xs:documentation>
                         </xs:annotation>
                     </xs:element>
-                    <xs:element name="multipleBirth" minOccurs="0" maxOccurs="1">
+                    <xs:element name="multipleBirth" minOccurs="0" >
                         <xs:annotation>
                             <xs:documentation>Whether patient is part of a multiple birth</xs:documentation>
                         </xs:annotation>
                         <xs:complexType>
                             <xs:sequence>
-                                <xs:element name="multipleBirthBoolean" type="xs:boolean" minOccurs="0" maxOccurs="1" />
-                                <xs:element name="multipleBirthInteger" type="xs:integer" minOccurs="0" maxOccurs="1" />
+                                <xs:element name="multipleBirthBoolean" type="xs:boolean" minOccurs="0" />
+                                <xs:element name="multipleBirthInteger" type="xs:integer" minOccurs="0" />
                             </xs:sequence>
                         </xs:complexType>
                     </xs:element>
@@ -628,12 +678,12 @@ This repeating element order: The order in which lines should appear in an addre
                         <xs:complexType>
                             <xs:sequence>
                                 <!-- normally maxOccurs should be unbounded, however the xnat compiler does not understand that :( -->
-                                <xs:element name="relationship" minOccurs="0" maxOccurs="1" type="fhir:codeableConcept">
+                                <xs:element name="relationship" minOccurs="0" type="fhir:codeableConcept">
                                     <xs:annotation>
                                         <xs:documentation>The kind of relationship</xs:documentation>
                                     </xs:annotation>
                                 </xs:element>
-                                <xs:element name="name" type="fhir:humanName" minOccurs="0" maxOccurs="1">
+                                <xs:element name="name" type="fhir:humanName" minOccurs="0" >
                                     <xs:annotation>
                                         <xs:documentation>A name associated with the contact person</xs:documentation>
                                         <xs:appinfo>
@@ -653,7 +703,7 @@ This repeating element order: The order in which lines should appear in an addre
                                         </xs:appinfo>
                                     </xs:annotation>
                                 </xs:element>
-                                <xs:element name="address" type="fhir:address" minOccurs="0" maxOccurs="1">
+                                <xs:element name="address" type="fhir:address" minOccurs="0">
                                     <xs:annotation>
                                         <xs:documentation>Address for the contact person</xs:documentation>
                                         <xs:appinfo>
@@ -663,28 +713,28 @@ This repeating element order: The order in which lines should appear in an addre
                                         </xs:appinfo>
                                     </xs:annotation>
                                 </xs:element>
-                                <xs:element name="gender" minOccurs="0" maxOccurs="1" type="fhir:administrativeGender">
+                                <xs:element name="gender" minOccurs="0" type="fhir:administrativeGender">
                                     <xs:annotation>
                                         <xs:documentation>AdministrativeGender</xs:documentation>
                                     </xs:annotation>
                                 </xs:element>
-                                <xs:element name="organization" type="fhir:reference" minOccurs="0" maxOccurs="1">
+                                <xs:element name="organization" type="fhir:reference" minOccurs="0">
                                     <xs:annotation>
                                         <xs:documentation>Organization that is associated with the contact</xs:documentation>
                                     </xs:annotation>
                                 </xs:element>
-                                <xs:element name="period" minOccurs="0" maxOccurs="1">
+                                <xs:element name="period" minOccurs="0">
                                     <xs:annotation>
                                         <xs:documentation>The period during which this contact person or organization is valid to be contacted relating to this patient</xs:documentation>
                                     </xs:annotation>
                                     <xs:complexType>
                                         <xs:sequence>
-                                            <xs:element name="start" minOccurs="0" maxOccurs="1">
+                                            <xs:element name="start" minOccurs="0">
                                                 <xs:simpleType>
                                                     <xs:union memberTypes="xs:dateTime xs:date xs:gYearMonth xs:gYear" />
                                                 </xs:simpleType>
                                             </xs:element>
-                                            <xs:element name="end" minOccurs="0" maxOccurs="1">
+                                            <xs:element name="end" minOccurs="0">
                                                 <xs:simpleType>
                                                     <xs:union memberTypes="xs:dateTime xs:date xs:gYearMonth xs:gYear" />
                                                 </xs:simpleType>
@@ -695,23 +745,23 @@ This repeating element order: The order in which lines should appear in an addre
                             </xs:sequence>
                         </xs:complexType>
                     </xs:element>
-                    <xs:element name="animal" minOccurs="0" maxOccurs="1">
+                    <xs:element name="animal" minOccurs="0">
                         <xs:annotation>
                             <xs:documentation>This patient is known to be an animal (non-human)</xs:documentation>
                         </xs:annotation>
                         <xs:complexType>
                             <xs:sequence>
-                                <xs:element name="species" minOccurs="0" maxOccurs="1" type="fhir:codeableConcept">
+                                <xs:element name="species" minOccurs="0" type="fhir:codeableConcept">
                                     <xs:annotation>
                                         <xs:documentation>E.g. Dog, Cow. Include these codes as defined in http://snomed.info/sct </xs:documentation>
                                     </xs:annotation>
                                 </xs:element>
-                                <xs:element name="breed" minOccurs="0" maxOccurs="1" type="fhir:codeableConcept">
+                                <xs:element name="breed" minOccurs="0" type="fhir:codeableConcept">
                                     <xs:annotation>
                                         <xs:documentation>E.g. Poodle, Angus. Include these codes as defined in http://snomed.info/sct</xs:documentation>
                                     </xs:annotation>
                                 </xs:element>
-                                <xs:element name="genderStatus" minOccurs="0" maxOccurs="1" type="fhir:codeableConcept">
+                                <xs:element name="genderStatus" minOccurs="0" type="fhir:codeableConcept">
                                     <xs:annotation>
                                         <xs:documentation>E.g. Neutered, Intact</xs:documentation>
                                     </xs:annotation>
@@ -725,12 +775,12 @@ This repeating element order: The order in which lines should appear in an addre
                         </xs:annotation>
                         <xs:complexType>
                             <xs:sequence>
-                                <xs:element name="language" minOccurs="0" maxOccurs="1" type="fhir:codeableConcept">
+                                <xs:element name="language" minOccurs="0" type="fhir:codeableConcept">
                                     <xs:annotation>
                                         <xs:documentation>The language which can be used to communicate with the patient about his or her health</xs:documentation>
                                     </xs:annotation>
                                 </xs:element>
-                                <xs:element name="preferred" minOccurs="0" maxOccurs="1" type="xs:boolean">
+                                <xs:element name="preferred" minOccurs="0" type="xs:boolean">
                                     <xs:annotation>
                                         <xs:documentation>Language preference indicator</xs:documentation>
                                     </xs:annotation>
@@ -743,7 +793,7 @@ This repeating element order: The order in which lines should appear in an addre
                             <xs:documentation>Patient's nominated primary care provider</xs:documentation>
                         </xs:annotation>
                     </xs:element>
-                    <xs:element name="managingOrganization" minOccurs="0" maxOccurs="1" type="fhir:reference">
+                    <xs:element name="managingOrganization" minOccurs="0" type="fhir:reference">
                         <xs:annotation>
                             <xs:documentation>Organization that is the custodian of the patient record</xs:documentation>
                         </xs:annotation>
@@ -754,12 +804,12 @@ This repeating element order: The order in which lines should appear in an addre
                         </xs:annotation>
                         <xs:complexType>
                             <xs:sequence>
-                                <xs:element name="other" minOccurs="1" maxOccurs="1" type="fhir:reference">
+                                <xs:element name="other" type="fhir:reference">
                                     <xs:annotation>
                                         <xs:documentation>The other patient or related person resource that the link refers to</xs:documentation>
                                     </xs:annotation>
                                 </xs:element>
-                                <xs:element name="type" minOccurs="1" maxOccurs="1" type="fhir:linkType">
+                                <xs:element name="type" type="fhir:linkType">
                                     <xs:annotation>
                                         <xs:documentation>type of link</xs:documentation>
                                     </xs:annotation>
@@ -771,4 +821,361 @@ This repeating element order: The order in which lines should appear in an addre
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
+
+    <xs:simpleType name="encounter.status">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="planned" />
+            <xs:enumeration value="in-progress" />
+            <xs:enumeration value="onleave" />
+            <xs:enumeration value="finished" />
+            <xs:enumeration value="cancelled" />
+            <xs:enumeration value="entered-in-error" />
+            <xs:enumeration value="unknown" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="encounter">
+        <xs:complexContent>
+            <xs:extension base="xnat:subjectAssessorData">
+                <xs:sequence minOccurs="0">
+                    <xs:element name="meta" type="fhir:meta" minOccurs="0" maxOccurs="unbounded">
+                        <xs:annotation>
+                            <xs:documentation>Encounter meta</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="extension" type="fhir:extension" minOccurs="0" maxOccurs="unbounded">
+                        <xs:annotation>
+                            <xs:documentation>Additional content defined by implementations</xs:documentation>
+                        </xs:annotation>
+                        <xs:complexContent>
+                            <xs:extension base="fhir:extension">
+                                <xs:sequence>
+                                    <xs:element name="Aufnahmegrund" minOccurs="0" type="fhir:extension">
+                                        <xs:complexContent>
+                                            <xs:extension base="fhir:extension">
+                                                <xs:sequence>
+                                                    <xs:element name="extension" minOccurs="0" maxOccurs="unbounded" type="fhir:extension">
+                                                        <xs:complexContent>
+                                                            <xs:extension base="fhir:extension">
+                                                                <xs:sequence>
+                                                                    <xs:element name="ErsteUndZweiteStelle" minOccurs="0" type="fhir:extension"></xs:element>
+                                                                    <xs:element name="DritteStelle" minOccurs="0" type="fhir:extension"></xs:element>
+                                                                    <xs:element name="VierteStelle" minOccurs="0" type="fhir:extension"></xs:element>
+                                                                </xs:sequence>
+                                                            </xs:extension>
+                                                        </xs:complexContent>
+                                                    </xs:element>
+                                                </xs:sequence>
+                                            </xs:extension>
+                                        </xs:complexContent>
+                                    </xs:element>
+                                </xs:sequence>
+                            </xs:extension>
+                        </xs:complexContent>
+                    </xs:element>
+                    <xs:element name="identifier" type="fhir:identifier" minOccurs="0" maxOccurs="unbounded">
+                        <xs:annotation>
+                            <xs:documentation>Encounter identifier</xs:documentation>
+                            <xs:appinfo>
+                                <xdat:field>
+                                    <xdat:relation relationType="multi" relationName="fhir_encounter_identifier"/>
+                                </xdat:field>
+                            </xs:appinfo>
+                        </xs:annotation>
+                        <xs:complexContent>
+                            <xs:extension base="fhir:identifier">
+                                <xs:sequence>
+                                    <xs:element name="Aufnahmenummer" minOccurs="0" type="fhir:identifier">
+                                        <xs:annotation>
+                                            <xs:documentation>Identifier(s) by which this encounter is known</xs:documentation>
+                                        </xs:annotation>
+                                    </xs:element>
+                                </xs:sequence>
+                            </xs:extension>
+                        </xs:complexContent>
+                    </xs:element>
+                    <xs:element name="status" minOccurs="0" type="fhir:encounter.status">
+                        <xs:annotation>
+                            <xs:documentation>Current state of the encounter</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="encounterClass" minOccurs="0" type="fhir:coding">
+                        <xs:annotation>
+                            <xs:documentation>Classification of patient encounter</xs:documentation>
+                        </xs:annotation>
+                        <xs:complexContent>
+                            <xs:restriction base="fhir:coding">
+                                <xs:sequence>
+                                    <xs:element name="system" type="xs:string" minOccurs="0" fixed="http://fhir.de/ValueSet/EncounterClassDE">
+                                    </xs:element>
+                                    <xs:element name="version" type="xs:string" minOccurs="0" fixed="1.0">
+                                    </xs:element>
+                                    <xs:element name="code" type="xs:string" minOccurs="0" >
+                                        <xs:restriction base="xs:string">
+                                            <xs:enumeration value="R" />
+                                            <xs:enumeration value="B" />
+                                        </xs:restriction>
+                                    </xs:element>
+                                    <xs:element name="display" type="xs:string" minOccurs="0" >
+                                        <xs:restriction base="xs:string">
+                                            <xs:enumeration value="Recurring patient" />
+                                            <xs:enumeration value="Obstetrics" />
+                                        </xs:restriction>
+                                    </xs:element>
+                                    <xs:element name="userSelected" type="xs:boolean" minOccurs="0" >
+                                    </xs:element>
+                                </xs:sequence>
+                                <xs:attribute name="ID" type="xs:integer">
+                                </xs:attribute>
+                            </xs:restriction>
+                        </xs:complexContent>
+                    </xs:element>
+                    <xs:element name="type" minOccurs="0" maxOccurs="unbounded" type="fhir:codeableConcept">
+                        <xs:annotation>
+                            <xs:documentation>Specific type of encounter</xs:documentation>
+                        </xs:annotation>
+                        <xs:complexContent>
+                            <xs:extension base="fhir:codeableConcept">
+                                <xs:sequence>
+                                    <xs:element name="Kontaktebene" minOccurs="0" type="fhir:codeableConcept">
+                                        <xs:annotation>
+                                            <xs:documentation>Specific type of encounter</xs:documentation>
+                                        </xs:annotation>
+                                        <xs:complexContent>
+                                            <xs:restriction base="fhir:codeableConcept">
+                                                <xs:sequence>
+                                                    <xs:element name="coding" type="fhir:coding" minOccurs="0" maxOccurs="unbounded">
+                                                        <xs:complexContent>
+                                                            <xs:restriction base="fhir:coding">
+                                                                <xs:sequence>
+                                                                    <xs:element name="system" type="xs:string" minOccurs="0" fixed="http://fhir.de/CodeSystem/Kontaktebene">
+                                                                    </xs:element>
+                                                                    <xs:element name="version" type="xs:string" minOccurs="0" fixed="1.0.0">
+                                                                    </xs:element>
+                                                                    <xs:element name="code" type="xs:string" minOccurs="0" >
+                                                                        <xs:restriction base="xs:string">
+                                                                            <xs:enumeration value="einrichtungskontakt" />
+                                                                            <xs:enumeration value="abteilungskontakt" />
+                                                                            <xs:enumeration value="versorgungsstellenkontakt" />
+                                                                        </xs:restriction>
+                                                                    </xs:element>
+                                                                    <xs:element name="display" type="xs:string" minOccurs="0" >
+                                                                        <xs:restriction base="xs:string">
+                                                                            <xs:enumeration value="Einrichtungskontakt" />
+                                                                            <xs:enumeration value="Abteilungskontakt" />
+                                                                            <xs:enumeration value="Versorgungsstellenkontakt" />
+                                                                        </xs:restriction>
+                                                                    </xs:element>
+                                                                    <xs:element name="userSelected" type="xs:boolean" minOccurs="0" >
+                                                                    </xs:element>
+                                                                </xs:sequence>
+                                                                <xs:attribute name="ID" type="xs:integer">
+                                                                </xs:attribute>
+                                                            </xs:restriction>
+                                                        </xs:complexContent>
+                                                    </xs:element>
+                                                    <xs:element name="text" type="xs:string" minOccurs="0">
+                                                    </xs:element>
+                                                </xs:sequence>
+                                            </xs:restriction>
+                                        </xs:complexContent>
+                                    </xs:element>
+                                    <xs:element name="KontaktArt" minOccurs="0" type="fhir:codeableConcept">
+                                        <xs:annotation>
+                                            <xs:documentation>Specific type of encounter</xs:documentation>
+                                        </xs:annotation>
+                                        <xs:complexContent>
+                                            <xs:restriction base="fhir:codeableConcept">
+                                                <xs:sequence>
+                                                    <xs:element name="coding" type="fhir:coding" minOccurs="0" maxOccurs="unbounded">
+                                                        <xs:complexContent>
+                                                            <xs:restriction base="fhir:coding">
+                                                                <xs:sequence>
+                                                                    <xs:element name="system" type="xs:string" minOccurs="0" fixed="http://fhir.de/ValueSet/kontaktart-de">
+                                                                    </xs:element>
+                                                                    <xs:element name="version" type="xs:string" minOccurs="0" fixed="1.0.0">
+                                                                    </xs:element>
+                                                                    <xs:element name="code" type="xs:string" minOccurs="0" >
+                                                                        <xs:restriction base="xs:string">
+                                                                            <xs:enumeration value="begleitperson" />
+                                                                            <xs:enumeration value="vorstationaer" />
+                                                                            <xs:enumeration value="nachstationaer" />
+                                                                            <xs:enumeration value="teilstationaer" />
+                                                                            <xs:enumeration value="normalstationaer" />
+                                                                            <xs:enumeration value="intensivstationaer" />
+                                                                            <xs:enumeration value="ub" />
+                                                                            <xs:enumeration value="konsil" />
+                                                                            <xs:enumeration value="stationsaequivalent" />
+                                                                            <xs:enumeration value="operation" />
+                                                                        </xs:restriction>
+                                                                    </xs:element>
+                                                                    <xs:element name="display" type="xs:string" minOccurs="0" >
+                                                                        <xs:restriction base="xs:string">
+                                                                            <xs:enumeration value="Begleitperson" />
+                                                                            <xs:enumeration value="Vorstationär" />
+                                                                            <xs:enumeration value="Nachstationär" />
+                                                                            <xs:enumeration value="Teilstationär Behandlung" />
+                                                                            <xs:enumeration value="Normalstationär" />
+                                                                            <xs:enumeration value="Intensivstationär" />
+                                                                            <xs:enumeration value="Untersuchung und Behandlung" />
+                                                                            <xs:enumeration value="Konsil" />
+                                                                            <xs:enumeration value="Stationsäquivalent" />
+                                                                            <xs:enumeration value="Operation" />
+                                                                        </xs:restriction>
+                                                                    </xs:element>
+                                                                    <xs:element name="userSelected" type="xs:boolean" minOccurs="0" />
+                                                                </xs:sequence>
+                                                                <xs:attribute name="ID" type="xs:integer">
+                                                                </xs:attribute>
+                                                            </xs:restriction>
+                                                        </xs:complexContent>
+                                                    </xs:element>
+                                                    <xs:element name="text" type="xs:string" minOccurs="0" />
+                                                </xs:sequence>
+                                            </xs:restriction>
+                                        </xs:complexContent>
+                                    </xs:element>
+                                </xs:sequence>
+                            </xs:extension>
+                        </xs:complexContent>
+                    </xs:element>
+                    <xs:element name="period" >
+                        <xs:annotation>
+                            <xs:documentation>The start and end time of the encounter</xs:documentation>
+                        </xs:annotation>
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element name="start">
+                                    <xs:simpleType>
+                                        <xs:union memberTypes="xs:dateTime xs:date xs:gYearMonth xs:gYear" />
+                                    </xs:simpleType>
+                                </xs:element>
+                                <xs:element name="end" minOccurs="0">
+                                    <xs:simpleType>
+                                        <xs:union memberTypes="xs:dateTime xs:date xs:gYearMonth xs:gYear" />
+                                    </xs:simpleType>
+                                </xs:element>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element name="serviceType" minOccurs="0" type="fhir:codeableConcept">
+                        <xs:annotation>
+                            <xs:documentation>Specific type of service</xs:documentation>
+                        </xs:annotation>
+                        <xs:complexContent>
+                            <xs:extension base="fhir:codeableConcept">
+                                <xs:sequence>
+                                    <xs:element name="coding" minOccurs="0" maxOccurs="unbounded" type="fhir:coding">
+                                        <xs:complexContent>
+                                            <xs:extension base="fhir:coding">
+                                                <xs:sequence>
+                                                    <xs:element name="Fachabteilungsschluessel" minOccurs="0" type="fhir:coding" />
+                                                </xs:sequence>
+                                            </xs:extension>
+                                        </xs:complexContent>
+                                    </xs:element>
+                                </xs:sequence>
+                            </xs:extension>
+                        </xs:complexContent>
+                    </xs:element>
+                    <xs:element name="subject" type="fhir:reference">
+                        <xs:annotation>
+                            <xs:documentation>A reference from one resource to another</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="diagnosis" type="fhir:backboneElement">
+                        <xs:annotation>
+                            <xs:documentation>The list of diagnosis relevant to this encounter</xs:documentation>
+                        </xs:annotation>
+                        <xs:complexContent>
+                            <xs:extension base="fhir:backboneElement">
+                                <xs:sequence>
+                                    <xs:element name="condition" type="fhir:reference" />
+                                    <xs:element name="use" type="fhir:codeableConcept" />
+                                    <xs:element name="rank" minOccurs="0" type="xs:positiveInteger" />
+                                </xs:sequence>
+                            </xs:extension>
+                        </xs:complexContent>
+                    </xs:element>
+                    <xs:element name="location" minOccurs="0" maxOccurs="unbounded" type="fhir:backboneElement">
+                        <xs:annotation>
+                            <xs:documentation>List of locations where the patient has been</xs:documentation>
+                        </xs:annotation>
+                        <xs:complexContent>
+                            <xs:extension base="fhir:backboneElement">
+                                <xs:sequence>
+                                    <xs:element name="location" type="fhir:reference" />
+                                    <xs:element name="status" minOccurs="0" type="xs:string">
+                                        <xs:restriction base="xs:string">
+                                            <xs:enumeration value="planned" />
+                                            <xs:enumeration value="active" />
+                                            <xs:enumeration value="reserved" />
+                                            <xs:enumeration value="completed" />
+                                        </xs:restriction>
+                                    </xs:element>
+                                    <xs:element name="physicalType" minOccurs="0" type="fhir:codeableConcept" />
+                                    <xs:element name="period" minOccurs="0">
+                                        <xs:complexType>
+                                            <xs:sequence>
+                                                <xs:element name="start">
+                                                    <xs:simpleType>
+                                                        <xs:union memberTypes="xs:dateTime xs:date xs:gYearMonth xs:gYear" />
+                                                    </xs:simpleType>
+                                                </xs:element>
+                                                <xs:element name="end" minOccurs="0">
+                                                    <xs:simpleType>
+                                                        <xs:union memberTypes="xs:dateTime xs:date xs:gYearMonth xs:gYear" />
+                                                    </xs:simpleType>
+                                                </xs:element>
+                                            </xs:sequence>
+                                        </xs:complexType>
+                                    </xs:element>
+                                </xs:sequence>
+                            </xs:extension>
+                        </xs:complexContent>
+                    </xs:element>
+                    <xs:element name="hospitalization" minOccurs="0" type="fhir:backboneElement">
+                        <xs:annotation>
+                            <xs:documentation>Details about the admission to a healthcare service</xs:documentation>
+                        </xs:annotation>
+                        <xs:complexContent>
+                            <xs:extension base="fhir:backboneElement">
+                                <xs:sequence>
+                                    <xs:element name="preAdmissionIdentifier" minOccurs="0" type="fhir:identifier" />
+                                    <xs:element name="origin" minOccurs="0" type="fhir:reference" />
+                                    <xs:element name="admitSource"  type="fhir:codeableConcept" />
+                                    <xs:element name="reAdmission" minOccurs="0" type="fhir:codeableConcept" />
+                                    <xs:element name="dietPreference" minOccurs="0" maxOccurs="unbounded" type="fhir:codeableConcept" />
+                                    <xs:element name="specialCourtesy" minOccurs="0" maxOccurs="unbounded" type="fhir:codeableConcept" />
+                                    <xs:element name="specialArrangement" minOccurs="0" maxOccurs="unbounded" type="fhir:codeableConcept" />
+                                    <xs:element name="destination" minOccurs="0" type="fhir:reference" />
+                                    <xs:element name="dischargeDisposition" minOccurs="0" type="fhir:codeableConcept">
+                                        <xs:complexContent>
+                                            <xs:extension base="fhir:codeableConcept">
+                                                <xs:sequence>
+                                                    <xs:element name="extension" minOccurs="0" maxOccurs="unbounded" type="fhir:extension">
+                                                        <xs:annotation>
+                                                            <xs:documentation>Additional content defined by implementations</xs:documentation>
+                                                        </xs:annotation>
+                                                        <xs:complexContent>
+                                                            <xs:extension base="fhir:extension">
+                                                                <xs:sequence>
+                                                                    <xs:element name="Entlassungsgrund" minOccurs="0" type="fhir:extension" />
+                                                                </xs:sequence>
+                                                            </xs:extension>
+                                                        </xs:complexContent>
+                                                    </xs:element>
+                                                </xs:sequence>
+                                            </xs:extension>
+                                        </xs:complexContent>
+                                    </xs:element>
+                                </xs:sequence>
+                            </xs:extension>
+                        </xs:complexContent>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
 </xs:schema>
