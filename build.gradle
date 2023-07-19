@@ -20,7 +20,7 @@ plugins {
 
 
 group 'de.htwberlin.cbmi'
-version '0.2-alpha2'
+version '0.3-alpha1'
 description 'XNAT FHIR Plugin'
 
 // This provides access to all of these repositories for dependency resolution.
