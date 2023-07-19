@@ -111,6 +111,7 @@ public class FhirReferenceService extends ComplexDatatypeValidatable {
                 result.setIdentifier(identifier);
             }
             result.setDisplay((String) data.get("display"));
+            result.setType((String) data.get("type"));
 
             return result;
         }
@@ -140,6 +141,7 @@ public class FhirReferenceService extends ComplexDatatypeValidatable {
         Datatypes.addIfPresent(result, "reference", entity.getReference());
         Datatypes.addIfPresent(result, "identifier", _identityService.makePropertyMap(entity.getIdentifier(), user));
         Datatypes.addIfPresent(result, "display", entity.getDisplay());
+        Datatypes.addIfPresent(result, "type", entity.getType());
 
         return result;
     }
@@ -168,7 +170,7 @@ public class FhirReferenceService extends ComplexDatatypeValidatable {
      * @return Collection of keys allowed to be present
      */
     public Collection<String> getAllowedKeys() {
-        return Datatypes.makeList("reference", "identifier", "display");
+        return Datatypes.makeList("reference", "identifier", "display", "type");
     }
 
     /**
@@ -176,7 +178,7 @@ public class FhirReferenceService extends ComplexDatatypeValidatable {
      * @return Collection of types aligned to getAllowedKeys() allowed to be present
      */
     public Collection<? extends Object> getAllowedKeyTypes() {
-        return Datatypes.makeList(String.class, _identityService, String.class);
+        return Datatypes.makeList(String.class, _identityService, String.class, String.class);
     }
 
     /**
