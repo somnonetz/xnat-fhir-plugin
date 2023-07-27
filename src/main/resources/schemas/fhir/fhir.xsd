@@ -844,7 +844,7 @@
                             </xs:sequence>
                         </xs:complexType>
                     </xs:element>
-                    <xs:element name="extension" minOccurs="0" maxOccurs="unbounded">
+                    <xs:element name="AufnahmeExtension" minOccurs="0" maxOccurs="unbounded">
                         <xs:annotation>
                             <xs:documentation>Additional content defined by implementations</xs:documentation>
                         </xs:annotation>
