@@ -2,6 +2,7 @@ package de.htwberlin.cbmi.fhir.service;
 
 import de.htwberlin.cbmi.fhir.utils.ComplexDatatypeValidatable;
 import de.htwberlin.cbmi.fhir.utils.Datatypes;
+import de.htwberlin.cbmi.fhir.utils.FhirXnatProjectHelper;
 import org.nrg.xdat.base.BaseElement;
 import org.nrg.xdat.bean.FhirPatientBean;
 import org.nrg.xdat.model.*;
@@ -54,26 +55,6 @@ public class FhirPatientService extends ComplexDatatypeValidatable {
     @Nullable
     public static FhirPatientI getPatient(Integer id, UserI user) {
         return getFromDB("ID", makeDatabaseId(id), user);
-    }
-
-    /**
-     * Build the unique label for the given subject id
-     * @param subjectId Subject id to build the label for
-     * @return Record label
-     */
-    @Nonnull
-    public static String getLabelForSubjectId(String subjectId) {
-        return "fhir_subject_" + subjectId;
-    }
-
-    /**
-     * Build the unique label for the given subject
-     * @param subject Subject to build the label for
-     * @return Record label
-     */
-    @Nonnull
-    public static String getLabelForSubject(XnatSubjectdataI subject) {
-        return getLabelForSubjectId(subject.getId());
     }
 
     /**
@@ -134,9 +115,9 @@ public class FhirPatientService extends ComplexDatatypeValidatable {
         try {
             // Build subject record to associate the patient record with
             XnatSubjectdata subject = new XnatSubjectdata(user);
-            subject.setId(this.makeSubjectId(subject, user));
+            subject.setId(FhirXnatProjectHelper.makeSubjectId(subject, user));
             subject.setProject(getPatientProject(user));
-            subject.setLabel(getLabelForSubject(subject));
+            subject.setLabel(FhirXnatProjectHelper.getLabelForSubject(subject));
 
             if (!subject.save(user, true, false, null)) {
                 _log.error("Failed to save subject record");
@@ -588,49 +569,7 @@ public class FhirPatientService extends ComplexDatatypeValidatable {
      * @return Result string
      */
     private static String makeDatabaseId(Integer id) {
-        return getPatientDataIdForSubjectId(getSubjectIdFromId(id));
-    }
-
-    /**
-     * Build the subject id like it is stored in the database
-     * @param id ID to build the identifier for
-     * @return Result string
-     */
-    private static String getSubjectIdFromId(Integer id) {
-        return String.format("XNAT_S%05d", id);
-    }
-
-    /**
-     * Find anew unique project id matching the XNAT schema
-     * @param subject Subject to find new id for
-     * @param user Authenticated user
-     * @return New subject id to assign
-     */
-    private String makeSubjectId(XnatSubjectdata subject, UserI user) {
-        if (subject.getId() != null) {
-            return subject.getId();
-        }
-
-        try {
-            XFTTable table = TableSearch.Execute("SELECT id FROM xnat_subjectdata ORDER BY id DESC LIMIT 1", subject.getItem().getDBName(),null);
-            table.resetRowCursor();
-            int subjectId = 1;
-
-            if (table.hasMoreRows()) {
-                final Hashtable row = table.nextRowHash();
-                final String databaseId  = (String)row.get("id");
-                final Scanner sc = new Scanner(databaseId);
-                sc.findInLine("(\\d+)$");
-                final MatchResult result = sc.match();
-                subjectId = Integer.parseInt(result.group(0)) + 1;
-            }
-
-            return getSubjectIdFromId(subjectId);
-        }
-        catch (Exception e) {
-            _log.error(e.getMessage());
-            return null;
-        }
+        return getPatientDataIdForSubjectId(FhirXnatProjectHelper.getSubjectIdFromId(id));
     }
 
     /**

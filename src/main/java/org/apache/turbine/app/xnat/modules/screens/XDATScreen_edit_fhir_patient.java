@@ -7,7 +7,6 @@ import org.nrg.xdat.XDAT;
 import org.nrg.xdat.bean.FhirPatientBean;
 import org.nrg.xdat.model.FhirPatientI;
 import org.nrg.xdat.om.XnatSubjectdata;
-import org.nrg.xdat.turbine.utils.TurbineUtils;
 import org.nrg.xft.XFTItem;
 import org.nrg.xft.exception.ElementNotFoundException;
 import org.nrg.xft.exception.FieldNotFoundException;
@@ -47,7 +46,7 @@ public class XDATScreen_edit_fhir_patient extends EditSubjectAssessorScreen {
             context.put("label", FhirPatientService.getPatientDataLabelForSubjectId(subjectId));
             // Try to find data associated with the given subject
             // because a single subject can only have exactly one FHIR patient record
-            FhirPatientI item = FhirPatientService.getPatientForSubject(subjectId, TurbineUtils.getUser(data));
+            FhirPatientI item = FhirPatientService.getPatientForSubject(subjectId, XDAT.getUserDetails());
             if (item != null) {
                 // Publish an existing item for subjectId
                 context.put("item", item);

@@ -896,11 +896,8 @@
                                             <xs:enumeration value="Obstetrics" />
                                         </xs:restriction>
                                     </xs:element>
-                                    <xs:element name="userSelected" type="xs:boolean" minOccurs="0" >
-                                    </xs:element>
+                                    <xs:element name="userSelected" type="xs:boolean" minOccurs="0" />
                                 </xs:sequence>
-                                <xs:attribute name="ID" type="xs:integer">
-                                </xs:attribute>
                             </xs:restriction>
                         </xs:complexContent>
                     </xs:element>
@@ -1059,7 +1056,7 @@
                             <xs:sequence>
                                 <xs:element name="condition" type="fhir:reference" />
                                 <xs:element name="use" type="fhir:codeableConcept" />
-                                <xs:element name="rank" minOccurs="0" type="xs:positiveInteger" />
+                                <xs:element name="rank" minOccurs="0" type="xs:integer" />
                             </xs:sequence>
                         </xs:complexType>
                     </xs:element>
