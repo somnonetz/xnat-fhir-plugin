@@ -11,12 +11,14 @@ import org.nrg.xdat.model.FhirEncounterextensionaufnahmegrundI;
 import org.nrg.xdat.model.FhirEncounterAufnahmeextensionI;
 import org.nrg.xdat.om.FhirEncounterextensionaufnahmegrund;
 import org.nrg.xdat.om.FhirEncounterAufnahmeextension;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+@Service
 public class FhirEncounterAufnahmeextensionService extends ComplexDatatypeValidatable {
 
     /**

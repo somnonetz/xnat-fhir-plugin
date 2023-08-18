@@ -3,6 +3,11 @@ package de.htwberlin.cbmi.fhir.service;
 import de.htwberlin.cbmi.fhir.utils.ComplexDatatypeValidatable;
 import de.htwberlin.cbmi.fhir.utils.Datatypes;
 import de.htwberlin.cbmi.fhir.utils.FhirXnatProjectHelper;
+import org.nrg.xft.ItemI;
+import org.nrg.xft.collections.ItemCollection;
+import org.nrg.xft.search.CriteriaCollection;
+import org.nrg.xft.search.ItemSearch;
+import org.nrg.xft.search.SearchCriteria;
 import org.nrg.xft.security.UserI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,11 +16,14 @@ import org.nrg.xdat.base.BaseElement;
 import org.nrg.xdat.bean.FhirEncounterBean;
 import org.nrg.xdat.model.*;
 import org.nrg.xdat.om.*;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
+import java.util.regex.MatchResult;
 
+@Service
 public class FhirEncounterService extends ComplexDatatypeValidatable {
 
     /**
@@ -456,6 +464,146 @@ public class FhirEncounterService extends ComplexDatatypeValidatable {
         }
 
         return result;
+    }
+
+    /**
+     * Return the ID of the encounter
+     * @param entity Entity to extract the ID from
+     * @return integer of the encounter
+     */
+    public Integer getEncounterId(FhirEncounterI entity) {
+        final String databaseId  = entity.getId();
+        final Scanner sc = new Scanner(databaseId);
+        sc.findInLine("(\\d+)$");
+        final MatchResult result = sc.match();
+        return Integer.parseInt(result.group(0));
+    }
+
+    @Nullable
+    public static FhirEncounterI getEncounterForSubject(String subjectId, UserI user) {
+        return getFromDB("subject_ID", subjectId, user);
+    }
+
+    @Nullable
+    public static FhirEncounterI getEncounterForPatient(String patientId, UserI user) {
+        return getFromDB("subjec/reference", patientId, user);
+    }
+
+    @Nullable
+    public static FhirEncounterI getEncounterForCase(String caseId, UserI user) {
+        return getFromDB("identifier/Aufnahmenummer/value", caseId, user);
+    }
+
+    @Nullable
+    public static List<FhirEncounterI> getEncounterForDepartment(String departmentId, UserI user) {
+        return getListFromDB("identifier/Aufnahmenummer/value", departmentId, user);
+    }
+
+    @Nullable
+    public static List<FhirEncounterI> getEncounterForPeriod(String start, String end, UserI user) {
+
+        if (start.isEmpty() || end.isEmpty()) {
+            _log.debug("Unable to find FhirEncounterI with null period: %s, %s", start, end);
+            return null;
+        }
+        try {
+            // todo: period.end is nullable, if we need to add into the search criteria
+            /* search criteria with period: find all records that partly or whole matched with the given period,
+             not only the records that inside the given period.
+             */
+            CriteriaCollection cc = new CriteriaCollection("AND");
+            SearchCriteria scStart = new SearchCriteria();
+            scStart.setFieldWXMLPath(FhirEncounterBean.SCHEMA_ELEMENT_NAME + "/period/start");
+            scStart.setOverrideFormatting(true);
+            scStart.setComparison_type(" <= ");
+            scStart.setValue(end);
+            cc.add(scStart);
+
+            SearchCriteria scEnd = new SearchCriteria();
+            scEnd.setFieldWXMLPath(FhirEncounterBean.SCHEMA_ELEMENT_NAME + "/period/end");
+            scEnd.setOverrideFormatting(true);
+            scEnd.setComparison_type(" >= ");
+            scEnd.setValue(start);
+            cc.add(scEnd);
+
+            ItemCollection results = ItemSearch.GetItems(cc, user, true);
+
+            if (results.size() == 0) {
+                _log.debug("Unable to find FhirEncounterI with period: %s, %s", start, end);
+                return null;
+            }
+
+            List<FhirEncounterI> retVal = new ArrayList<FhirEncounterI>();
+            for ( int index = 0; index < results.size(); index++) {
+                ItemI item = results.get(index);
+                FhirEncounterI oneEncounter = (FhirEncounterI) BaseElement.GetGeneratedItem(item);
+                retVal.add(oneEncounter);
+            }
+
+            return retVal;
+        } catch (Exception e) {
+            _log.error("Failed to unpack FhirEncounter: " + e.toString());
+            return null;
+        }
+    }
+
+    /**
+     * Search encounter based on the database properties specified
+     * @param path Search path
+     * @param value Value to match
+     * @param user User authenticated in the system (will be handed to ItemSearch.GetItems)
+     * @return FhirEncounter record or null if none was found
+     */
+    @Nullable
+    private static List<FhirEncounterI> getListFromDB(String path, Object value, UserI user) {
+        try {
+            String xmlPath = String.format("%s/%s", FhirEncounterBean.SCHEMA_ELEMENT_NAME, path);
+            ItemCollection results = ItemSearch.GetItems(xmlPath, value, user, true);
+            if (results.size() == 0) {
+                _log.debug("Unable to find FhirEncounterI with %s=%s", path, value);
+                return null;
+            }
+
+            List<FhirEncounterI> retVal = new ArrayList<FhirEncounterI>();
+            for ( int index = 0; index < results.size(); index++) {
+                ItemI item = results.get(index);
+                FhirEncounterI oneEncounter = (FhirEncounterI) BaseElement.GetGeneratedItem(item);
+                retVal.add(oneEncounter);
+            }
+
+            return retVal;
+        } catch (Exception e) {
+            _log.error("Failed to unpack FhirEncounter: " + e.toString());
+            return null;
+        }
+    }
+    /**
+     * Search encounter based on the database properties specified
+     * @param path Search path
+     * @param value Value to match
+     * @param user User authenticated in the system (will be handed to ItemSearch.GetItems)
+     * @return FhirEncounter record or null if none was found
+     */
+    @Nullable
+    private static FhirEncounterI getFromDB(String path, Object value, UserI user) {
+        try {
+            String xmlPath = String.format("%s/%s", FhirEncounterBean.SCHEMA_ELEMENT_NAME, path);
+            ItemCollection results = ItemSearch.GetItems(xmlPath, value, user, true);
+            if (results.size() == 0) {
+                _log.debug("Unable to find FhirEncounterI with %s=%s", path, value);
+                return null;
+            }
+
+            if (results.size() > 1) {
+                _log.info("Found multiple FhirEncounterI with %s=%s. But record should be unique. Proceed with first match.", path, value);
+            }
+
+            ItemI match = results.getFirst();
+            return (FhirEncounterI) BaseElement.GetGeneratedItem(match);
+        } catch (Exception e) {
+            _log.error("Failed to unpack FhirEncounter: " + e.toString());
+            return null;
+        }
     }
 
     /**

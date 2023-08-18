@@ -11,12 +11,14 @@ import org.nrg.xdat.model.FhirEncounterTypeI;
 import org.nrg.xdat.model.FhirCodeableconceptI;
 import org.nrg.xdat.om.FhirEncounterType;
 import org.nrg.xdat.om.FhirCodeableconcept;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+@Service
 public class FhirEncounterTypeService extends ComplexDatatypeValidatable {
 
     /**

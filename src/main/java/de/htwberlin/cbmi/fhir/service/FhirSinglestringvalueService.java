@@ -8,12 +8,14 @@ import org.slf4j.LoggerFactory;
 import org.nrg.xdat.bean.*;
 import org.nrg.xdat.model.FhirSinglestringvalueI;
 import org.nrg.xdat.om.FhirSinglestringvalue;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+@Service
 public class FhirSinglestringvalueService extends ComplexDatatypeValidatable {
     /**
      * Build a new object out of the given data
