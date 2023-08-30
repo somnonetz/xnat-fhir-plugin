@@ -1,0 +1,1665 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+$page.setTitle("FHIREncounter Details")
+$page.setLinkColor($ui.alink)
+$page.setVlinkColor($ui.vlink)
+ ##---------------------------------------- 
+ ## DO NOT MODIFY THIS FILE HERE
+ ##
+ ## TO MODIFY, COPY THIS FILE to src/main/resources/templates/screens/ and modify it there 
+ ##----------------------------------------
+#if ($turbineUtils.GetPassedParameter("popup", $data))
+	#set ($popup = $turbineUtils.GetPassedParameter("popup", data) )
+	#set ($popup = "false")
+#end
+<TABLE width="100%">
+	<TR>
+		<TD>
+			<table width="100%">
+				<TR>
+					<TD align="left" valign="middle">
+						<font face="$ui.sansSerifFonts" size="3"><b>FHIREncounter Details</b></font>
+					</TD>
+				</TR>
+			</TABLE>
+		</TD>
+	</TR>
+	<TR>
+		<TD>
+			<TABLE width="100%">
+				<TR>
+					<TD valign="top">
+						<TABLE>
+							<TR><TD>subject_ID</TD><TD>$!item.getStringProperty("fhir:encounter/subject_ID")</TD></TR>
+							<TR><TD>age</TD><TD>$!item.getDoubleProperty("fhir:encounter/age")</TD></TR>
+							<TR><TD>date</TD><TD>$!item.getProperty("fhir:encounter/date")</TD></TR>
+							<TR><TD>time</TD><TD>$!item.getProperty("fhir:encounter/time")</TD></TR>
+							<TR><TD>duration</TD><TD>$!item.getProperty("fhir:encounter/duration")</TD></TR>
+							<TR><TD>delay</TD><TD>$!item.getIntegerProperty("fhir:encounter/delay")</TD></TR>
+							<TR><TD>delay/ref_expt_id</TD><TD>$!item.getStringProperty("fhir:encounter/delay/ref_expt_id")</TD></TR>
+							<TR><TD>note</TD><TD>$!item.getStringProperty("fhir:encounter/note")</TD></TR>
+							<TR><TD>acquisition_site</TD><TD>$!item.getStringProperty("fhir:encounter/acquisition_site")</TD></TR>
+							<TR><TD>ID</TD><TD>$!item.getStringProperty("fhir:encounter/ID")</TD></TR>
+							<TR><TD>project</TD><TD>$!item.getStringProperty("fhir:encounter/project")</TD></TR>
+							<TR><TD>visit_id</TD><TD>$!item.getStringProperty("fhir:encounter/visit_id")</TD></TR>
+							<TR><TD>visit</TD><TD>$!item.getStringProperty("fhir:encounter/visit")</TD></TR>
+							<TR><TD>version</TD><TD>$!item.getIntegerProperty("fhir:encounter/version")</TD></TR>
+							<TR><TD>original</TD><TD>$!item.getStringProperty("fhir:encounter/original")</TD></TR>
+							<TR><TD>protocol</TD><TD>$!item.getStringProperty("fhir:encounter/protocol")</TD></TR>
+							<TR><TD>label</TD><TD>$!item.getStringProperty("fhir:encounter/label")</TD></TR>
+							<TR><TD>encounterMeta/source</TD><TD>$!item.getStringProperty("fhir:encounter/encounterMeta/source")</TD></TR>
+							<TR><TD>status</TD><TD>$!item.getStringProperty("fhir:encounter/status")</TD></TR>
+							<TR><TD>period/start</TD><TD>$!item.getStringProperty("fhir:encounter/period/start")</TD></TR>
+							<TR><TD>period/end</TD><TD>$!item.getStringProperty("fhir:encounter/period/end")</TD></TR>
+							<TR><TD>diagnosis/rank</TD><TD>$!item.getIntegerProperty("fhir:encounter/diagnosis/rank")</TD></TR>
+							<TR><TD>hospitalization/dischargeDisposition/text</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/dischargeDisposition/text")</TD></TR>
+						</TABLE>
+					</TD>
+					<TD valign="top" align="right">
+						#parse($turbineUtils.getTemplateName("actions",$om.getXSIType(),$project))
+					</TD>
+				</TR>
+			</TABLE>
+		</TD>
+	</TR>
+	<TR>
+		<TD>
+<!-- BEGIN fhir:encounter -->
+			<TABLE>
+				<TR><TH align="left"><font face="$ui.sansSerifFonts" size="2">Related Items</font></TH></TR>
+				<TR>
+					<TD align="left" valign="top">
+						<TABLE>
+						</TABLE>
+					</TD>
+				</TR>
+				<TR>
+					<TD align="left" valign="top">
+						<TABLE><TR><TD>
+							#set($xnat_experimentData_share_1_NUM_ROWS=$item.getChildItems("fhir:encounter/sharing/share").size() - 1)
+							#if($xnat_experimentData_share_1_NUM_ROWS>=0)
+								#foreach($xnat_experimentData_share_1_COUNTER in [0..$xnat_experimentData_share_1_NUM_ROWS])
+<!-- BEGIN fhir:encounter/sharing/share[$xnat_experimentData_share_1_COUNTER] -->
+									<TABLE>
+										<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/sharing/share[$xnat_experimentData_share_1_COUNTER]</font></TH></TR>
+										<TR>
+											<TD align="left" valign="top">
+												<TABLE>
+													<TR><TD>share</TD><TD>$!item.getStringProperty("fhir:encounter/sharing/share[$xnat_experimentData_share_1_COUNTER]/share")</TD></TR>
+													<TR><TD>label</TD><TD>$!item.getStringProperty("fhir:encounter/sharing/share[$xnat_experimentData_share_1_COUNTER]/label")</TD></TR>
+													<TR><TD>project</TD><TD>$!item.getStringProperty("fhir:encounter/sharing/share[$xnat_experimentData_share_1_COUNTER]/project")</TD></TR>
+													<TR><TD>visit</TD><TD>$!item.getStringProperty("fhir:encounter/sharing/share[$xnat_experimentData_share_1_COUNTER]/visit")</TD></TR>
+													<TR><TD>protocol</TD><TD>$!item.getStringProperty("fhir:encounter/sharing/share[$xnat_experimentData_share_1_COUNTER]/protocol")</TD></TR>
+												</TABLE>
+											</TD>
+										</TR>
+									</TABLE>
+<!-- END fhir:encounter/sharing/share[$xnat_experimentData_share_1_COUNTER] -->
+								#end
+							#end
+						</TD></TR></TABLE>
+					</TD>
+				</TR>
+				<TR>
+					<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/investigator -->
+						<TABLE>
+							<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/investigator</font></TH></TR>
+							<TR>
+								<TD align="left" valign="top">
+									<TABLE>
+										<TR><TD>title</TD><TD>$!item.getStringProperty("fhir:encounter/investigator/title")</TD></TR>
+										<TR><TD>firstname</TD><TD>$!item.getStringProperty("fhir:encounter/investigator/firstname")</TD></TR>
+										<TR><TD>lastname</TD><TD>$!item.getStringProperty("fhir:encounter/investigator/lastname")</TD></TR>
+										<TR><TD>institution</TD><TD>$!item.getStringProperty("fhir:encounter/investigator/institution")</TD></TR>
+										<TR><TD>department</TD><TD>$!item.getStringProperty("fhir:encounter/investigator/department")</TD></TR>
+										<TR><TD>email</TD><TD>$!item.getStringProperty("fhir:encounter/investigator/email")</TD></TR>
+										<TR><TD>phone</TD><TD>$!item.getStringProperty("fhir:encounter/investigator/phone")</TD></TR>
+										<TR><TD>ID</TD><TD>$!item.getStringProperty("fhir:encounter/investigator/ID")</TD></TR>
+									</TABLE>
+								</TD>
+							</TR>
+						</TABLE>
+<!-- END fhir:encounter/investigator -->
+					</TD>
+				</TR>
+				<TR>
+					<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/validation -->
+						<TABLE>
+							<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/validation</font></TH></TR>
+							<TR>
+								<TD align="left" valign="top">
+									<TABLE>
+										<TR><TD>method</TD><TD>$!item.getStringProperty("fhir:encounter/validation/method")</TD></TR>
+										<TR><TD>date</TD><TD>$!item.getProperty("fhir:encounter/validation/date")</TD></TR>
+										<TR><TD>notes</TD><TD>$!item.getStringProperty("fhir:encounter/validation/notes")</TD></TR>
+										<TR><TD>validated_by</TD><TD>$!item.getStringProperty("fhir:encounter/validation/validated_by")</TD></TR>
+										<TR><TD>status</TD><TD>$!item.getStringProperty("fhir:encounter/validation/status")</TD></TR>
+									</TABLE>
+								</TD>
+							</TR>
+						</TABLE>
+<!-- END fhir:encounter/validation -->
+					</TD>
+				</TR>
+				<TR>
+					<TD align="left" valign="top">
+						<TABLE><TR><TD>
+							#set($xnat_abstractResource_4_NUM_ROWS=$item.getChildItems("fhir:encounter/resources/resource").size() - 1)
+							#if($xnat_abstractResource_4_NUM_ROWS>=0)
+								#foreach($xnat_abstractResource_4_COUNTER in [0..$xnat_abstractResource_4_NUM_ROWS])
+<!-- BEGIN fhir:encounter/resources/resource[$xnat_abstractResource_4_COUNTER] -->
+									<TABLE>
+										<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/resources/resource[$xnat_abstractResource_4_COUNTER]</font></TH></TR>
+										<TR>
+											<TD align="left" valign="top">
+												<TABLE>
+													<TR><TD>note</TD><TD>$!item.getStringProperty("fhir:encounter/resources/resource[$xnat_abstractResource_4_COUNTER]/note")</TD></TR>
+													<TR><TD>label</TD><TD>$!item.getStringProperty("fhir:encounter/resources/resource[$xnat_abstractResource_4_COUNTER]/label")</TD></TR>
+													<TR><TD>file_count</TD><TD>$!item.getIntegerProperty("fhir:encounter/resources/resource[$xnat_abstractResource_4_COUNTER]/file_count")</TD></TR>
+													<TR><TD>file_size</TD><TD>$!item.getProperty("fhir:encounter/resources/resource[$xnat_abstractResource_4_COUNTER]/file_size")</TD></TR>
+												</TABLE>
+											</TD>
+										</TR>
+										<TR>
+											<TD align="left" valign="top">
+												<TABLE><TR><TD>
+													#set($xnat_abstractResource_tag_5_NUM_ROWS=$item.getChildItems("fhir:encounter/resources/resource[$xnat_abstractResource_4_COUNTER]/tags/tag").size() - 1)
+													#if($xnat_abstractResource_tag_5_NUM_ROWS>=0)
+														#foreach($xnat_abstractResource_tag_5_COUNTER in [0..$xnat_abstractResource_tag_5_NUM_ROWS])
+<!-- BEGIN fhir:encounter/resources/resource[$xnat_abstractResource_4_COUNTER]/tags/tag[$xnat_abstractResource_tag_5_COUNTER] -->
+															<TABLE>
+																<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/resources/resource[$xnat_abstractResource_4_COUNTER]/tags/tag[$xnat_abstractResource_tag_5_COUNTER]</font></TH></TR>
+																<TR>
+																	<TD align="left" valign="top">
+																		<TABLE>
+																			<TR><TD>tag</TD><TD>$!item.getStringProperty("fhir:encounter/resources/resource[$xnat_abstractResource_4_COUNTER]/tags/tag[$xnat_abstractResource_tag_5_COUNTER]/tag")</TD></TR>
+																			<TR><TD>name</TD><TD>$!item.getStringProperty("fhir:encounter/resources/resource[$xnat_abstractResource_4_COUNTER]/tags/tag[$xnat_abstractResource_tag_5_COUNTER]/name")</TD></TR>
+																		</TABLE>
+																	</TD>
+																</TR>
+															</TABLE>
+<!-- END fhir:encounter/resources/resource[$xnat_abstractResource_4_COUNTER]/tags/tag[$xnat_abstractResource_tag_5_COUNTER] -->
+														#end
+													#end
+												</TD></TR></TABLE>
+											</TD>
+										</TR>
+									</TABLE>
+<!-- END fhir:encounter/resources/resource[$xnat_abstractResource_4_COUNTER] -->
+								#end
+							#end
+						</TD></TR></TABLE>
+					</TD>
+				</TR>
+				<TR>
+					<TD align="left" valign="top">
+						<TABLE><TR><TD>
+							#set($xnat_experimentData_field_6_NUM_ROWS=$item.getChildItems("fhir:encounter/fields/field").size() - 1)
+							#if($xnat_experimentData_field_6_NUM_ROWS>=0)
+								#foreach($xnat_experimentData_field_6_COUNTER in [0..$xnat_experimentData_field_6_NUM_ROWS])
+<!-- BEGIN fhir:encounter/fields/field[$xnat_experimentData_field_6_COUNTER] -->
+									<TABLE>
+										<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/fields/field[$xnat_experimentData_field_6_COUNTER]</font></TH></TR>
+										<TR>
+											<TD align="left" valign="top">
+												<TABLE>
+													<TR><TD>field</TD><TD>$!item.getStringProperty("fhir:encounter/fields/field[$xnat_experimentData_field_6_COUNTER]/field")</TD></TR>
+													<TR><TD>name</TD><TD>$!item.getStringProperty("fhir:encounter/fields/field[$xnat_experimentData_field_6_COUNTER]/name")</TD></TR>
+												</TABLE>
+											</TD>
+										</TR>
+									</TABLE>
+<!-- END fhir:encounter/fields/field[$xnat_experimentData_field_6_COUNTER] -->
+								#end
+							#end
+						</TD></TR></TABLE>
+					</TD>
+				</TR>
+				<TR>
+					<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/encounterMeta/versionId -->
+						<TABLE>
+							<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/encounterMeta/versionId</font></TH></TR>
+							<TR>
+								<TD align="left" valign="top">
+									<TABLE>
+										<TR><TD>value</TD><TD>$!item.getStringProperty("fhir:encounter/encounterMeta/versionId/value")</TD></TR>
+									</TABLE>
+								</TD>
+							</TR>
+						</TABLE>
+<!-- END fhir:encounter/encounterMeta/versionId -->
+					</TD>
+				</TR>
+				<TR>
+					<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/encounterMeta/lastUpdated -->
+						<TABLE>
+							<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/encounterMeta/lastUpdated</font></TH></TR>
+							<TR>
+								<TD align="left" valign="top">
+									<TABLE>
+										<TR><TD>value</TD><TD>$!item.getStringProperty("fhir:encounter/encounterMeta/lastUpdated/value")</TD></TR>
+									</TABLE>
+								</TD>
+							</TR>
+						</TABLE>
+<!-- END fhir:encounter/encounterMeta/lastUpdated -->
+					</TD>
+				</TR>
+				<TR>
+					<TD align="left" valign="top">
+						<TABLE><TR><TD>
+							#set($fhir_singleStringValue_9_NUM_ROWS=$item.getChildItems("fhir:encounter/encounterMeta/profile").size() - 1)
+							#if($fhir_singleStringValue_9_NUM_ROWS>=0)
+								#foreach($fhir_singleStringValue_9_COUNTER in [0..$fhir_singleStringValue_9_NUM_ROWS])
+<!-- BEGIN fhir:encounter/encounterMeta/profile[$fhir_singleStringValue_9_COUNTER] -->
+									<TABLE>
+										<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/encounterMeta/profile[$fhir_singleStringValue_9_COUNTER]</font></TH></TR>
+										<TR>
+											<TD align="left" valign="top">
+												<TABLE>
+													<TR><TD>value</TD><TD>$!item.getStringProperty("fhir:encounter/encounterMeta/profile[$fhir_singleStringValue_9_COUNTER]/value")</TD></TR>
+												</TABLE>
+											</TD>
+										</TR>
+									</TABLE>
+<!-- END fhir:encounter/encounterMeta/profile[$fhir_singleStringValue_9_COUNTER] -->
+								#end
+							#end
+						</TD></TR></TABLE>
+					</TD>
+				</TR>
+				<TR>
+					<TD align="left" valign="top">
+						<TABLE><TR><TD>
+							#set($fhir_coding_10_NUM_ROWS=$item.getChildItems("fhir:encounter/encounterMeta/security").size() - 1)
+							#if($fhir_coding_10_NUM_ROWS>=0)
+								#foreach($fhir_coding_10_COUNTER in [0..$fhir_coding_10_NUM_ROWS])
+<!-- BEGIN fhir:encounter/encounterMeta/security[$fhir_coding_10_COUNTER] -->
+									<TABLE>
+										<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/encounterMeta/security[$fhir_coding_10_COUNTER]</font></TH></TR>
+										<TR>
+											<TD align="left" valign="top">
+												<TABLE>
+													<TR><TD>system</TD><TD>$!item.getStringProperty("fhir:encounter/encounterMeta/security[$fhir_coding_10_COUNTER]/system")</TD></TR>
+													<TR><TD>version</TD><TD>$!item.getStringProperty("fhir:encounter/encounterMeta/security[$fhir_coding_10_COUNTER]/version")</TD></TR>
+													<TR><TD>code</TD><TD>$!item.getStringProperty("fhir:encounter/encounterMeta/security[$fhir_coding_10_COUNTER]/code")</TD></TR>
+													<TR><TD>display</TD><TD>$!item.getStringProperty("fhir:encounter/encounterMeta/security[$fhir_coding_10_COUNTER]/display")</TD></TR>
+													<TR><TD>userSelected</TD><TD>$!item.getBooleanProperty("fhir:encounter/encounterMeta/security[$fhir_coding_10_COUNTER]/userSelected")</TD></TR>
+													<TR><TD>ID</TD><TD>$!item.getIntegerProperty("fhir:encounter/encounterMeta/security[$fhir_coding_10_COUNTER]/ID")</TD></TR>
+												</TABLE>
+											</TD>
+										</TR>
+									</TABLE>
+<!-- END fhir:encounter/encounterMeta/security[$fhir_coding_10_COUNTER] -->
+								#end
+							#end
+						</TD></TR></TABLE>
+					</TD>
+				</TR>
+				<TR>
+					<TD align="left" valign="top">
+						<TABLE><TR><TD>
+							#set($fhir_coding_11_NUM_ROWS=$item.getChildItems("fhir:encounter/encounterMeta/tag").size() - 1)
+							#if($fhir_coding_11_NUM_ROWS>=0)
+								#foreach($fhir_coding_11_COUNTER in [0..$fhir_coding_11_NUM_ROWS])
+<!-- BEGIN fhir:encounter/encounterMeta/tag[$fhir_coding_11_COUNTER] -->
+									<TABLE>
+										<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/encounterMeta/tag[$fhir_coding_11_COUNTER]</font></TH></TR>
+										<TR>
+											<TD align="left" valign="top">
+												<TABLE>
+													<TR><TD>system</TD><TD>$!item.getStringProperty("fhir:encounter/encounterMeta/tag[$fhir_coding_11_COUNTER]/system")</TD></TR>
+													<TR><TD>version</TD><TD>$!item.getStringProperty("fhir:encounter/encounterMeta/tag[$fhir_coding_11_COUNTER]/version")</TD></TR>
+													<TR><TD>code</TD><TD>$!item.getStringProperty("fhir:encounter/encounterMeta/tag[$fhir_coding_11_COUNTER]/code")</TD></TR>
+													<TR><TD>display</TD><TD>$!item.getStringProperty("fhir:encounter/encounterMeta/tag[$fhir_coding_11_COUNTER]/display")</TD></TR>
+													<TR><TD>userSelected</TD><TD>$!item.getBooleanProperty("fhir:encounter/encounterMeta/tag[$fhir_coding_11_COUNTER]/userSelected")</TD></TR>
+													<TR><TD>ID</TD><TD>$!item.getIntegerProperty("fhir:encounter/encounterMeta/tag[$fhir_coding_11_COUNTER]/ID")</TD></TR>
+												</TABLE>
+											</TD>
+										</TR>
+									</TABLE>
+<!-- END fhir:encounter/encounterMeta/tag[$fhir_coding_11_COUNTER] -->
+								#end
+							#end
+						</TD></TR></TABLE>
+					</TD>
+				</TR>
+				<TR>
+					<TD align="left" valign="top">
+						<TABLE><TR><TD>
+							#set($fhir_encounter_AufnahmeExtension_12_NUM_ROWS=$item.getChildItems("fhir:encounter/AufnahmeExtension").size() - 1)
+							#if($fhir_encounter_AufnahmeExtension_12_NUM_ROWS>=0)
+								#foreach($fhir_encounter_AufnahmeExtension_12_COUNTER in [0..$fhir_encounter_AufnahmeExtension_12_NUM_ROWS])
+<!-- BEGIN fhir:encounter/AufnahmeExtension[$fhir_encounter_AufnahmeExtension_12_COUNTER] -->
+									<TABLE>
+										<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/AufnahmeExtension[$fhir_encounter_AufnahmeExtension_12_COUNTER]</font></TH></TR>
+										<TR>
+											<TD align="left" valign="top">
+												<TABLE>
+												</TABLE>
+											</TD>
+										</TR>
+										<TR>
+											<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/AufnahmeExtension[$fhir_encounter_AufnahmeExtension_12_COUNTER]/Aufnahmegrund -->
+												<TABLE>
+													<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/AufnahmeExtension[$fhir_encounter_AufnahmeExtension_12_COUNTER]/Aufnahmegrund</font></TH></TR>
+													<TR>
+														<TD align="left" valign="top">
+															<TABLE>
+															</TABLE>
+														</TD>
+													</TR>
+													<TR>
+														<TD align="left" valign="top">
+															<TABLE><TR><TD>
+																#set($fhir_AufnahmegrundExtension_14_NUM_ROWS=$item.getChildItems("fhir:encounter/AufnahmeExtension[$fhir_encounter_AufnahmeExtension_12_COUNTER]/Aufnahmegrund/extension").size() - 1)
+																#if($fhir_AufnahmegrundExtension_14_NUM_ROWS>=0)
+																	#foreach($fhir_AufnahmegrundExtension_14_COUNTER in [0..$fhir_AufnahmegrundExtension_14_NUM_ROWS])
+<!-- BEGIN fhir:encounter/AufnahmeExtension[$fhir_encounter_AufnahmeExtension_12_COUNTER]/Aufnahmegrund/extension[$fhir_AufnahmegrundExtension_14_COUNTER] -->
+																		<TABLE>
+																			<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/AufnahmeExtension[$fhir_encounter_AufnahmeExtension_12_COUNTER]/Aufnahmegrund/extension[$fhir_AufnahmegrundExtension_14_COUNTER]</font></TH></TR>
+																			<TR>
+																				<TD align="left" valign="top">
+																					<TABLE>
+																					</TABLE>
+																				</TD>
+																			</TR>
+																			<TR>
+																				<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/AufnahmeExtension[$fhir_encounter_AufnahmeExtension_12_COUNTER]/Aufnahmegrund/extension[$fhir_AufnahmegrundExtension_14_COUNTER]/ErsteUndZweiteStelle -->
+																					<TABLE>
+																						<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/AufnahmeExtension[$fhir_encounter_AufnahmeExtension_12_COUNTER]/Aufnahmegrund/extension[$fhir_AufnahmegrundExtension_14_COUNTER]/ErsteUndZweiteStelle</font></TH></TR>
+																						<TR>
+																							<TD align="left" valign="top">
+																								<TABLE>
+																									<TR><TD>url</TD><TD>$!item.getStringProperty("fhir:encounter/AufnahmeExtension[$fhir_encounter_AufnahmeExtension_12_COUNTER]/Aufnahmegrund/extension[$fhir_AufnahmegrundExtension_14_COUNTER]/ErsteUndZweiteStelle/url")</TD></TR>
+																									<TR><TD>value</TD><TD>$!item.getStringProperty("fhir:encounter/AufnahmeExtension[$fhir_encounter_AufnahmeExtension_12_COUNTER]/Aufnahmegrund/extension[$fhir_AufnahmegrundExtension_14_COUNTER]/ErsteUndZweiteStelle/value")</TD></TR>
+																								</TABLE>
+																							</TD>
+																						</TR>
+																					</TABLE>
+<!-- END fhir:encounter/AufnahmeExtension[$fhir_encounter_AufnahmeExtension_12_COUNTER]/Aufnahmegrund/extension[$fhir_AufnahmegrundExtension_14_COUNTER]/ErsteUndZweiteStelle -->
+																				</TD>
+																			</TR>
+																			<TR>
+																				<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/AufnahmeExtension[$fhir_encounter_AufnahmeExtension_12_COUNTER]/Aufnahmegrund/extension[$fhir_AufnahmegrundExtension_14_COUNTER]/DritteStelle -->
+																					<TABLE>
+																						<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/AufnahmeExtension[$fhir_encounter_AufnahmeExtension_12_COUNTER]/Aufnahmegrund/extension[$fhir_AufnahmegrundExtension_14_COUNTER]/DritteStelle</font></TH></TR>
+																						<TR>
+																							<TD align="left" valign="top">
+																								<TABLE>
+																									<TR><TD>url</TD><TD>$!item.getStringProperty("fhir:encounter/AufnahmeExtension[$fhir_encounter_AufnahmeExtension_12_COUNTER]/Aufnahmegrund/extension[$fhir_AufnahmegrundExtension_14_COUNTER]/DritteStelle/url")</TD></TR>
+																									<TR><TD>value</TD><TD>$!item.getStringProperty("fhir:encounter/AufnahmeExtension[$fhir_encounter_AufnahmeExtension_12_COUNTER]/Aufnahmegrund/extension[$fhir_AufnahmegrundExtension_14_COUNTER]/DritteStelle/value")</TD></TR>
+																								</TABLE>
+																							</TD>
+																						</TR>
+																					</TABLE>
+<!-- END fhir:encounter/AufnahmeExtension[$fhir_encounter_AufnahmeExtension_12_COUNTER]/Aufnahmegrund/extension[$fhir_AufnahmegrundExtension_14_COUNTER]/DritteStelle -->
+																				</TD>
+																			</TR>
+																			<TR>
+																				<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/AufnahmeExtension[$fhir_encounter_AufnahmeExtension_12_COUNTER]/Aufnahmegrund/extension[$fhir_AufnahmegrundExtension_14_COUNTER]/VierteStelle -->
+																					<TABLE>
+																						<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/AufnahmeExtension[$fhir_encounter_AufnahmeExtension_12_COUNTER]/Aufnahmegrund/extension[$fhir_AufnahmegrundExtension_14_COUNTER]/VierteStelle</font></TH></TR>
+																						<TR>
+																							<TD align="left" valign="top">
+																								<TABLE>
+																									<TR><TD>url</TD><TD>$!item.getStringProperty("fhir:encounter/AufnahmeExtension[$fhir_encounter_AufnahmeExtension_12_COUNTER]/Aufnahmegrund/extension[$fhir_AufnahmegrundExtension_14_COUNTER]/VierteStelle/url")</TD></TR>
+																									<TR><TD>value</TD><TD>$!item.getStringProperty("fhir:encounter/AufnahmeExtension[$fhir_encounter_AufnahmeExtension_12_COUNTER]/Aufnahmegrund/extension[$fhir_AufnahmegrundExtension_14_COUNTER]/VierteStelle/value")</TD></TR>
+																								</TABLE>
+																							</TD>
+																						</TR>
+																					</TABLE>
+<!-- END fhir:encounter/AufnahmeExtension[$fhir_encounter_AufnahmeExtension_12_COUNTER]/Aufnahmegrund/extension[$fhir_AufnahmegrundExtension_14_COUNTER]/VierteStelle -->
+																				</TD>
+																			</TR>
+																		</TABLE>
+<!-- END fhir:encounter/AufnahmeExtension[$fhir_encounter_AufnahmeExtension_12_COUNTER]/Aufnahmegrund/extension[$fhir_AufnahmegrundExtension_14_COUNTER] -->
+																	#end
+																#end
+															</TD></TR></TABLE>
+														</TD>
+													</TR>
+												</TABLE>
+<!-- END fhir:encounter/AufnahmeExtension[$fhir_encounter_AufnahmeExtension_12_COUNTER]/Aufnahmegrund -->
+											</TD>
+										</TR>
+									</TABLE>
+<!-- END fhir:encounter/AufnahmeExtension[$fhir_encounter_AufnahmeExtension_12_COUNTER] -->
+								#end
+							#end
+						</TD></TR></TABLE>
+					</TD>
+				</TR>
+				<TR>
+					<TD align="left" valign="top">
+						<TABLE><TR><TD>
+							#set($fhir_encounter_identifier_18_NUM_ROWS=$item.getChildItems("fhir:encounter/identifier").size() - 1)
+							#if($fhir_encounter_identifier_18_NUM_ROWS>=0)
+								#foreach($fhir_encounter_identifier_18_COUNTER in [0..$fhir_encounter_identifier_18_NUM_ROWS])
+<!-- BEGIN fhir:encounter/identifier[$fhir_encounter_identifier_18_COUNTER] -->
+									<TABLE>
+										<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/identifier[$fhir_encounter_identifier_18_COUNTER]</font></TH></TR>
+										<TR>
+											<TD align="left" valign="top">
+												<TABLE>
+												</TABLE>
+											</TD>
+										</TR>
+										<TR>
+											<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/identifier[$fhir_encounter_identifier_18_COUNTER]/Aufnahmenummer -->
+												<TABLE>
+													<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/identifier[$fhir_encounter_identifier_18_COUNTER]/Aufnahmenummer</font></TH></TR>
+													<TR>
+														<TD align="left" valign="top">
+															<TABLE>
+																<TR><TD>use</TD><TD>$!item.getStringProperty("fhir:encounter/identifier[$fhir_encounter_identifier_18_COUNTER]/Aufnahmenummer/use")</TD></TR>
+																<TR><TD>system</TD><TD>$!item.getStringProperty("fhir:encounter/identifier[$fhir_encounter_identifier_18_COUNTER]/Aufnahmenummer/system")</TD></TR>
+																<TR><TD>value</TD><TD>$!item.getStringProperty("fhir:encounter/identifier[$fhir_encounter_identifier_18_COUNTER]/Aufnahmenummer/value")</TD></TR>
+																<TR><TD>period/start</TD><TD>$!item.getStringProperty("fhir:encounter/identifier[$fhir_encounter_identifier_18_COUNTER]/Aufnahmenummer/period/start")</TD></TR>
+																<TR><TD>period/end</TD><TD>$!item.getStringProperty("fhir:encounter/identifier[$fhir_encounter_identifier_18_COUNTER]/Aufnahmenummer/period/end")</TD></TR>
+																<TR><TD>ID</TD><TD>$!item.getIntegerProperty("fhir:encounter/identifier[$fhir_encounter_identifier_18_COUNTER]/Aufnahmenummer/ID")</TD></TR>
+															</TABLE>
+														</TD>
+													</TR>
+													<TR>
+														<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/identifier[$fhir_encounter_identifier_18_COUNTER]/Aufnahmenummer/type -->
+															<TABLE>
+																<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/identifier[$fhir_encounter_identifier_18_COUNTER]/Aufnahmenummer/type</font></TH></TR>
+																<TR>
+																	<TD align="left" valign="top">
+																		<TABLE>
+																			<TR><TD>text</TD><TD>$!item.getStringProperty("fhir:encounter/identifier[$fhir_encounter_identifier_18_COUNTER]/Aufnahmenummer/type/text")</TD></TR>
+																			<TR><TD>ID</TD><TD>$!item.getIntegerProperty("fhir:encounter/identifier[$fhir_encounter_identifier_18_COUNTER]/Aufnahmenummer/type/ID")</TD></TR>
+																		</TABLE>
+																	</TD>
+																</TR>
+																<TR>
+																	<TD align="left" valign="top">
+																		<TABLE><TR><TD>
+																			#set($fhir_coding_21_NUM_ROWS=$item.getChildItems("fhir:encounter/identifier[$fhir_encounter_identifier_18_COUNTER]/Aufnahmenummer/type/coding").size() - 1)
+																			#if($fhir_coding_21_NUM_ROWS>=0)
+																				#foreach($fhir_coding_21_COUNTER in [0..$fhir_coding_21_NUM_ROWS])
+<!-- BEGIN fhir:encounter/identifier[$fhir_encounter_identifier_18_COUNTER]/Aufnahmenummer/type/coding[$fhir_coding_21_COUNTER] -->
+																					<TABLE>
+																						<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/identifier[$fhir_encounter_identifier_18_COUNTER]/Aufnahmenummer/type/coding[$fhir_coding_21_COUNTER]</font></TH></TR>
+																						<TR>
+																							<TD align="left" valign="top">
+																								<TABLE>
+																									<TR><TD>system</TD><TD>$!item.getStringProperty("fhir:encounter/identifier[$fhir_encounter_identifier_18_COUNTER]/Aufnahmenummer/type/coding[$fhir_coding_21_COUNTER]/system")</TD></TR>
+																									<TR><TD>version</TD><TD>$!item.getStringProperty("fhir:encounter/identifier[$fhir_encounter_identifier_18_COUNTER]/Aufnahmenummer/type/coding[$fhir_coding_21_COUNTER]/version")</TD></TR>
+																									<TR><TD>code</TD><TD>$!item.getStringProperty("fhir:encounter/identifier[$fhir_encounter_identifier_18_COUNTER]/Aufnahmenummer/type/coding[$fhir_coding_21_COUNTER]/code")</TD></TR>
+																									<TR><TD>display</TD><TD>$!item.getStringProperty("fhir:encounter/identifier[$fhir_encounter_identifier_18_COUNTER]/Aufnahmenummer/type/coding[$fhir_coding_21_COUNTER]/display")</TD></TR>
+																									<TR><TD>userSelected</TD><TD>$!item.getBooleanProperty("fhir:encounter/identifier[$fhir_encounter_identifier_18_COUNTER]/Aufnahmenummer/type/coding[$fhir_coding_21_COUNTER]/userSelected")</TD></TR>
+																									<TR><TD>ID</TD><TD>$!item.getIntegerProperty("fhir:encounter/identifier[$fhir_encounter_identifier_18_COUNTER]/Aufnahmenummer/type/coding[$fhir_coding_21_COUNTER]/ID")</TD></TR>
+																								</TABLE>
+																							</TD>
+																						</TR>
+																					</TABLE>
+<!-- END fhir:encounter/identifier[$fhir_encounter_identifier_18_COUNTER]/Aufnahmenummer/type/coding[$fhir_coding_21_COUNTER] -->
+																				#end
+																			#end
+																		</TD></TR></TABLE>
+																	</TD>
+																</TR>
+															</TABLE>
+<!-- END fhir:encounter/identifier[$fhir_encounter_identifier_18_COUNTER]/Aufnahmenummer/type -->
+														</TD>
+													</TR>
+													<TR>
+														<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/identifier[$fhir_encounter_identifier_18_COUNTER]/Aufnahmenummer/assigner -->
+															<TABLE>
+																<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/identifier[$fhir_encounter_identifier_18_COUNTER]/Aufnahmenummer/assigner</font></TH></TR>
+																<TR>
+																	<TD align="left" valign="top">
+																		<TABLE>
+																			<TR><TD>reference</TD><TD>$!item.getStringProperty("fhir:encounter/identifier[$fhir_encounter_identifier_18_COUNTER]/Aufnahmenummer/assigner/reference")</TD></TR>
+																			<TR><TD>type</TD><TD>$!item.getStringProperty("fhir:encounter/identifier[$fhir_encounter_identifier_18_COUNTER]/Aufnahmenummer/assigner/type")</TD></TR>
+																			<TR><TD>display</TD><TD>$!item.getStringProperty("fhir:encounter/identifier[$fhir_encounter_identifier_18_COUNTER]/Aufnahmenummer/assigner/display")</TD></TR>
+																			<TR><TD>ID</TD><TD>$!item.getIntegerProperty("fhir:encounter/identifier[$fhir_encounter_identifier_18_COUNTER]/Aufnahmenummer/assigner/ID")</TD></TR>
+																		</TABLE>
+																	</TD>
+																</TR>
+															</TABLE>
+<!-- END fhir:encounter/identifier[$fhir_encounter_identifier_18_COUNTER]/Aufnahmenummer/assigner -->
+														</TD>
+													</TR>
+												</TABLE>
+<!-- END fhir:encounter/identifier[$fhir_encounter_identifier_18_COUNTER]/Aufnahmenummer -->
+											</TD>
+										</TR>
+									</TABLE>
+<!-- END fhir:encounter/identifier[$fhir_encounter_identifier_18_COUNTER] -->
+								#end
+							#end
+						</TD></TR></TABLE>
+					</TD>
+				</TR>
+				<TR>
+					<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/encounterClass -->
+						<TABLE>
+							<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/encounterClass</font></TH></TR>
+							<TR>
+								<TD align="left" valign="top">
+									<TABLE>
+										<TR><TD>system</TD><TD>$!item.getStringProperty("fhir:encounter/encounterClass/system")</TD></TR>
+										<TR><TD>version</TD><TD>$!item.getStringProperty("fhir:encounter/encounterClass/version")</TD></TR>
+										<TR><TD>code</TD><TD>$!item.getStringProperty("fhir:encounter/encounterClass/code")</TD></TR>
+										<TR><TD>display</TD><TD>$!item.getStringProperty("fhir:encounter/encounterClass/display")</TD></TR>
+										<TR><TD>userSelected</TD><TD>$!item.getBooleanProperty("fhir:encounter/encounterClass/userSelected")</TD></TR>
+										<TR><TD>ID</TD><TD>$!item.getIntegerProperty("fhir:encounter/encounterClass/ID")</TD></TR>
+									</TABLE>
+								</TD>
+							</TR>
+						</TABLE>
+<!-- END fhir:encounter/encounterClass -->
+					</TD>
+				</TR>
+				<TR>
+					<TD align="left" valign="top">
+						<TABLE><TR><TD>
+							#set($fhir_encounter_type_24_NUM_ROWS=$item.getChildItems("fhir:encounter/type").size() - 1)
+							#if($fhir_encounter_type_24_NUM_ROWS>=0)
+								#foreach($fhir_encounter_type_24_COUNTER in [0..$fhir_encounter_type_24_NUM_ROWS])
+<!-- BEGIN fhir:encounter/type[$fhir_encounter_type_24_COUNTER] -->
+									<TABLE>
+										<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/type[$fhir_encounter_type_24_COUNTER]</font></TH></TR>
+										<TR>
+											<TD align="left" valign="top">
+												<TABLE>
+												</TABLE>
+											</TD>
+										</TR>
+										<TR>
+											<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/type[$fhir_encounter_type_24_COUNTER]/Kontaktebene -->
+												<TABLE>
+													<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/type[$fhir_encounter_type_24_COUNTER]/Kontaktebene</font></TH></TR>
+													<TR>
+														<TD align="left" valign="top">
+															<TABLE>
+																<TR><TD>text</TD><TD>$!item.getStringProperty("fhir:encounter/type[$fhir_encounter_type_24_COUNTER]/Kontaktebene/text")</TD></TR>
+																<TR><TD>ID</TD><TD>$!item.getIntegerProperty("fhir:encounter/type[$fhir_encounter_type_24_COUNTER]/Kontaktebene/ID")</TD></TR>
+															</TABLE>
+														</TD>
+													</TR>
+													<TR>
+														<TD align="left" valign="top">
+															<TABLE><TR><TD>
+																#set($fhir_coding_26_NUM_ROWS=$item.getChildItems("fhir:encounter/type[$fhir_encounter_type_24_COUNTER]/Kontaktebene/coding").size() - 1)
+																#if($fhir_coding_26_NUM_ROWS>=0)
+																	#foreach($fhir_coding_26_COUNTER in [0..$fhir_coding_26_NUM_ROWS])
+<!-- BEGIN fhir:encounter/type[$fhir_encounter_type_24_COUNTER]/Kontaktebene/coding[$fhir_coding_26_COUNTER] -->
+																		<TABLE>
+																			<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/type[$fhir_encounter_type_24_COUNTER]/Kontaktebene/coding[$fhir_coding_26_COUNTER]</font></TH></TR>
+																			<TR>
+																				<TD align="left" valign="top">
+																					<TABLE>
+																						<TR><TD>system</TD><TD>$!item.getStringProperty("fhir:encounter/type[$fhir_encounter_type_24_COUNTER]/Kontaktebene/coding[$fhir_coding_26_COUNTER]/system")</TD></TR>
+																						<TR><TD>version</TD><TD>$!item.getStringProperty("fhir:encounter/type[$fhir_encounter_type_24_COUNTER]/Kontaktebene/coding[$fhir_coding_26_COUNTER]/version")</TD></TR>
+																						<TR><TD>code</TD><TD>$!item.getStringProperty("fhir:encounter/type[$fhir_encounter_type_24_COUNTER]/Kontaktebene/coding[$fhir_coding_26_COUNTER]/code")</TD></TR>
+																						<TR><TD>display</TD><TD>$!item.getStringProperty("fhir:encounter/type[$fhir_encounter_type_24_COUNTER]/Kontaktebene/coding[$fhir_coding_26_COUNTER]/display")</TD></TR>
+																						<TR><TD>userSelected</TD><TD>$!item.getBooleanProperty("fhir:encounter/type[$fhir_encounter_type_24_COUNTER]/Kontaktebene/coding[$fhir_coding_26_COUNTER]/userSelected")</TD></TR>
+																						<TR><TD>ID</TD><TD>$!item.getIntegerProperty("fhir:encounter/type[$fhir_encounter_type_24_COUNTER]/Kontaktebene/coding[$fhir_coding_26_COUNTER]/ID")</TD></TR>
+																					</TABLE>
+																				</TD>
+																			</TR>
+																		</TABLE>
+<!-- END fhir:encounter/type[$fhir_encounter_type_24_COUNTER]/Kontaktebene/coding[$fhir_coding_26_COUNTER] -->
+																	#end
+																#end
+															</TD></TR></TABLE>
+														</TD>
+													</TR>
+												</TABLE>
+<!-- END fhir:encounter/type[$fhir_encounter_type_24_COUNTER]/Kontaktebene -->
+											</TD>
+										</TR>
+										<TR>
+											<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/type[$fhir_encounter_type_24_COUNTER]/KontaktArt -->
+												<TABLE>
+													<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/type[$fhir_encounter_type_24_COUNTER]/KontaktArt</font></TH></TR>
+													<TR>
+														<TD align="left" valign="top">
+															<TABLE>
+																<TR><TD>text</TD><TD>$!item.getStringProperty("fhir:encounter/type[$fhir_encounter_type_24_COUNTER]/KontaktArt/text")</TD></TR>
+																<TR><TD>ID</TD><TD>$!item.getIntegerProperty("fhir:encounter/type[$fhir_encounter_type_24_COUNTER]/KontaktArt/ID")</TD></TR>
+															</TABLE>
+														</TD>
+													</TR>
+													<TR>
+														<TD align="left" valign="top">
+															<TABLE><TR><TD>
+																#set($fhir_coding_28_NUM_ROWS=$item.getChildItems("fhir:encounter/type[$fhir_encounter_type_24_COUNTER]/KontaktArt/coding").size() - 1)
+																#if($fhir_coding_28_NUM_ROWS>=0)
+																	#foreach($fhir_coding_28_COUNTER in [0..$fhir_coding_28_NUM_ROWS])
+<!-- BEGIN fhir:encounter/type[$fhir_encounter_type_24_COUNTER]/KontaktArt/coding[$fhir_coding_28_COUNTER] -->
+																		<TABLE>
+																			<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/type[$fhir_encounter_type_24_COUNTER]/KontaktArt/coding[$fhir_coding_28_COUNTER]</font></TH></TR>
+																			<TR>
+																				<TD align="left" valign="top">
+																					<TABLE>
+																						<TR><TD>system</TD><TD>$!item.getStringProperty("fhir:encounter/type[$fhir_encounter_type_24_COUNTER]/KontaktArt/coding[$fhir_coding_28_COUNTER]/system")</TD></TR>
+																						<TR><TD>version</TD><TD>$!item.getStringProperty("fhir:encounter/type[$fhir_encounter_type_24_COUNTER]/KontaktArt/coding[$fhir_coding_28_COUNTER]/version")</TD></TR>
+																						<TR><TD>code</TD><TD>$!item.getStringProperty("fhir:encounter/type[$fhir_encounter_type_24_COUNTER]/KontaktArt/coding[$fhir_coding_28_COUNTER]/code")</TD></TR>
+																						<TR><TD>display</TD><TD>$!item.getStringProperty("fhir:encounter/type[$fhir_encounter_type_24_COUNTER]/KontaktArt/coding[$fhir_coding_28_COUNTER]/display")</TD></TR>
+																						<TR><TD>userSelected</TD><TD>$!item.getBooleanProperty("fhir:encounter/type[$fhir_encounter_type_24_COUNTER]/KontaktArt/coding[$fhir_coding_28_COUNTER]/userSelected")</TD></TR>
+																						<TR><TD>ID</TD><TD>$!item.getIntegerProperty("fhir:encounter/type[$fhir_encounter_type_24_COUNTER]/KontaktArt/coding[$fhir_coding_28_COUNTER]/ID")</TD></TR>
+																					</TABLE>
+																				</TD>
+																			</TR>
+																		</TABLE>
+<!-- END fhir:encounter/type[$fhir_encounter_type_24_COUNTER]/KontaktArt/coding[$fhir_coding_28_COUNTER] -->
+																	#end
+																#end
+															</TD></TR></TABLE>
+														</TD>
+													</TR>
+												</TABLE>
+<!-- END fhir:encounter/type[$fhir_encounter_type_24_COUNTER]/KontaktArt -->
+											</TD>
+										</TR>
+									</TABLE>
+<!-- END fhir:encounter/type[$fhir_encounter_type_24_COUNTER] -->
+								#end
+							#end
+						</TD></TR></TABLE>
+					</TD>
+				</TR>
+				<TR>
+					<TD align="left" valign="top">
+						<TABLE><TR><TD>
+							#set($fhir_encounter_coding_29_NUM_ROWS=$item.getChildItems("fhir:encounter/serviceType/coding").size() - 1)
+							#if($fhir_encounter_coding_29_NUM_ROWS>=0)
+								#foreach($fhir_encounter_coding_29_COUNTER in [0..$fhir_encounter_coding_29_NUM_ROWS])
+<!-- BEGIN fhir:encounter/serviceType/coding[$fhir_encounter_coding_29_COUNTER] -->
+									<TABLE>
+										<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/serviceType/coding[$fhir_encounter_coding_29_COUNTER]</font></TH></TR>
+										<TR>
+											<TD align="left" valign="top">
+												<TABLE>
+												</TABLE>
+											</TD>
+										</TR>
+										<TR>
+											<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/serviceType/coding[$fhir_encounter_coding_29_COUNTER]/Fachabteilungsschluessel -->
+												<TABLE>
+													<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/serviceType/coding[$fhir_encounter_coding_29_COUNTER]/Fachabteilungsschluessel</font></TH></TR>
+													<TR>
+														<TD align="left" valign="top">
+															<TABLE>
+																<TR><TD>system</TD><TD>$!item.getStringProperty("fhir:encounter/serviceType/coding[$fhir_encounter_coding_29_COUNTER]/Fachabteilungsschluessel/system")</TD></TR>
+																<TR><TD>version</TD><TD>$!item.getStringProperty("fhir:encounter/serviceType/coding[$fhir_encounter_coding_29_COUNTER]/Fachabteilungsschluessel/version")</TD></TR>
+																<TR><TD>code</TD><TD>$!item.getStringProperty("fhir:encounter/serviceType/coding[$fhir_encounter_coding_29_COUNTER]/Fachabteilungsschluessel/code")</TD></TR>
+																<TR><TD>display</TD><TD>$!item.getStringProperty("fhir:encounter/serviceType/coding[$fhir_encounter_coding_29_COUNTER]/Fachabteilungsschluessel/display")</TD></TR>
+																<TR><TD>userSelected</TD><TD>$!item.getBooleanProperty("fhir:encounter/serviceType/coding[$fhir_encounter_coding_29_COUNTER]/Fachabteilungsschluessel/userSelected")</TD></TR>
+																<TR><TD>ID</TD><TD>$!item.getIntegerProperty("fhir:encounter/serviceType/coding[$fhir_encounter_coding_29_COUNTER]/Fachabteilungsschluessel/ID")</TD></TR>
+															</TABLE>
+														</TD>
+													</TR>
+												</TABLE>
+<!-- END fhir:encounter/serviceType/coding[$fhir_encounter_coding_29_COUNTER]/Fachabteilungsschluessel -->
+											</TD>
+										</TR>
+									</TABLE>
+<!-- END fhir:encounter/serviceType/coding[$fhir_encounter_coding_29_COUNTER] -->
+								#end
+							#end
+						</TD></TR></TABLE>
+					</TD>
+				</TR>
+				<TR>
+					<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/fhirSubject -->
+						<TABLE>
+							<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/fhirSubject</font></TH></TR>
+							<TR>
+								<TD align="left" valign="top">
+									<TABLE>
+										<TR><TD>reference</TD><TD>$!item.getStringProperty("fhir:encounter/fhirSubject/reference")</TD></TR>
+										<TR><TD>type</TD><TD>$!item.getStringProperty("fhir:encounter/fhirSubject/type")</TD></TR>
+										<TR><TD>display</TD><TD>$!item.getStringProperty("fhir:encounter/fhirSubject/display")</TD></TR>
+										<TR><TD>ID</TD><TD>$!item.getIntegerProperty("fhir:encounter/fhirSubject/ID")</TD></TR>
+									</TABLE>
+								</TD>
+							</TR>
+							<TR>
+								<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/fhirSubject/identifier -->
+									<TABLE>
+										<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/fhirSubject/identifier</font></TH></TR>
+										<TR>
+											<TD align="left" valign="top">
+												<TABLE>
+													<TR><TD>use</TD><TD>$!item.getStringProperty("fhir:encounter/fhirSubject/identifier/use")</TD></TR>
+													<TR><TD>system</TD><TD>$!item.getStringProperty("fhir:encounter/fhirSubject/identifier/system")</TD></TR>
+													<TR><TD>value</TD><TD>$!item.getStringProperty("fhir:encounter/fhirSubject/identifier/value")</TD></TR>
+													<TR><TD>period/start</TD><TD>$!item.getStringProperty("fhir:encounter/fhirSubject/identifier/period/start")</TD></TR>
+													<TR><TD>period/end</TD><TD>$!item.getStringProperty("fhir:encounter/fhirSubject/identifier/period/end")</TD></TR>
+													<TR><TD>ID</TD><TD>$!item.getIntegerProperty("fhir:encounter/fhirSubject/identifier/ID")</TD></TR>
+												</TABLE>
+											</TD>
+										</TR>
+										<TR>
+											<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/fhirSubject/identifier/type -->
+												<TABLE>
+													<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/fhirSubject/identifier/type</font></TH></TR>
+													<TR>
+														<TD align="left" valign="top">
+															<TABLE>
+																<TR><TD>text</TD><TD>$!item.getStringProperty("fhir:encounter/fhirSubject/identifier/type/text")</TD></TR>
+																<TR><TD>ID</TD><TD>$!item.getIntegerProperty("fhir:encounter/fhirSubject/identifier/type/ID")</TD></TR>
+															</TABLE>
+														</TD>
+													</TR>
+													<TR>
+														<TD align="left" valign="top">
+															<TABLE><TR><TD>
+																#set($fhir_coding_34_NUM_ROWS=$item.getChildItems("fhir:encounter/fhirSubject/identifier/type/coding").size() - 1)
+																#if($fhir_coding_34_NUM_ROWS>=0)
+																	#foreach($fhir_coding_34_COUNTER in [0..$fhir_coding_34_NUM_ROWS])
+<!-- BEGIN fhir:encounter/fhirSubject/identifier/type/coding[$fhir_coding_34_COUNTER] -->
+																		<TABLE>
+																			<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/fhirSubject/identifier/type/coding[$fhir_coding_34_COUNTER]</font></TH></TR>
+																			<TR>
+																				<TD align="left" valign="top">
+																					<TABLE>
+																						<TR><TD>system</TD><TD>$!item.getStringProperty("fhir:encounter/fhirSubject/identifier/type/coding[$fhir_coding_34_COUNTER]/system")</TD></TR>
+																						<TR><TD>version</TD><TD>$!item.getStringProperty("fhir:encounter/fhirSubject/identifier/type/coding[$fhir_coding_34_COUNTER]/version")</TD></TR>
+																						<TR><TD>code</TD><TD>$!item.getStringProperty("fhir:encounter/fhirSubject/identifier/type/coding[$fhir_coding_34_COUNTER]/code")</TD></TR>
+																						<TR><TD>display</TD><TD>$!item.getStringProperty("fhir:encounter/fhirSubject/identifier/type/coding[$fhir_coding_34_COUNTER]/display")</TD></TR>
+																						<TR><TD>userSelected</TD><TD>$!item.getBooleanProperty("fhir:encounter/fhirSubject/identifier/type/coding[$fhir_coding_34_COUNTER]/userSelected")</TD></TR>
+																						<TR><TD>ID</TD><TD>$!item.getIntegerProperty("fhir:encounter/fhirSubject/identifier/type/coding[$fhir_coding_34_COUNTER]/ID")</TD></TR>
+																					</TABLE>
+																				</TD>
+																			</TR>
+																		</TABLE>
+<!-- END fhir:encounter/fhirSubject/identifier/type/coding[$fhir_coding_34_COUNTER] -->
+																	#end
+																#end
+															</TD></TR></TABLE>
+														</TD>
+													</TR>
+												</TABLE>
+<!-- END fhir:encounter/fhirSubject/identifier/type -->
+											</TD>
+										</TR>
+									</TABLE>
+<!-- END fhir:encounter/fhirSubject/identifier -->
+								</TD>
+							</TR>
+						</TABLE>
+<!-- END fhir:encounter/fhirSubject -->
+					</TD>
+				</TR>
+				<TR>
+					<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/diagnosis/condition -->
+						<TABLE>
+							<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/diagnosis/condition</font></TH></TR>
+							<TR>
+								<TD align="left" valign="top">
+									<TABLE>
+										<TR><TD>reference</TD><TD>$!item.getStringProperty("fhir:encounter/diagnosis/condition/reference")</TD></TR>
+										<TR><TD>type</TD><TD>$!item.getStringProperty("fhir:encounter/diagnosis/condition/type")</TD></TR>
+										<TR><TD>display</TD><TD>$!item.getStringProperty("fhir:encounter/diagnosis/condition/display")</TD></TR>
+										<TR><TD>ID</TD><TD>$!item.getIntegerProperty("fhir:encounter/diagnosis/condition/ID")</TD></TR>
+									</TABLE>
+								</TD>
+							</TR>
+							<TR>
+								<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/diagnosis/condition/identifier -->
+									<TABLE>
+										<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/diagnosis/condition/identifier</font></TH></TR>
+										<TR>
+											<TD align="left" valign="top">
+												<TABLE>
+													<TR><TD>use</TD><TD>$!item.getStringProperty("fhir:encounter/diagnosis/condition/identifier/use")</TD></TR>
+													<TR><TD>system</TD><TD>$!item.getStringProperty("fhir:encounter/diagnosis/condition/identifier/system")</TD></TR>
+													<TR><TD>value</TD><TD>$!item.getStringProperty("fhir:encounter/diagnosis/condition/identifier/value")</TD></TR>
+													<TR><TD>period/start</TD><TD>$!item.getStringProperty("fhir:encounter/diagnosis/condition/identifier/period/start")</TD></TR>
+													<TR><TD>period/end</TD><TD>$!item.getStringProperty("fhir:encounter/diagnosis/condition/identifier/period/end")</TD></TR>
+													<TR><TD>ID</TD><TD>$!item.getIntegerProperty("fhir:encounter/diagnosis/condition/identifier/ID")</TD></TR>
+												</TABLE>
+											</TD>
+										</TR>
+										<TR>
+											<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/diagnosis/condition/identifier/type -->
+												<TABLE>
+													<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/diagnosis/condition/identifier/type</font></TH></TR>
+													<TR>
+														<TD align="left" valign="top">
+															<TABLE>
+																<TR><TD>text</TD><TD>$!item.getStringProperty("fhir:encounter/diagnosis/condition/identifier/type/text")</TD></TR>
+																<TR><TD>ID</TD><TD>$!item.getIntegerProperty("fhir:encounter/diagnosis/condition/identifier/type/ID")</TD></TR>
+															</TABLE>
+														</TD>
+													</TR>
+													<TR>
+														<TD align="left" valign="top">
+															<TABLE><TR><TD>
+																#set($fhir_coding_38_NUM_ROWS=$item.getChildItems("fhir:encounter/diagnosis/condition/identifier/type/coding").size() - 1)
+																#if($fhir_coding_38_NUM_ROWS>=0)
+																	#foreach($fhir_coding_38_COUNTER in [0..$fhir_coding_38_NUM_ROWS])
+<!-- BEGIN fhir:encounter/diagnosis/condition/identifier/type/coding[$fhir_coding_38_COUNTER] -->
+																		<TABLE>
+																			<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/diagnosis/condition/identifier/type/coding[$fhir_coding_38_COUNTER]</font></TH></TR>
+																			<TR>
+																				<TD align="left" valign="top">
+																					<TABLE>
+																						<TR><TD>system</TD><TD>$!item.getStringProperty("fhir:encounter/diagnosis/condition/identifier/type/coding[$fhir_coding_38_COUNTER]/system")</TD></TR>
+																						<TR><TD>version</TD><TD>$!item.getStringProperty("fhir:encounter/diagnosis/condition/identifier/type/coding[$fhir_coding_38_COUNTER]/version")</TD></TR>
+																						<TR><TD>code</TD><TD>$!item.getStringProperty("fhir:encounter/diagnosis/condition/identifier/type/coding[$fhir_coding_38_COUNTER]/code")</TD></TR>
+																						<TR><TD>display</TD><TD>$!item.getStringProperty("fhir:encounter/diagnosis/condition/identifier/type/coding[$fhir_coding_38_COUNTER]/display")</TD></TR>
+																						<TR><TD>userSelected</TD><TD>$!item.getBooleanProperty("fhir:encounter/diagnosis/condition/identifier/type/coding[$fhir_coding_38_COUNTER]/userSelected")</TD></TR>
+																						<TR><TD>ID</TD><TD>$!item.getIntegerProperty("fhir:encounter/diagnosis/condition/identifier/type/coding[$fhir_coding_38_COUNTER]/ID")</TD></TR>
+																					</TABLE>
+																				</TD>
+																			</TR>
+																		</TABLE>
+<!-- END fhir:encounter/diagnosis/condition/identifier/type/coding[$fhir_coding_38_COUNTER] -->
+																	#end
+																#end
+															</TD></TR></TABLE>
+														</TD>
+													</TR>
+												</TABLE>
+<!-- END fhir:encounter/diagnosis/condition/identifier/type -->
+											</TD>
+										</TR>
+									</TABLE>
+<!-- END fhir:encounter/diagnosis/condition/identifier -->
+								</TD>
+							</TR>
+						</TABLE>
+<!-- END fhir:encounter/diagnosis/condition -->
+					</TD>
+				</TR>
+				<TR>
+					<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/diagnosis/use -->
+						<TABLE>
+							<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/diagnosis/use</font></TH></TR>
+							<TR>
+								<TD align="left" valign="top">
+									<TABLE>
+										<TR><TD>text</TD><TD>$!item.getStringProperty("fhir:encounter/diagnosis/use/text")</TD></TR>
+										<TR><TD>ID</TD><TD>$!item.getIntegerProperty("fhir:encounter/diagnosis/use/ID")</TD></TR>
+									</TABLE>
+								</TD>
+							</TR>
+							<TR>
+								<TD align="left" valign="top">
+									<TABLE><TR><TD>
+										#set($fhir_coding_40_NUM_ROWS=$item.getChildItems("fhir:encounter/diagnosis/use/coding").size() - 1)
+										#if($fhir_coding_40_NUM_ROWS>=0)
+											#foreach($fhir_coding_40_COUNTER in [0..$fhir_coding_40_NUM_ROWS])
+<!-- BEGIN fhir:encounter/diagnosis/use/coding[$fhir_coding_40_COUNTER] -->
+												<TABLE>
+													<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/diagnosis/use/coding[$fhir_coding_40_COUNTER]</font></TH></TR>
+													<TR>
+														<TD align="left" valign="top">
+															<TABLE>
+																<TR><TD>system</TD><TD>$!item.getStringProperty("fhir:encounter/diagnosis/use/coding[$fhir_coding_40_COUNTER]/system")</TD></TR>
+																<TR><TD>version</TD><TD>$!item.getStringProperty("fhir:encounter/diagnosis/use/coding[$fhir_coding_40_COUNTER]/version")</TD></TR>
+																<TR><TD>code</TD><TD>$!item.getStringProperty("fhir:encounter/diagnosis/use/coding[$fhir_coding_40_COUNTER]/code")</TD></TR>
+																<TR><TD>display</TD><TD>$!item.getStringProperty("fhir:encounter/diagnosis/use/coding[$fhir_coding_40_COUNTER]/display")</TD></TR>
+																<TR><TD>userSelected</TD><TD>$!item.getBooleanProperty("fhir:encounter/diagnosis/use/coding[$fhir_coding_40_COUNTER]/userSelected")</TD></TR>
+																<TR><TD>ID</TD><TD>$!item.getIntegerProperty("fhir:encounter/diagnosis/use/coding[$fhir_coding_40_COUNTER]/ID")</TD></TR>
+															</TABLE>
+														</TD>
+													</TR>
+												</TABLE>
+<!-- END fhir:encounter/diagnosis/use/coding[$fhir_coding_40_COUNTER] -->
+											#end
+										#end
+									</TD></TR></TABLE>
+								</TD>
+							</TR>
+						</TABLE>
+<!-- END fhir:encounter/diagnosis/use -->
+					</TD>
+				</TR>
+				<TR>
+					<TD align="left" valign="top">
+						<TABLE><TR><TD>
+							#set($fhir_encounter_location_41_NUM_ROWS=$item.getChildItems("fhir:encounter/location").size() - 1)
+							#if($fhir_encounter_location_41_NUM_ROWS>=0)
+								#foreach($fhir_encounter_location_41_COUNTER in [0..$fhir_encounter_location_41_NUM_ROWS])
+<!-- BEGIN fhir:encounter/location[$fhir_encounter_location_41_COUNTER] -->
+									<TABLE>
+										<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/location[$fhir_encounter_location_41_COUNTER]</font></TH></TR>
+										<TR>
+											<TD align="left" valign="top">
+												<TABLE>
+													<TR><TD>status</TD><TD>$!item.getStringProperty("fhir:encounter/location[$fhir_encounter_location_41_COUNTER]/status")</TD></TR>
+													<TR><TD>period/start</TD><TD>$!item.getStringProperty("fhir:encounter/location[$fhir_encounter_location_41_COUNTER]/period/start")</TD></TR>
+													<TR><TD>period/end</TD><TD>$!item.getStringProperty("fhir:encounter/location[$fhir_encounter_location_41_COUNTER]/period/end")</TD></TR>
+												</TABLE>
+											</TD>
+										</TR>
+										<TR>
+											<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/location[$fhir_encounter_location_41_COUNTER]/location -->
+												<TABLE>
+													<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/location[$fhir_encounter_location_41_COUNTER]/location</font></TH></TR>
+													<TR>
+														<TD align="left" valign="top">
+															<TABLE>
+																<TR><TD>reference</TD><TD>$!item.getStringProperty("fhir:encounter/location[$fhir_encounter_location_41_COUNTER]/location/reference")</TD></TR>
+																<TR><TD>type</TD><TD>$!item.getStringProperty("fhir:encounter/location[$fhir_encounter_location_41_COUNTER]/location/type")</TD></TR>
+																<TR><TD>display</TD><TD>$!item.getStringProperty("fhir:encounter/location[$fhir_encounter_location_41_COUNTER]/location/display")</TD></TR>
+																<TR><TD>ID</TD><TD>$!item.getIntegerProperty("fhir:encounter/location[$fhir_encounter_location_41_COUNTER]/location/ID")</TD></TR>
+															</TABLE>
+														</TD>
+													</TR>
+													<TR>
+														<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/location[$fhir_encounter_location_41_COUNTER]/location/identifier -->
+															<TABLE>
+																<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/location[$fhir_encounter_location_41_COUNTER]/location/identifier</font></TH></TR>
+																<TR>
+																	<TD align="left" valign="top">
+																		<TABLE>
+																			<TR><TD>use</TD><TD>$!item.getStringProperty("fhir:encounter/location[$fhir_encounter_location_41_COUNTER]/location/identifier/use")</TD></TR>
+																			<TR><TD>system</TD><TD>$!item.getStringProperty("fhir:encounter/location[$fhir_encounter_location_41_COUNTER]/location/identifier/system")</TD></TR>
+																			<TR><TD>value</TD><TD>$!item.getStringProperty("fhir:encounter/location[$fhir_encounter_location_41_COUNTER]/location/identifier/value")</TD></TR>
+																			<TR><TD>period/start</TD><TD>$!item.getStringProperty("fhir:encounter/location[$fhir_encounter_location_41_COUNTER]/location/identifier/period/start")</TD></TR>
+																			<TR><TD>period/end</TD><TD>$!item.getStringProperty("fhir:encounter/location[$fhir_encounter_location_41_COUNTER]/location/identifier/period/end")</TD></TR>
+																			<TR><TD>ID</TD><TD>$!item.getIntegerProperty("fhir:encounter/location[$fhir_encounter_location_41_COUNTER]/location/identifier/ID")</TD></TR>
+																		</TABLE>
+																	</TD>
+																</TR>
+																<TR>
+																	<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/location[$fhir_encounter_location_41_COUNTER]/location/identifier/type -->
+																		<TABLE>
+																			<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/location[$fhir_encounter_location_41_COUNTER]/location/identifier/type</font></TH></TR>
+																			<TR>
+																				<TD align="left" valign="top">
+																					<TABLE>
+																						<TR><TD>text</TD><TD>$!item.getStringProperty("fhir:encounter/location[$fhir_encounter_location_41_COUNTER]/location/identifier/type/text")</TD></TR>
+																						<TR><TD>ID</TD><TD>$!item.getIntegerProperty("fhir:encounter/location[$fhir_encounter_location_41_COUNTER]/location/identifier/type/ID")</TD></TR>
+																					</TABLE>
+																				</TD>
+																			</TR>
+																			<TR>
+																				<TD align="left" valign="top">
+																					<TABLE><TR><TD>
+																						#set($fhir_coding_45_NUM_ROWS=$item.getChildItems("fhir:encounter/location[$fhir_encounter_location_41_COUNTER]/location/identifier/type/coding").size() - 1)
+																						#if($fhir_coding_45_NUM_ROWS>=0)
+																							#foreach($fhir_coding_45_COUNTER in [0..$fhir_coding_45_NUM_ROWS])
+<!-- BEGIN fhir:encounter/location[$fhir_encounter_location_41_COUNTER]/location/identifier/type/coding[$fhir_coding_45_COUNTER] -->
+																								<TABLE>
+																									<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/location[$fhir_encounter_location_41_COUNTER]/location/identifier/type/coding[$fhir_coding_45_COUNTER]</font></TH></TR>
+																									<TR>
+																										<TD align="left" valign="top">
+																											<TABLE>
+																												<TR><TD>system</TD><TD>$!item.getStringProperty("fhir:encounter/location[$fhir_encounter_location_41_COUNTER]/location/identifier/type/coding[$fhir_coding_45_COUNTER]/system")</TD></TR>
+																												<TR><TD>version</TD><TD>$!item.getStringProperty("fhir:encounter/location[$fhir_encounter_location_41_COUNTER]/location/identifier/type/coding[$fhir_coding_45_COUNTER]/version")</TD></TR>
+																												<TR><TD>code</TD><TD>$!item.getStringProperty("fhir:encounter/location[$fhir_encounter_location_41_COUNTER]/location/identifier/type/coding[$fhir_coding_45_COUNTER]/code")</TD></TR>
+																												<TR><TD>display</TD><TD>$!item.getStringProperty("fhir:encounter/location[$fhir_encounter_location_41_COUNTER]/location/identifier/type/coding[$fhir_coding_45_COUNTER]/display")</TD></TR>
+																												<TR><TD>userSelected</TD><TD>$!item.getBooleanProperty("fhir:encounter/location[$fhir_encounter_location_41_COUNTER]/location/identifier/type/coding[$fhir_coding_45_COUNTER]/userSelected")</TD></TR>
+																												<TR><TD>ID</TD><TD>$!item.getIntegerProperty("fhir:encounter/location[$fhir_encounter_location_41_COUNTER]/location/identifier/type/coding[$fhir_coding_45_COUNTER]/ID")</TD></TR>
+																											</TABLE>
+																										</TD>
+																									</TR>
+																								</TABLE>
+<!-- END fhir:encounter/location[$fhir_encounter_location_41_COUNTER]/location/identifier/type/coding[$fhir_coding_45_COUNTER] -->
+																							#end
+																						#end
+																					</TD></TR></TABLE>
+																				</TD>
+																			</TR>
+																		</TABLE>
+<!-- END fhir:encounter/location[$fhir_encounter_location_41_COUNTER]/location/identifier/type -->
+																	</TD>
+																</TR>
+															</TABLE>
+<!-- END fhir:encounter/location[$fhir_encounter_location_41_COUNTER]/location/identifier -->
+														</TD>
+													</TR>
+												</TABLE>
+<!-- END fhir:encounter/location[$fhir_encounter_location_41_COUNTER]/location -->
+											</TD>
+										</TR>
+										<TR>
+											<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/location[$fhir_encounter_location_41_COUNTER]/physicalType -->
+												<TABLE>
+													<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/location[$fhir_encounter_location_41_COUNTER]/physicalType</font></TH></TR>
+													<TR>
+														<TD align="left" valign="top">
+															<TABLE>
+																<TR><TD>text</TD><TD>$!item.getStringProperty("fhir:encounter/location[$fhir_encounter_location_41_COUNTER]/physicalType/text")</TD></TR>
+																<TR><TD>ID</TD><TD>$!item.getIntegerProperty("fhir:encounter/location[$fhir_encounter_location_41_COUNTER]/physicalType/ID")</TD></TR>
+															</TABLE>
+														</TD>
+													</TR>
+													<TR>
+														<TD align="left" valign="top">
+															<TABLE><TR><TD>
+																#set($fhir_coding_47_NUM_ROWS=$item.getChildItems("fhir:encounter/location[$fhir_encounter_location_41_COUNTER]/physicalType/coding").size() - 1)
+																#if($fhir_coding_47_NUM_ROWS>=0)
+																	#foreach($fhir_coding_47_COUNTER in [0..$fhir_coding_47_NUM_ROWS])
+<!-- BEGIN fhir:encounter/location[$fhir_encounter_location_41_COUNTER]/physicalType/coding[$fhir_coding_47_COUNTER] -->
+																		<TABLE>
+																			<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/location[$fhir_encounter_location_41_COUNTER]/physicalType/coding[$fhir_coding_47_COUNTER]</font></TH></TR>
+																			<TR>
+																				<TD align="left" valign="top">
+																					<TABLE>
+																						<TR><TD>system</TD><TD>$!item.getStringProperty("fhir:encounter/location[$fhir_encounter_location_41_COUNTER]/physicalType/coding[$fhir_coding_47_COUNTER]/system")</TD></TR>
+																						<TR><TD>version</TD><TD>$!item.getStringProperty("fhir:encounter/location[$fhir_encounter_location_41_COUNTER]/physicalType/coding[$fhir_coding_47_COUNTER]/version")</TD></TR>
+																						<TR><TD>code</TD><TD>$!item.getStringProperty("fhir:encounter/location[$fhir_encounter_location_41_COUNTER]/physicalType/coding[$fhir_coding_47_COUNTER]/code")</TD></TR>
+																						<TR><TD>display</TD><TD>$!item.getStringProperty("fhir:encounter/location[$fhir_encounter_location_41_COUNTER]/physicalType/coding[$fhir_coding_47_COUNTER]/display")</TD></TR>
+																						<TR><TD>userSelected</TD><TD>$!item.getBooleanProperty("fhir:encounter/location[$fhir_encounter_location_41_COUNTER]/physicalType/coding[$fhir_coding_47_COUNTER]/userSelected")</TD></TR>
+																						<TR><TD>ID</TD><TD>$!item.getIntegerProperty("fhir:encounter/location[$fhir_encounter_location_41_COUNTER]/physicalType/coding[$fhir_coding_47_COUNTER]/ID")</TD></TR>
+																					</TABLE>
+																				</TD>
+																			</TR>
+																		</TABLE>
+<!-- END fhir:encounter/location[$fhir_encounter_location_41_COUNTER]/physicalType/coding[$fhir_coding_47_COUNTER] -->
+																	#end
+																#end
+															</TD></TR></TABLE>
+														</TD>
+													</TR>
+												</TABLE>
+<!-- END fhir:encounter/location[$fhir_encounter_location_41_COUNTER]/physicalType -->
+											</TD>
+										</TR>
+									</TABLE>
+<!-- END fhir:encounter/location[$fhir_encounter_location_41_COUNTER] -->
+								#end
+							#end
+						</TD></TR></TABLE>
+					</TD>
+				</TR>
+				<TR>
+					<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/hospitalization/preAdmissionIdentifier -->
+						<TABLE>
+							<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/hospitalization/preAdmissionIdentifier</font></TH></TR>
+							<TR>
+								<TD align="left" valign="top">
+									<TABLE>
+										<TR><TD>use</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/preAdmissionIdentifier/use")</TD></TR>
+										<TR><TD>system</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/preAdmissionIdentifier/system")</TD></TR>
+										<TR><TD>value</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/preAdmissionIdentifier/value")</TD></TR>
+										<TR><TD>period/start</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/preAdmissionIdentifier/period/start")</TD></TR>
+										<TR><TD>period/end</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/preAdmissionIdentifier/period/end")</TD></TR>
+										<TR><TD>ID</TD><TD>$!item.getIntegerProperty("fhir:encounter/hospitalization/preAdmissionIdentifier/ID")</TD></TR>
+									</TABLE>
+								</TD>
+							</TR>
+							<TR>
+								<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/hospitalization/preAdmissionIdentifier/type -->
+									<TABLE>
+										<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/hospitalization/preAdmissionIdentifier/type</font></TH></TR>
+										<TR>
+											<TD align="left" valign="top">
+												<TABLE>
+													<TR><TD>text</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/preAdmissionIdentifier/type/text")</TD></TR>
+													<TR><TD>ID</TD><TD>$!item.getIntegerProperty("fhir:encounter/hospitalization/preAdmissionIdentifier/type/ID")</TD></TR>
+												</TABLE>
+											</TD>
+										</TR>
+										<TR>
+											<TD align="left" valign="top">
+												<TABLE><TR><TD>
+													#set($fhir_coding_50_NUM_ROWS=$item.getChildItems("fhir:encounter/hospitalization/preAdmissionIdentifier/type/coding").size() - 1)
+													#if($fhir_coding_50_NUM_ROWS>=0)
+														#foreach($fhir_coding_50_COUNTER in [0..$fhir_coding_50_NUM_ROWS])
+<!-- BEGIN fhir:encounter/hospitalization/preAdmissionIdentifier/type/coding[$fhir_coding_50_COUNTER] -->
+															<TABLE>
+																<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/hospitalization/preAdmissionIdentifier/type/coding[$fhir_coding_50_COUNTER]</font></TH></TR>
+																<TR>
+																	<TD align="left" valign="top">
+																		<TABLE>
+																			<TR><TD>system</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/preAdmissionIdentifier/type/coding[$fhir_coding_50_COUNTER]/system")</TD></TR>
+																			<TR><TD>version</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/preAdmissionIdentifier/type/coding[$fhir_coding_50_COUNTER]/version")</TD></TR>
+																			<TR><TD>code</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/preAdmissionIdentifier/type/coding[$fhir_coding_50_COUNTER]/code")</TD></TR>
+																			<TR><TD>display</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/preAdmissionIdentifier/type/coding[$fhir_coding_50_COUNTER]/display")</TD></TR>
+																			<TR><TD>userSelected</TD><TD>$!item.getBooleanProperty("fhir:encounter/hospitalization/preAdmissionIdentifier/type/coding[$fhir_coding_50_COUNTER]/userSelected")</TD></TR>
+																			<TR><TD>ID</TD><TD>$!item.getIntegerProperty("fhir:encounter/hospitalization/preAdmissionIdentifier/type/coding[$fhir_coding_50_COUNTER]/ID")</TD></TR>
+																		</TABLE>
+																	</TD>
+																</TR>
+															</TABLE>
+<!-- END fhir:encounter/hospitalization/preAdmissionIdentifier/type/coding[$fhir_coding_50_COUNTER] -->
+														#end
+													#end
+												</TD></TR></TABLE>
+											</TD>
+										</TR>
+									</TABLE>
+<!-- END fhir:encounter/hospitalization/preAdmissionIdentifier/type -->
+								</TD>
+							</TR>
+							<TR>
+								<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/hospitalization/preAdmissionIdentifier/assigner -->
+									<TABLE>
+										<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/hospitalization/preAdmissionIdentifier/assigner</font></TH></TR>
+										<TR>
+											<TD align="left" valign="top">
+												<TABLE>
+													<TR><TD>reference</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/preAdmissionIdentifier/assigner/reference")</TD></TR>
+													<TR><TD>type</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/preAdmissionIdentifier/assigner/type")</TD></TR>
+													<TR><TD>display</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/preAdmissionIdentifier/assigner/display")</TD></TR>
+													<TR><TD>ID</TD><TD>$!item.getIntegerProperty("fhir:encounter/hospitalization/preAdmissionIdentifier/assigner/ID")</TD></TR>
+												</TABLE>
+											</TD>
+										</TR>
+									</TABLE>
+<!-- END fhir:encounter/hospitalization/preAdmissionIdentifier/assigner -->
+								</TD>
+							</TR>
+						</TABLE>
+<!-- END fhir:encounter/hospitalization/preAdmissionIdentifier -->
+					</TD>
+				</TR>
+				<TR>
+					<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/hospitalization/origin -->
+						<TABLE>
+							<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/hospitalization/origin</font></TH></TR>
+							<TR>
+								<TD align="left" valign="top">
+									<TABLE>
+										<TR><TD>reference</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/origin/reference")</TD></TR>
+										<TR><TD>type</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/origin/type")</TD></TR>
+										<TR><TD>display</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/origin/display")</TD></TR>
+										<TR><TD>ID</TD><TD>$!item.getIntegerProperty("fhir:encounter/hospitalization/origin/ID")</TD></TR>
+									</TABLE>
+								</TD>
+							</TR>
+							<TR>
+								<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/hospitalization/origin/identifier -->
+									<TABLE>
+										<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/hospitalization/origin/identifier</font></TH></TR>
+										<TR>
+											<TD align="left" valign="top">
+												<TABLE>
+													<TR><TD>use</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/origin/identifier/use")</TD></TR>
+													<TR><TD>system</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/origin/identifier/system")</TD></TR>
+													<TR><TD>value</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/origin/identifier/value")</TD></TR>
+													<TR><TD>period/start</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/origin/identifier/period/start")</TD></TR>
+													<TR><TD>period/end</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/origin/identifier/period/end")</TD></TR>
+													<TR><TD>ID</TD><TD>$!item.getIntegerProperty("fhir:encounter/hospitalization/origin/identifier/ID")</TD></TR>
+												</TABLE>
+											</TD>
+										</TR>
+										<TR>
+											<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/hospitalization/origin/identifier/type -->
+												<TABLE>
+													<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/hospitalization/origin/identifier/type</font></TH></TR>
+													<TR>
+														<TD align="left" valign="top">
+															<TABLE>
+																<TR><TD>text</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/origin/identifier/type/text")</TD></TR>
+																<TR><TD>ID</TD><TD>$!item.getIntegerProperty("fhir:encounter/hospitalization/origin/identifier/type/ID")</TD></TR>
+															</TABLE>
+														</TD>
+													</TR>
+													<TR>
+														<TD align="left" valign="top">
+															<TABLE><TR><TD>
+																#set($fhir_coding_55_NUM_ROWS=$item.getChildItems("fhir:encounter/hospitalization/origin/identifier/type/coding").size() - 1)
+																#if($fhir_coding_55_NUM_ROWS>=0)
+																	#foreach($fhir_coding_55_COUNTER in [0..$fhir_coding_55_NUM_ROWS])
+<!-- BEGIN fhir:encounter/hospitalization/origin/identifier/type/coding[$fhir_coding_55_COUNTER] -->
+																		<TABLE>
+																			<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/hospitalization/origin/identifier/type/coding[$fhir_coding_55_COUNTER]</font></TH></TR>
+																			<TR>
+																				<TD align="left" valign="top">
+																					<TABLE>
+																						<TR><TD>system</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/origin/identifier/type/coding[$fhir_coding_55_COUNTER]/system")</TD></TR>
+																						<TR><TD>version</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/origin/identifier/type/coding[$fhir_coding_55_COUNTER]/version")</TD></TR>
+																						<TR><TD>code</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/origin/identifier/type/coding[$fhir_coding_55_COUNTER]/code")</TD></TR>
+																						<TR><TD>display</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/origin/identifier/type/coding[$fhir_coding_55_COUNTER]/display")</TD></TR>
+																						<TR><TD>userSelected</TD><TD>$!item.getBooleanProperty("fhir:encounter/hospitalization/origin/identifier/type/coding[$fhir_coding_55_COUNTER]/userSelected")</TD></TR>
+																						<TR><TD>ID</TD><TD>$!item.getIntegerProperty("fhir:encounter/hospitalization/origin/identifier/type/coding[$fhir_coding_55_COUNTER]/ID")</TD></TR>
+																					</TABLE>
+																				</TD>
+																			</TR>
+																		</TABLE>
+<!-- END fhir:encounter/hospitalization/origin/identifier/type/coding[$fhir_coding_55_COUNTER] -->
+																	#end
+																#end
+															</TD></TR></TABLE>
+														</TD>
+													</TR>
+												</TABLE>
+<!-- END fhir:encounter/hospitalization/origin/identifier/type -->
+											</TD>
+										</TR>
+									</TABLE>
+<!-- END fhir:encounter/hospitalization/origin/identifier -->
+								</TD>
+							</TR>
+						</TABLE>
+<!-- END fhir:encounter/hospitalization/origin -->
+					</TD>
+				</TR>
+				<TR>
+					<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/hospitalization/admitSource -->
+						<TABLE>
+							<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/hospitalization/admitSource</font></TH></TR>
+							<TR>
+								<TD align="left" valign="top">
+									<TABLE>
+										<TR><TD>text</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/admitSource/text")</TD></TR>
+										<TR><TD>ID</TD><TD>$!item.getIntegerProperty("fhir:encounter/hospitalization/admitSource/ID")</TD></TR>
+									</TABLE>
+								</TD>
+							</TR>
+							<TR>
+								<TD align="left" valign="top">
+									<TABLE><TR><TD>
+										#set($fhir_coding_57_NUM_ROWS=$item.getChildItems("fhir:encounter/hospitalization/admitSource/coding").size() - 1)
+										#if($fhir_coding_57_NUM_ROWS>=0)
+											#foreach($fhir_coding_57_COUNTER in [0..$fhir_coding_57_NUM_ROWS])
+<!-- BEGIN fhir:encounter/hospitalization/admitSource/coding[$fhir_coding_57_COUNTER] -->
+												<TABLE>
+													<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/hospitalization/admitSource/coding[$fhir_coding_57_COUNTER]</font></TH></TR>
+													<TR>
+														<TD align="left" valign="top">
+															<TABLE>
+																<TR><TD>system</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/admitSource/coding[$fhir_coding_57_COUNTER]/system")</TD></TR>
+																<TR><TD>version</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/admitSource/coding[$fhir_coding_57_COUNTER]/version")</TD></TR>
+																<TR><TD>code</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/admitSource/coding[$fhir_coding_57_COUNTER]/code")</TD></TR>
+																<TR><TD>display</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/admitSource/coding[$fhir_coding_57_COUNTER]/display")</TD></TR>
+																<TR><TD>userSelected</TD><TD>$!item.getBooleanProperty("fhir:encounter/hospitalization/admitSource/coding[$fhir_coding_57_COUNTER]/userSelected")</TD></TR>
+																<TR><TD>ID</TD><TD>$!item.getIntegerProperty("fhir:encounter/hospitalization/admitSource/coding[$fhir_coding_57_COUNTER]/ID")</TD></TR>
+															</TABLE>
+														</TD>
+													</TR>
+												</TABLE>
+<!-- END fhir:encounter/hospitalization/admitSource/coding[$fhir_coding_57_COUNTER] -->
+											#end
+										#end
+									</TD></TR></TABLE>
+								</TD>
+							</TR>
+						</TABLE>
+<!-- END fhir:encounter/hospitalization/admitSource -->
+					</TD>
+				</TR>
+				<TR>
+					<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/hospitalization/reAdmission -->
+						<TABLE>
+							<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/hospitalization/reAdmission</font></TH></TR>
+							<TR>
+								<TD align="left" valign="top">
+									<TABLE>
+										<TR><TD>text</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/reAdmission/text")</TD></TR>
+										<TR><TD>ID</TD><TD>$!item.getIntegerProperty("fhir:encounter/hospitalization/reAdmission/ID")</TD></TR>
+									</TABLE>
+								</TD>
+							</TR>
+							<TR>
+								<TD align="left" valign="top">
+									<TABLE><TR><TD>
+										#set($fhir_coding_59_NUM_ROWS=$item.getChildItems("fhir:encounter/hospitalization/reAdmission/coding").size() - 1)
+										#if($fhir_coding_59_NUM_ROWS>=0)
+											#foreach($fhir_coding_59_COUNTER in [0..$fhir_coding_59_NUM_ROWS])
+<!-- BEGIN fhir:encounter/hospitalization/reAdmission/coding[$fhir_coding_59_COUNTER] -->
+												<TABLE>
+													<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/hospitalization/reAdmission/coding[$fhir_coding_59_COUNTER]</font></TH></TR>
+													<TR>
+														<TD align="left" valign="top">
+															<TABLE>
+																<TR><TD>system</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/reAdmission/coding[$fhir_coding_59_COUNTER]/system")</TD></TR>
+																<TR><TD>version</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/reAdmission/coding[$fhir_coding_59_COUNTER]/version")</TD></TR>
+																<TR><TD>code</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/reAdmission/coding[$fhir_coding_59_COUNTER]/code")</TD></TR>
+																<TR><TD>display</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/reAdmission/coding[$fhir_coding_59_COUNTER]/display")</TD></TR>
+																<TR><TD>userSelected</TD><TD>$!item.getBooleanProperty("fhir:encounter/hospitalization/reAdmission/coding[$fhir_coding_59_COUNTER]/userSelected")</TD></TR>
+																<TR><TD>ID</TD><TD>$!item.getIntegerProperty("fhir:encounter/hospitalization/reAdmission/coding[$fhir_coding_59_COUNTER]/ID")</TD></TR>
+															</TABLE>
+														</TD>
+													</TR>
+												</TABLE>
+<!-- END fhir:encounter/hospitalization/reAdmission/coding[$fhir_coding_59_COUNTER] -->
+											#end
+										#end
+									</TD></TR></TABLE>
+								</TD>
+							</TR>
+						</TABLE>
+<!-- END fhir:encounter/hospitalization/reAdmission -->
+					</TD>
+				</TR>
+				<TR>
+					<TD align="left" valign="top">
+						<TABLE><TR><TD>
+							#set($fhir_codeableConcept_60_NUM_ROWS=$item.getChildItems("fhir:encounter/hospitalization/dietPreference").size() - 1)
+							#if($fhir_codeableConcept_60_NUM_ROWS>=0)
+								#foreach($fhir_codeableConcept_60_COUNTER in [0..$fhir_codeableConcept_60_NUM_ROWS])
+<!-- BEGIN fhir:encounter/hospitalization/dietPreference[$fhir_codeableConcept_60_COUNTER] -->
+									<TABLE>
+										<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/hospitalization/dietPreference[$fhir_codeableConcept_60_COUNTER]</font></TH></TR>
+										<TR>
+											<TD align="left" valign="top">
+												<TABLE>
+													<TR><TD>text</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/dietPreference[$fhir_codeableConcept_60_COUNTER]/text")</TD></TR>
+													<TR><TD>ID</TD><TD>$!item.getIntegerProperty("fhir:encounter/hospitalization/dietPreference[$fhir_codeableConcept_60_COUNTER]/ID")</TD></TR>
+												</TABLE>
+											</TD>
+										</TR>
+										<TR>
+											<TD align="left" valign="top">
+												<TABLE><TR><TD>
+													#set($fhir_coding_61_NUM_ROWS=$item.getChildItems("fhir:encounter/hospitalization/dietPreference[$fhir_codeableConcept_60_COUNTER]/coding").size() - 1)
+													#if($fhir_coding_61_NUM_ROWS>=0)
+														#foreach($fhir_coding_61_COUNTER in [0..$fhir_coding_61_NUM_ROWS])
+<!-- BEGIN fhir:encounter/hospitalization/dietPreference[$fhir_codeableConcept_60_COUNTER]/coding[$fhir_coding_61_COUNTER] -->
+															<TABLE>
+																<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/hospitalization/dietPreference[$fhir_codeableConcept_60_COUNTER]/coding[$fhir_coding_61_COUNTER]</font></TH></TR>
+																<TR>
+																	<TD align="left" valign="top">
+																		<TABLE>
+																			<TR><TD>system</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/dietPreference[$fhir_codeableConcept_60_COUNTER]/coding[$fhir_coding_61_COUNTER]/system")</TD></TR>
+																			<TR><TD>version</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/dietPreference[$fhir_codeableConcept_60_COUNTER]/coding[$fhir_coding_61_COUNTER]/version")</TD></TR>
+																			<TR><TD>code</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/dietPreference[$fhir_codeableConcept_60_COUNTER]/coding[$fhir_coding_61_COUNTER]/code")</TD></TR>
+																			<TR><TD>display</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/dietPreference[$fhir_codeableConcept_60_COUNTER]/coding[$fhir_coding_61_COUNTER]/display")</TD></TR>
+																			<TR><TD>userSelected</TD><TD>$!item.getBooleanProperty("fhir:encounter/hospitalization/dietPreference[$fhir_codeableConcept_60_COUNTER]/coding[$fhir_coding_61_COUNTER]/userSelected")</TD></TR>
+																			<TR><TD>ID</TD><TD>$!item.getIntegerProperty("fhir:encounter/hospitalization/dietPreference[$fhir_codeableConcept_60_COUNTER]/coding[$fhir_coding_61_COUNTER]/ID")</TD></TR>
+																		</TABLE>
+																	</TD>
+																</TR>
+															</TABLE>
+<!-- END fhir:encounter/hospitalization/dietPreference[$fhir_codeableConcept_60_COUNTER]/coding[$fhir_coding_61_COUNTER] -->
+														#end
+													#end
+												</TD></TR></TABLE>
+											</TD>
+										</TR>
+									</TABLE>
+<!-- END fhir:encounter/hospitalization/dietPreference[$fhir_codeableConcept_60_COUNTER] -->
+								#end
+							#end
+						</TD></TR></TABLE>
+					</TD>
+				</TR>
+				<TR>
+					<TD align="left" valign="top">
+						<TABLE><TR><TD>
+							#set($fhir_codeableConcept_62_NUM_ROWS=$item.getChildItems("fhir:encounter/hospitalization/specialCourtesy").size() - 1)
+							#if($fhir_codeableConcept_62_NUM_ROWS>=0)
+								#foreach($fhir_codeableConcept_62_COUNTER in [0..$fhir_codeableConcept_62_NUM_ROWS])
+<!-- BEGIN fhir:encounter/hospitalization/specialCourtesy[$fhir_codeableConcept_62_COUNTER] -->
+									<TABLE>
+										<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/hospitalization/specialCourtesy[$fhir_codeableConcept_62_COUNTER]</font></TH></TR>
+										<TR>
+											<TD align="left" valign="top">
+												<TABLE>
+													<TR><TD>text</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/specialCourtesy[$fhir_codeableConcept_62_COUNTER]/text")</TD></TR>
+													<TR><TD>ID</TD><TD>$!item.getIntegerProperty("fhir:encounter/hospitalization/specialCourtesy[$fhir_codeableConcept_62_COUNTER]/ID")</TD></TR>
+												</TABLE>
+											</TD>
+										</TR>
+										<TR>
+											<TD align="left" valign="top">
+												<TABLE><TR><TD>
+													#set($fhir_coding_63_NUM_ROWS=$item.getChildItems("fhir:encounter/hospitalization/specialCourtesy[$fhir_codeableConcept_62_COUNTER]/coding").size() - 1)
+													#if($fhir_coding_63_NUM_ROWS>=0)
+														#foreach($fhir_coding_63_COUNTER in [0..$fhir_coding_63_NUM_ROWS])
+<!-- BEGIN fhir:encounter/hospitalization/specialCourtesy[$fhir_codeableConcept_62_COUNTER]/coding[$fhir_coding_63_COUNTER] -->
+															<TABLE>
+																<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/hospitalization/specialCourtesy[$fhir_codeableConcept_62_COUNTER]/coding[$fhir_coding_63_COUNTER]</font></TH></TR>
+																<TR>
+																	<TD align="left" valign="top">
+																		<TABLE>
+																			<TR><TD>system</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/specialCourtesy[$fhir_codeableConcept_62_COUNTER]/coding[$fhir_coding_63_COUNTER]/system")</TD></TR>
+																			<TR><TD>version</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/specialCourtesy[$fhir_codeableConcept_62_COUNTER]/coding[$fhir_coding_63_COUNTER]/version")</TD></TR>
+																			<TR><TD>code</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/specialCourtesy[$fhir_codeableConcept_62_COUNTER]/coding[$fhir_coding_63_COUNTER]/code")</TD></TR>
+																			<TR><TD>display</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/specialCourtesy[$fhir_codeableConcept_62_COUNTER]/coding[$fhir_coding_63_COUNTER]/display")</TD></TR>
+																			<TR><TD>userSelected</TD><TD>$!item.getBooleanProperty("fhir:encounter/hospitalization/specialCourtesy[$fhir_codeableConcept_62_COUNTER]/coding[$fhir_coding_63_COUNTER]/userSelected")</TD></TR>
+																			<TR><TD>ID</TD><TD>$!item.getIntegerProperty("fhir:encounter/hospitalization/specialCourtesy[$fhir_codeableConcept_62_COUNTER]/coding[$fhir_coding_63_COUNTER]/ID")</TD></TR>
+																		</TABLE>
+																	</TD>
+																</TR>
+															</TABLE>
+<!-- END fhir:encounter/hospitalization/specialCourtesy[$fhir_codeableConcept_62_COUNTER]/coding[$fhir_coding_63_COUNTER] -->
+														#end
+													#end
+												</TD></TR></TABLE>
+											</TD>
+										</TR>
+									</TABLE>
+<!-- END fhir:encounter/hospitalization/specialCourtesy[$fhir_codeableConcept_62_COUNTER] -->
+								#end
+							#end
+						</TD></TR></TABLE>
+					</TD>
+				</TR>
+				<TR>
+					<TD align="left" valign="top">
+						<TABLE><TR><TD>
+							#set($fhir_codeableConcept_64_NUM_ROWS=$item.getChildItems("fhir:encounter/hospitalization/specialArrangement").size() - 1)
+							#if($fhir_codeableConcept_64_NUM_ROWS>=0)
+								#foreach($fhir_codeableConcept_64_COUNTER in [0..$fhir_codeableConcept_64_NUM_ROWS])
+<!-- BEGIN fhir:encounter/hospitalization/specialArrangement[$fhir_codeableConcept_64_COUNTER] -->
+									<TABLE>
+										<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/hospitalization/specialArrangement[$fhir_codeableConcept_64_COUNTER]</font></TH></TR>
+										<TR>
+											<TD align="left" valign="top">
+												<TABLE>
+													<TR><TD>text</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/specialArrangement[$fhir_codeableConcept_64_COUNTER]/text")</TD></TR>
+													<TR><TD>ID</TD><TD>$!item.getIntegerProperty("fhir:encounter/hospitalization/specialArrangement[$fhir_codeableConcept_64_COUNTER]/ID")</TD></TR>
+												</TABLE>
+											</TD>
+										</TR>
+										<TR>
+											<TD align="left" valign="top">
+												<TABLE><TR><TD>
+													#set($fhir_coding_65_NUM_ROWS=$item.getChildItems("fhir:encounter/hospitalization/specialArrangement[$fhir_codeableConcept_64_COUNTER]/coding").size() - 1)
+													#if($fhir_coding_65_NUM_ROWS>=0)
+														#foreach($fhir_coding_65_COUNTER in [0..$fhir_coding_65_NUM_ROWS])
+<!-- BEGIN fhir:encounter/hospitalization/specialArrangement[$fhir_codeableConcept_64_COUNTER]/coding[$fhir_coding_65_COUNTER] -->
+															<TABLE>
+																<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/hospitalization/specialArrangement[$fhir_codeableConcept_64_COUNTER]/coding[$fhir_coding_65_COUNTER]</font></TH></TR>
+																<TR>
+																	<TD align="left" valign="top">
+																		<TABLE>
+																			<TR><TD>system</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/specialArrangement[$fhir_codeableConcept_64_COUNTER]/coding[$fhir_coding_65_COUNTER]/system")</TD></TR>
+																			<TR><TD>version</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/specialArrangement[$fhir_codeableConcept_64_COUNTER]/coding[$fhir_coding_65_COUNTER]/version")</TD></TR>
+																			<TR><TD>code</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/specialArrangement[$fhir_codeableConcept_64_COUNTER]/coding[$fhir_coding_65_COUNTER]/code")</TD></TR>
+																			<TR><TD>display</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/specialArrangement[$fhir_codeableConcept_64_COUNTER]/coding[$fhir_coding_65_COUNTER]/display")</TD></TR>
+																			<TR><TD>userSelected</TD><TD>$!item.getBooleanProperty("fhir:encounter/hospitalization/specialArrangement[$fhir_codeableConcept_64_COUNTER]/coding[$fhir_coding_65_COUNTER]/userSelected")</TD></TR>
+																			<TR><TD>ID</TD><TD>$!item.getIntegerProperty("fhir:encounter/hospitalization/specialArrangement[$fhir_codeableConcept_64_COUNTER]/coding[$fhir_coding_65_COUNTER]/ID")</TD></TR>
+																		</TABLE>
+																	</TD>
+																</TR>
+															</TABLE>
+<!-- END fhir:encounter/hospitalization/specialArrangement[$fhir_codeableConcept_64_COUNTER]/coding[$fhir_coding_65_COUNTER] -->
+														#end
+													#end
+												</TD></TR></TABLE>
+											</TD>
+										</TR>
+									</TABLE>
+<!-- END fhir:encounter/hospitalization/specialArrangement[$fhir_codeableConcept_64_COUNTER] -->
+								#end
+							#end
+						</TD></TR></TABLE>
+					</TD>
+				</TR>
+				<TR>
+					<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/hospitalization/destination -->
+						<TABLE>
+							<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/hospitalization/destination</font></TH></TR>
+							<TR>
+								<TD align="left" valign="top">
+									<TABLE>
+										<TR><TD>reference</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/destination/reference")</TD></TR>
+										<TR><TD>type</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/destination/type")</TD></TR>
+										<TR><TD>display</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/destination/display")</TD></TR>
+										<TR><TD>ID</TD><TD>$!item.getIntegerProperty("fhir:encounter/hospitalization/destination/ID")</TD></TR>
+									</TABLE>
+								</TD>
+							</TR>
+							<TR>
+								<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/hospitalization/destination/identifier -->
+									<TABLE>
+										<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/hospitalization/destination/identifier</font></TH></TR>
+										<TR>
+											<TD align="left" valign="top">
+												<TABLE>
+													<TR><TD>use</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/destination/identifier/use")</TD></TR>
+													<TR><TD>system</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/destination/identifier/system")</TD></TR>
+													<TR><TD>value</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/destination/identifier/value")</TD></TR>
+													<TR><TD>period/start</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/destination/identifier/period/start")</TD></TR>
+													<TR><TD>period/end</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/destination/identifier/period/end")</TD></TR>
+													<TR><TD>ID</TD><TD>$!item.getIntegerProperty("fhir:encounter/hospitalization/destination/identifier/ID")</TD></TR>
+												</TABLE>
+											</TD>
+										</TR>
+										<TR>
+											<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/hospitalization/destination/identifier/type -->
+												<TABLE>
+													<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/hospitalization/destination/identifier/type</font></TH></TR>
+													<TR>
+														<TD align="left" valign="top">
+															<TABLE>
+																<TR><TD>text</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/destination/identifier/type/text")</TD></TR>
+																<TR><TD>ID</TD><TD>$!item.getIntegerProperty("fhir:encounter/hospitalization/destination/identifier/type/ID")</TD></TR>
+															</TABLE>
+														</TD>
+													</TR>
+													<TR>
+														<TD align="left" valign="top">
+															<TABLE><TR><TD>
+																#set($fhir_coding_69_NUM_ROWS=$item.getChildItems("fhir:encounter/hospitalization/destination/identifier/type/coding").size() - 1)
+																#if($fhir_coding_69_NUM_ROWS>=0)
+																	#foreach($fhir_coding_69_COUNTER in [0..$fhir_coding_69_NUM_ROWS])
+<!-- BEGIN fhir:encounter/hospitalization/destination/identifier/type/coding[$fhir_coding_69_COUNTER] -->
+																		<TABLE>
+																			<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/hospitalization/destination/identifier/type/coding[$fhir_coding_69_COUNTER]</font></TH></TR>
+																			<TR>
+																				<TD align="left" valign="top">
+																					<TABLE>
+																						<TR><TD>system</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/destination/identifier/type/coding[$fhir_coding_69_COUNTER]/system")</TD></TR>
+																						<TR><TD>version</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/destination/identifier/type/coding[$fhir_coding_69_COUNTER]/version")</TD></TR>
+																						<TR><TD>code</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/destination/identifier/type/coding[$fhir_coding_69_COUNTER]/code")</TD></TR>
+																						<TR><TD>display</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/destination/identifier/type/coding[$fhir_coding_69_COUNTER]/display")</TD></TR>
+																						<TR><TD>userSelected</TD><TD>$!item.getBooleanProperty("fhir:encounter/hospitalization/destination/identifier/type/coding[$fhir_coding_69_COUNTER]/userSelected")</TD></TR>
+																						<TR><TD>ID</TD><TD>$!item.getIntegerProperty("fhir:encounter/hospitalization/destination/identifier/type/coding[$fhir_coding_69_COUNTER]/ID")</TD></TR>
+																					</TABLE>
+																				</TD>
+																			</TR>
+																		</TABLE>
+<!-- END fhir:encounter/hospitalization/destination/identifier/type/coding[$fhir_coding_69_COUNTER] -->
+																	#end
+																#end
+															</TD></TR></TABLE>
+														</TD>
+													</TR>
+												</TABLE>
+<!-- END fhir:encounter/hospitalization/destination/identifier/type -->
+											</TD>
+										</TR>
+									</TABLE>
+<!-- END fhir:encounter/hospitalization/destination/identifier -->
+								</TD>
+							</TR>
+						</TABLE>
+<!-- END fhir:encounter/hospitalization/destination -->
+					</TD>
+				</TR>
+				<TR>
+					<TD align="left" valign="top">
+						<TABLE><TR><TD>
+							#set($fhir_encounter_extension_70_NUM_ROWS=$item.getChildItems("fhir:encounter/hospitalization/dischargeDisposition/extension").size() - 1)
+							#if($fhir_encounter_extension_70_NUM_ROWS>=0)
+								#foreach($fhir_encounter_extension_70_COUNTER in [0..$fhir_encounter_extension_70_NUM_ROWS])
+<!-- BEGIN fhir:encounter/hospitalization/dischargeDisposition/extension[$fhir_encounter_extension_70_COUNTER] -->
+									<TABLE>
+										<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/hospitalization/dischargeDisposition/extension[$fhir_encounter_extension_70_COUNTER]</font></TH></TR>
+										<TR>
+											<TD align="left" valign="top">
+												<TABLE>
+												</TABLE>
+											</TD>
+										</TR>
+										<TR>
+											<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/hospitalization/dischargeDisposition/extension[$fhir_encounter_extension_70_COUNTER]/Entlassungsgrund -->
+												<TABLE>
+													<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/hospitalization/dischargeDisposition/extension[$fhir_encounter_extension_70_COUNTER]/Entlassungsgrund</font></TH></TR>
+													<TR>
+														<TD align="left" valign="top">
+															<TABLE>
+																<TR><TD>url</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/dischargeDisposition/extension[$fhir_encounter_extension_70_COUNTER]/Entlassungsgrund/url")</TD></TR>
+																<TR><TD>value</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/dischargeDisposition/extension[$fhir_encounter_extension_70_COUNTER]/Entlassungsgrund/value")</TD></TR>
+															</TABLE>
+														</TD>
+													</TR>
+												</TABLE>
+<!-- END fhir:encounter/hospitalization/dischargeDisposition/extension[$fhir_encounter_extension_70_COUNTER]/Entlassungsgrund -->
+											</TD>
+										</TR>
+									</TABLE>
+<!-- END fhir:encounter/hospitalization/dischargeDisposition/extension[$fhir_encounter_extension_70_COUNTER] -->
+								#end
+							#end
+						</TD></TR></TABLE>
+					</TD>
+				</TR>
+				<TR>
+					<TD align="left" valign="top">
+						<TABLE><TR><TD>
+							#set($fhir_coding_72_NUM_ROWS=$item.getChildItems("fhir:encounter/hospitalization/dischargeDisposition/coding").size() - 1)
+							#if($fhir_coding_72_NUM_ROWS>=0)
+								#foreach($fhir_coding_72_COUNTER in [0..$fhir_coding_72_NUM_ROWS])
+<!-- BEGIN fhir:encounter/hospitalization/dischargeDisposition/coding[$fhir_coding_72_COUNTER] -->
+									<TABLE>
+										<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/hospitalization/dischargeDisposition/coding[$fhir_coding_72_COUNTER]</font></TH></TR>
+										<TR>
+											<TD align="left" valign="top">
+												<TABLE>
+													<TR><TD>system</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/dischargeDisposition/coding[$fhir_coding_72_COUNTER]/system")</TD></TR>
+													<TR><TD>version</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/dischargeDisposition/coding[$fhir_coding_72_COUNTER]/version")</TD></TR>
+													<TR><TD>code</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/dischargeDisposition/coding[$fhir_coding_72_COUNTER]/code")</TD></TR>
+													<TR><TD>display</TD><TD>$!item.getStringProperty("fhir:encounter/hospitalization/dischargeDisposition/coding[$fhir_coding_72_COUNTER]/display")</TD></TR>
+													<TR><TD>userSelected</TD><TD>$!item.getBooleanProperty("fhir:encounter/hospitalization/dischargeDisposition/coding[$fhir_coding_72_COUNTER]/userSelected")</TD></TR>
+													<TR><TD>ID</TD><TD>$!item.getIntegerProperty("fhir:encounter/hospitalization/dischargeDisposition/coding[$fhir_coding_72_COUNTER]/ID")</TD></TR>
+												</TABLE>
+											</TD>
+										</TR>
+									</TABLE>
+<!-- END fhir:encounter/hospitalization/dischargeDisposition/coding[$fhir_coding_72_COUNTER] -->
+								#end
+							#end
+						</TD></TR></TABLE>
+					</TD>
+				</TR>
+			</TABLE>
+<!-- END fhir:encounter -->
+		</TD>
+	</TR>
+</TABLE><BR>#parse("/screens/ReportProjectSpecificFields.vm")

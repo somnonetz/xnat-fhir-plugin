@@ -36,6 +36,12 @@ public class FhirEncounterService extends ComplexDatatypeValidatable {
         return "fhir-MII";
     }
 
+    @Nonnull
+    public static String getEncounterDataLabelForSubjectId(String subjectId) {
+        // todo: make incresed experiment ID in label
+        return "fhir_encounter_" + subjectId + "01";
+    }
+
     /**
      * Build a new object out of the given data
      * @param data JSON data submitted to create the new object
@@ -57,7 +63,7 @@ public class FhirEncounterService extends ComplexDatatypeValidatable {
 
         try {
             // Build subject record to associate the encounter record with
-            XnatSubjectdata subject = new XnatSubjectdata(user);
+            /*XnatSubjectdata subject = new XnatSubjectdata(user);
             subject.setId(FhirXnatProjectHelper.makeSubjectId(subject, user));
             subject.setProject(getEncounterProject(user));
             subject.setLabel(FhirXnatProjectHelper.getLabelForSubject(subject));
@@ -65,7 +71,7 @@ public class FhirEncounterService extends ComplexDatatypeValidatable {
             if (!subject.save(user, true, false, null)) {
                 _log.error("Failed to save subject record");
                 return null;
-            }
+            }*/
 
             // Build the result object
             FhirEncounter encounter = new FhirEncounter(user);
@@ -187,12 +193,12 @@ public class FhirEncounterService extends ComplexDatatypeValidatable {
                 }
             }
 
-            FhirReferenceI encounterSubject = _referenceService.createReference((Map<String, Object>) data.get("subject"), user);
+            FhirReferenceI encounterSubject = _referenceService.createReference((Map<String, Object>) data.get("fhirSubject"), user);
             if (encounterSubject == null) {
                 _log.error("Failed to construct subject");
                 return null;
             }
-            encounter.setSubject(encounterSubject);
+            encounter.setFhirsubject(encounterSubject);
 
             final HashMap<String, Object> diagnosis = (HashMap<String, Object>)data.get("diagnosis");
             if (diagnosis != null) {
@@ -321,7 +327,7 @@ public class FhirEncounterService extends ComplexDatatypeValidatable {
                 }
             }
 
-            subject.addExperiments_experiment(encounter);
+            //subject.addExperiments_experiment(encounter);
             encounter.save(user, true, true, null);
 
             return encounter;
@@ -396,7 +402,7 @@ public class FhirEncounterService extends ComplexDatatypeValidatable {
         Datatypes.addIfNotEmpty(serviceType, "coding", items);
         result.put("serviceType", serviceType);
 
-        Datatypes.addIfPresent(result, "subject", _referenceService.makePropertyMap(encounter.getSubject(), user));
+        Datatypes.addIfPresent(result, "fhirSubject", _referenceService.makePropertyMap(encounter.getFhirsubject(), user));
 
         if (encounter.getDiagnosis_condition() != null) {
             Map<String, Object> diagnosis = new HashMap<>();
@@ -486,7 +492,7 @@ public class FhirEncounterService extends ComplexDatatypeValidatable {
 
     @Nullable
     public static FhirEncounterI getEncounterForPatient(String patientId, UserI user) {
-        return getFromDB("subjec/reference", patientId, user);
+        return getFromDB("subject/reference", patientId, user);
     }
 
     @Nullable
@@ -496,7 +502,7 @@ public class FhirEncounterService extends ComplexDatatypeValidatable {
 
     @Nullable
     public static List<FhirEncounterI> getEncounterForDepartment(String departmentId, UserI user) {
-        return getListFromDB("identifier/Aufnahmenummer/value", departmentId, user);
+        return getListFromDB("serviceType/coding/Fachabteilungsschluessel/code", departmentId, user);
     }
 
     @Nullable
@@ -507,7 +513,6 @@ public class FhirEncounterService extends ComplexDatatypeValidatable {
             return null;
         }
         try {
-            // todo: period.end is nullable, if we need to add into the search criteria
             /* search criteria with period: find all records that partly or whole matched with the given period,
              not only the records that inside the given period.
              */
@@ -519,12 +524,22 @@ public class FhirEncounterService extends ComplexDatatypeValidatable {
             scStart.setValue(end);
             cc.add(scStart);
 
+            CriteriaCollection or = new CriteriaCollection("OR");
+
             SearchCriteria scEnd = new SearchCriteria();
             scEnd.setFieldWXMLPath(FhirEncounterBean.SCHEMA_ELEMENT_NAME + "/period/end");
             scEnd.setOverrideFormatting(true);
             scEnd.setComparison_type(" >= ");
             scEnd.setValue(start);
-            cc.add(scEnd);
+            or.add(scEnd);
+
+            scEnd = new SearchCriteria();
+            scEnd.setFieldWXMLPath(FhirEncounterBean.SCHEMA_ELEMENT_NAME + "/period/end");
+            scEnd.setComparison_type("IS");
+            scEnd.setValue("NULL");
+            or.add(scEnd);
+
+            cc.add(or);
 
             ItemCollection results = ItemSearch.GetItems(cc, user, true);
 
@@ -615,7 +630,7 @@ public class FhirEncounterService extends ComplexDatatypeValidatable {
         return Datatypes.makeList("encounterMeta", "encounterMeta.versionId", "encounterMeta.lastUpdated",
                 "encountermeta.source", "encountermeta.profile", "encountermeta.security", "encountermeta.tag",
                 "AufnahmeExtension", "identifier", "status", "encounterclass", "type", "period", "period.start",
-                "period.end", "servicetype", "servicetype.coding", "subject", "diagnosis", "diagnosis.condition",
+                "period.end", "servicetype", "servicetype.coding", "fhirSubject", "diagnosis", "diagnosis.condition",
                 "diagnosis.use", "diagnosis.rank", "location", "hospitalization", "hospitalization.preadmissionidentifier",
                 "hospitalization.origin", "hospitalization.admitsource", "hospitalization.readmission",
                 "hospitalization.dietpreference", "hospitalization.specialcourtesy", "hospitalization.specialarrangement",

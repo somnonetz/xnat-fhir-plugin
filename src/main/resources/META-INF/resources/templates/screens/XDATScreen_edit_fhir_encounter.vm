@@ -1,0 +1,1553 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+$page.setTitle("XDAT")
+$page.setLinkColor($ui.alink)
+$page.setVlinkColor($ui.vlink)
+
+#set($months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"])
+#set($days = [ 1..31 ])
+#set($years = [ $!turbineUtils.getYear()..1900])
+#if ($data.message)
+<font color="red" size="3">$data.message</font>
+#end
+<p>
+<form ID="encounterForm" name="encounterForm" method="post" action="$link.setAction("FhirEncounterModifyAction")">
+<input type="hidden" name="project" value="$!{project}" >
+	<input type="hidden" name="part_id" value="$!{subjectId}">
+	<input type="hidden" name="fhir:encounter/ID" value='$!item.getProperty("ID")'/>
+	<input type="hidden" name="fhir:encounter/project" value='$!{project}'/>
+	<input type="hidden" name="fhir:encounter/subject_ID" value='$!{subjectId}'/>
+	<input type="hidden" name="fhir:encounter/label" value='$!label'/>
+	<input type="hidden" name="$om.getXSIType()/ID" id="$om.getXSIType()/ID" value="$!om.getId()"/>
+#if($vr)
+	<font color="red">Invalid parameters:<BR>$vr.toHTML()</font>
+<HR>
+#end
+
+<TABLE width="100%">
+	<TR>
+		<TD>
+			<table width="100%">
+				<TR>
+					<TD align="left" valign="middle">
+						<DIV class="edit_title">FHIREncounter Details</DIV>
+					</TD>
+				</TR>
+			</TABLE>
+		</TD>
+	</TR>
+	<TR>
+		<TD>
+			<TABLE width="100%">
+				<TR>
+					<TD valign="top">
+						<TABLE>
+							<TR><TD colspan='2'>
+								#parse("/screens/xnat_edit_subjectAssessorData.vm")
+							</TD></TR>
+							<tr>
+								<TD colspan="2">#parse("/screens/EditProjectSpecificFields.vm")</TD>
+							</tr>
+							<TR><TD>age</TD><TD>#xdatTextBox("fhir:encounter/age" $item "" $vr)</TD></TR>
+							<TR><TD>date</TD><TD>#xdatDateBox("fhir:encounter/date" $item $vr $years)</TD></TR>
+							<TR><TD>time</TD><TD>#xdatTextBox("fhir:encounter/time" $item "" $vr)</TD></TR>
+							<TR><TD>duration</TD><TD>#xdatTextBox("fhir:encounter/duration" $item "" $vr)</TD></TR>
+							<TR><TD>delay</TD><TD>#xdatTextBox("fhir:encounter/delay" $item "" $vr)</TD></TR>
+							<TR><TD>delay/ref_expt_id</TD><TD>#xdatStringBox("fhir:encounter/delay/ref_expt_id" $item "" $vr)</TD></TR>
+							<TR><TD>note</TD><TD>#xdatStringBox("fhir:encounter/note" $item "" $vr)</TD></TR>
+							<TR><TD>acquisition_site</TD><TD>#xdatStringBox("fhir:encounter/acquisition_site" $item "" $vr)</TD></TR>
+							<TR><TD>visit_id</TD><TD>#xdatStringBox("fhir:encounter/visit_id" $item "" $vr)</TD></TR>
+							<TR><TD>visit</TD><TD>#xdatStringBox("fhir:encounter/visit" $item "" $vr)</TD></TR>
+							<TR><TD>version</TD><TD>#xdatTextBox("fhir:encounter/version" $item "" $vr)</TD></TR>
+							<TR><TD>original</TD><TD>#xdatStringBox("fhir:encounter/original" $item "" $vr)</TD></TR>
+							<TR><TD>protocol</TD><TD>#xdatStringBox("fhir:encounter/protocol" $item "" $vr)</TD></TR>
+							<TR><TD>label</TD><TD>#xdatStringBox("fhir:encounter/label" $item "" $vr)</TD></TR>
+							<TR><TD>encounterMeta/source</TD><TD>#xdatStringBox("fhir:encounter/encounterMeta/source" $item "" $vr)</TD></TR>
+							<TR><TD>status</TD><TD>#xdatStringBox("fhir:encounter/status" $item "" $vr)</TD></TR>
+							<TR><TD>period/start</TD><TD>#xdatStringBox("fhir:encounter/period/start" $item "" $vr)</TD></TR>
+							<TR><TD>period/end</TD><TD>#xdatStringBox("fhir:encounter/period/end" $item "" $vr)</TD></TR>
+							<TR><TD>diagnosis/rank</TD><TD>#xdatTextBox("fhir:encounter/diagnosis/rank" $item "" $vr)</TD></TR>
+							<TR><TD>hospitalization/dischargeDisposition/text</TD><TD>#xdatStringBox("fhir:encounter/hospitalization/dischargeDisposition/text" $item "" $vr)</TD></TR>
+						</TABLE>
+					</TD>
+				</TR>
+			</TABLE>
+		</TD>
+	</TR>
+	<TR>
+		<TD>
+<!-- BEGIN fhir:encounter -->
+			<TABLE>
+				<TR><TH align="left"><font face="$ui.sansSerifFonts" size="2">Related Items</font></TH></TR>
+				<TR>
+					<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/investigator -->
+						<TABLE>
+							<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/investigator</font></TH></TR>
+							<TR>
+								<TD align="left" valign="top">
+									<TABLE>
+										<TR><TD>title</TD><TD>#xdatStringBox("fhir:encounter/investigator/title" $item "" $vr)</TD></TR>
+										<TR><TD>firstname</TD><TD>#xdatStringBox("fhir:encounter/investigator/firstname" $item "" $vr)</TD></TR>
+										<TR><TD>lastname</TD><TD>#xdatStringBox("fhir:encounter/investigator/lastname" $item "" $vr)</TD></TR>
+										<TR><TD>institution</TD><TD>#xdatStringBox("fhir:encounter/investigator/institution" $item "" $vr)</TD></TR>
+										<TR><TD>department</TD><TD>#xdatStringBox("fhir:encounter/investigator/department" $item "" $vr)</TD></TR>
+										<TR><TD>email</TD><TD>#xdatStringBox("fhir:encounter/investigator/email" $item "" $vr)</TD></TR>
+										<TR><TD>phone</TD><TD>#xdatStringBox("fhir:encounter/investigator/phone" $item "" $vr)</TD></TR>
+										<TR><TD>ID</TD><TD>#xdatStringBox("fhir:encounter/investigator/ID" $item "" $vr)</TD></TR>
+																#xdatHiddenBox("fhir:encounter/investigator/xnat_investigatorData_id" $item "")
+									</TABLE>
+								</TD>
+							</TR>
+						</TABLE>
+<!-- END fhir:encounter/investigator -->
+					</TD>
+				</TR>
+				<TR>
+					<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/validation -->
+						<TABLE>
+							<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/validation</font></TH></TR>
+							<TR>
+								<TD align="left" valign="top">
+									<TABLE>
+										<TR><TD>method</TD><TD>#xdatStringBox("fhir:encounter/validation/method" $item "" $vr)</TD></TR>
+										<TR><TD>date</TD><TD>#xdatDateBox("fhir:encounter/validation/date" $item $vr $years)</TD></TR>
+										<TR><TD>notes</TD><TD>#xdatStringBox("fhir:encounter/validation/notes" $item "" $vr)</TD></TR>
+										<TR><TD>validated_by</TD><TD>#xdatStringBox("fhir:encounter/validation/validated_by" $item "" $vr)</TD></TR>
+										<TR><TD>status</TD><TD>#xdatStringBox("fhir:encounter/validation/status" $item "" $vr)</TD></TR>
+																#xdatHiddenBox("fhir:encounter/validation/xnat_validationData_id" $item "")
+									</TABLE>
+								</TD>
+							</TR>
+						</TABLE>
+<!-- END fhir:encounter/validation -->
+					</TD>
+				</TR>
+				<TR>
+					<TD align="left" valign="top">
+						<TABLE><TR><TD>
+							#foreach($xnat_abstractResource_3_COUNTER in [0..0])
+<!-- BEGIN fhir:encounter/resources/resource[$xnat_abstractResource_3_COUNTER] -->
+								<TABLE>
+									<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/resources/resource[$xnat_abstractResource_3_COUNTER]</font></TH></TR>
+									<TR>
+										<TD align="left" valign="top">
+											<TABLE>
+												<TR><TD>note</TD><TD>#xdatStringBox("fhir:encounter/resources/resource[$xnat_abstractResource_3_COUNTER]/note" $item "" $vr)</TD></TR>
+												<TR><TD>label</TD><TD>#xdatStringBox("fhir:encounter/resources/resource[$xnat_abstractResource_3_COUNTER]/label" $item "" $vr)</TD></TR>
+												<TR><TD>file_count</TD><TD>#xdatTextBox("fhir:encounter/resources/resource[$xnat_abstractResource_3_COUNTER]/file_count" $item "" $vr)</TD></TR>
+												<TR><TD>file_size</TD><TD>#xdatTextBox("fhir:encounter/resources/resource[$xnat_abstractResource_3_COUNTER]/file_size" $item "" $vr)</TD></TR>
+																		#xdatHiddenBox("fhir:encounter/resources/resource[$xnat_abstractResource_3_COUNTER]/xnat_abstractResource_id" $item "")
+											</TABLE>
+										</TD>
+									</TR>
+<!-- BEGIN fhir:encounter/resources/resource[$xnat_abstractResource_3_COUNTER]/tags/tag -->
+									<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/resources/resource[$xnat_abstractResource_3_COUNTER]/tags/tag</font></TH></TR>
+									<TR>
+										<TD align="left" valign="top">
+											<TABLE>
+												<TR>
+													<TD>tag</TD>
+													<TD>name</TD>
+												</TR>
+												#foreach($xnat_abstractResource_tag_4_COUNTER in [0..0])
+													<TR>
+														<TD>#xdatTextBox("fhir:encounter/resources/resource[$xnat_abstractResource_3_COUNTER]/tags/tag[$xnat_abstractResource_tag_4_COUNTER]/tag" $item "" $vr)</TD>
+														<TD>#xdatTextBox("fhir:encounter/resources/resource[$xnat_abstractResource_3_COUNTER]/tags/tag[$xnat_abstractResource_tag_4_COUNTER]/name" $item "" $vr)</TD>
+														#xdatHiddenBox("fhir:encounter/resources/resource[$xnat_abstractResource_3_COUNTER]/tags/tag[$xnat_abstractResource_tag_4_COUNTER]/xnat_abstractResource_tag_id" $item "")
+													</TR>
+												#end
+											</TABLE>
+										</TD>
+									</TR>
+<!-- END fhir:encounter/resources/resource[$xnat_abstractResource_3_COUNTER]/tags/tag -->
+								</TABLE>
+<!-- END fhir:encounter/resources/resource[$xnat_abstractResource_3_COUNTER] -->
+							#end
+						</TD></TR></TABLE>
+					</TD>
+				</TR>
+<!-- BEGIN fhir:encounter/fields/field -->
+				<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/fields/field</font></TH></TR>
+				<TR>
+					<TD align="left" valign="top">
+						<TABLE>
+							<TR>
+								<TD>field</TD>
+								<TD>name</TD>
+							</TR>
+							#foreach($xnat_experimentData_field_4_COUNTER in [0..0])
+								<TR>
+									<TD>#xdatTextBox("fhir:encounter/fields/field[$xnat_experimentData_field_4_COUNTER]/field" $item "" $vr)</TD>
+									<TD>#xdatTextBox("fhir:encounter/fields/field[$xnat_experimentData_field_4_COUNTER]/name" $item "" $vr)</TD>
+									#xdatHiddenBox("fhir:encounter/fields/field[$xnat_experimentData_field_4_COUNTER]/xnat_experimentData_field_id" $item "")
+								</TR>
+							#end
+						</TABLE>
+					</TD>
+				</TR>
+<!-- END fhir:encounter/fields/field -->
+				<TR>
+					<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/encounterMeta/versionId -->
+						<TABLE>
+							<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/encounterMeta/versionId</font></TH></TR>
+							<TR>
+								<TD align="left" valign="top">
+									<TABLE>
+										<TR><TD>value</TD><TD>#xdatStringBox("fhir:encounter/encounterMeta/versionId/value" $item "" $vr)</TD></TR>
+																#xdatHiddenBox("fhir:encounter/encounterMeta/versionId/fhir_singleStringValue_id" $item "")
+									</TABLE>
+								</TD>
+							</TR>
+						</TABLE>
+<!-- END fhir:encounter/encounterMeta/versionId -->
+					</TD>
+				</TR>
+				<TR>
+					<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/encounterMeta/lastUpdated -->
+						<TABLE>
+							<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/encounterMeta/lastUpdated</font></TH></TR>
+							<TR>
+								<TD align="left" valign="top">
+									<TABLE>
+										<TR><TD>value</TD><TD>#xdatStringBox("fhir:encounter/encounterMeta/lastUpdated/value" $item "" $vr)</TD></TR>
+																#xdatHiddenBox("fhir:encounter/encounterMeta/lastUpdated/fhir_singleStringValue_id" $item "")
+									</TABLE>
+								</TD>
+							</TR>
+						</TABLE>
+<!-- END fhir:encounter/encounterMeta/lastUpdated -->
+					</TD>
+				</TR>
+<!-- BEGIN fhir:encounter/encounterMeta/profile -->
+				<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/encounterMeta/profile</font></TH></TR>
+				<TR>
+					<TD align="left" valign="top">
+						<TABLE>
+							<TR>
+								<TD>value</TD>
+							</TR>
+							#foreach($fhir_singleStringValue_6_COUNTER in [0..0])
+								<TR>
+									<TD>#xdatTextBox("fhir:encounter/encounterMeta/profile[$fhir_singleStringValue_6_COUNTER]/value" $item "" $vr)</TD>
+									#xdatHiddenBox("fhir:encounter/encounterMeta/profile[$fhir_singleStringValue_6_COUNTER]/fhir_singleStringValue_id" $item "")
+								</TR>
+							#end
+						</TABLE>
+					</TD>
+				</TR>
+<!-- END fhir:encounter/encounterMeta/profile -->
+<!-- BEGIN fhir:encounter/encounterMeta/security -->
+				<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/encounterMeta/security</font></TH></TR>
+				<TR>
+					<TD align="left" valign="top">
+						<TABLE>
+							<TR>
+								<TD>system</TD>
+								<TD>version</TD>
+								<TD>code</TD>
+								<TD>display</TD>
+								<TD>userSelected</TD>
+								<TD>ID</TD>
+							</TR>
+							#foreach($fhir_coding_6_COUNTER in [0..0])
+								<TR>
+									<TD>#xdatTextBox("fhir:encounter/encounterMeta/security[$fhir_coding_6_COUNTER]/system" $item "" $vr)</TD>
+									<TD>#xdatTextBox("fhir:encounter/encounterMeta/security[$fhir_coding_6_COUNTER]/version" $item "" $vr)</TD>
+									<TD>#xdatTextBox("fhir:encounter/encounterMeta/security[$fhir_coding_6_COUNTER]/code" $item "" $vr)</TD>
+									<TD>#xdatTextBox("fhir:encounter/encounterMeta/security[$fhir_coding_6_COUNTER]/display" $item "" $vr)</TD>
+									<TD>#xdatTextBox("fhir:encounter/encounterMeta/security[$fhir_coding_6_COUNTER]/userSelected" $item "" $vr)</TD>
+									<TD>#xdatTextBox("fhir:encounter/encounterMeta/security[$fhir_coding_6_COUNTER]/ID" $item "" $vr)</TD>
+								</TR>
+							#end
+						</TABLE>
+					</TD>
+				</TR>
+<!-- END fhir:encounter/encounterMeta/security -->
+<!-- BEGIN fhir:encounter/encounterMeta/tag -->
+				<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/encounterMeta/tag</font></TH></TR>
+				<TR>
+					<TD align="left" valign="top">
+						<TABLE>
+							<TR>
+								<TD>system</TD>
+								<TD>version</TD>
+								<TD>code</TD>
+								<TD>display</TD>
+								<TD>userSelected</TD>
+								<TD>ID</TD>
+							</TR>
+							#foreach($fhir_coding_6_COUNTER in [0..0])
+								<TR>
+									<TD>#xdatTextBox("fhir:encounter/encounterMeta/tag[$fhir_coding_6_COUNTER]/system" $item "" $vr)</TD>
+									<TD>#xdatTextBox("fhir:encounter/encounterMeta/tag[$fhir_coding_6_COUNTER]/version" $item "" $vr)</TD>
+									<TD>#xdatTextBox("fhir:encounter/encounterMeta/tag[$fhir_coding_6_COUNTER]/code" $item "" $vr)</TD>
+									<TD>#xdatTextBox("fhir:encounter/encounterMeta/tag[$fhir_coding_6_COUNTER]/display" $item "" $vr)</TD>
+									<TD>#xdatTextBox("fhir:encounter/encounterMeta/tag[$fhir_coding_6_COUNTER]/userSelected" $item "" $vr)</TD>
+									<TD>#xdatTextBox("fhir:encounter/encounterMeta/tag[$fhir_coding_6_COUNTER]/ID" $item "" $vr)</TD>
+								</TR>
+							#end
+						</TABLE>
+					</TD>
+				</TR>
+<!-- END fhir:encounter/encounterMeta/tag -->
+				<TR>
+					<TD align="left" valign="top">
+						<TABLE><TR><TD>
+							#foreach($fhir_encounter_AufnahmeExtension_6_COUNTER in [0..0])
+<!-- BEGIN fhir:encounter/AufnahmeExtension[$fhir_encounter_AufnahmeExtension_6_COUNTER] -->
+								<TABLE>
+									<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/AufnahmeExtension[$fhir_encounter_AufnahmeExtension_6_COUNTER]</font></TH></TR>
+									<TR>
+										<TD align="left" valign="top">
+											<TABLE>
+																		#xdatHiddenBox("fhir:encounter/AufnahmeExtension[$fhir_encounter_AufnahmeExtension_6_COUNTER]/fhir_encounter_AufnahmeExtension_id" $item "")
+											</TABLE>
+										</TD>
+									</TR>
+									<TR>
+										<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/AufnahmeExtension[$fhir_encounter_AufnahmeExtension_6_COUNTER]/Aufnahmegrund -->
+											<TABLE>
+												<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/AufnahmeExtension[$fhir_encounter_AufnahmeExtension_6_COUNTER]/Aufnahmegrund</font></TH></TR>
+												<TR>
+													<TD align="left" valign="top">
+														<TABLE>
+																					#xdatHiddenBox("fhir:encounter/AufnahmeExtension[$fhir_encounter_AufnahmeExtension_6_COUNTER]/Aufnahmegrund/fhir_encounterExtensionAufnahmegrund_id" $item "")
+														</TABLE>
+													</TD>
+												</TR>
+<!-- BEGIN fhir:encounter/AufnahmeExtension[$fhir_encounter_AufnahmeExtension_6_COUNTER]/Aufnahmegrund/extension -->
+												<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/AufnahmeExtension[$fhir_encounter_AufnahmeExtension_6_COUNTER]/Aufnahmegrund/extension</font></TH></TR>
+												<TR>
+													<TD align="left" valign="top">
+														<TABLE>
+															<TR>
+																<TD>url</TD>
+																<TD>value</TD>
+																<TD>url</TD>
+																<TD>value</TD>
+																<TD>url</TD>
+																<TD>value</TD>
+															</TR>
+															#foreach($fhir_AufnahmegrundExtension_8_COUNTER in [0..0])
+																<TR>
+																	<TD>#xdatTextBox("fhir:encounter/AufnahmeExtension[$fhir_encounter_AufnahmeExtension_6_COUNTER]/Aufnahmegrund/extension[$fhir_AufnahmegrundExtension_8_COUNTER]/ErsteUndZweiteStelle/url" $item "" $vr)</TD>
+																	<TD>#xdatTextBox("fhir:encounter/AufnahmeExtension[$fhir_encounter_AufnahmeExtension_6_COUNTER]/Aufnahmegrund/extension[$fhir_AufnahmegrundExtension_8_COUNTER]/ErsteUndZweiteStelle/value" $item "" $vr)</TD>
+																	#xdatHiddenBox("fhir:encounter/AufnahmeExtension[$fhir_encounter_AufnahmeExtension_6_COUNTER]/Aufnahmegrund/extension[$fhir_AufnahmegrundExtension_8_COUNTER]/ErsteUndZweiteStelle/fhir_extension_id" $item "")
+																	<TD>#xdatTextBox("fhir:encounter/AufnahmeExtension[$fhir_encounter_AufnahmeExtension_6_COUNTER]/Aufnahmegrund/extension[$fhir_AufnahmegrundExtension_8_COUNTER]/DritteStelle/url" $item "" $vr)</TD>
+																	<TD>#xdatTextBox("fhir:encounter/AufnahmeExtension[$fhir_encounter_AufnahmeExtension_6_COUNTER]/Aufnahmegrund/extension[$fhir_AufnahmegrundExtension_8_COUNTER]/DritteStelle/value" $item "" $vr)</TD>
+																	#xdatHiddenBox("fhir:encounter/AufnahmeExtension[$fhir_encounter_AufnahmeExtension_6_COUNTER]/Aufnahmegrund/extension[$fhir_AufnahmegrundExtension_8_COUNTER]/DritteStelle/fhir_extension_id" $item "")
+																	<TD>#xdatTextBox("fhir:encounter/AufnahmeExtension[$fhir_encounter_AufnahmeExtension_6_COUNTER]/Aufnahmegrund/extension[$fhir_AufnahmegrundExtension_8_COUNTER]/VierteStelle/url" $item "" $vr)</TD>
+																	<TD>#xdatTextBox("fhir:encounter/AufnahmeExtension[$fhir_encounter_AufnahmeExtension_6_COUNTER]/Aufnahmegrund/extension[$fhir_AufnahmegrundExtension_8_COUNTER]/VierteStelle/value" $item "" $vr)</TD>
+																	#xdatHiddenBox("fhir:encounter/AufnahmeExtension[$fhir_encounter_AufnahmeExtension_6_COUNTER]/Aufnahmegrund/extension[$fhir_AufnahmegrundExtension_8_COUNTER]/VierteStelle/fhir_extension_id" $item "")
+																	#xdatHiddenBox("fhir:encounter/AufnahmeExtension[$fhir_encounter_AufnahmeExtension_6_COUNTER]/Aufnahmegrund/extension[$fhir_AufnahmegrundExtension_8_COUNTER]/fhir_AufnahmegrundExtension_id" $item "")
+																</TR>
+															#end
+														</TABLE>
+													</TD>
+												</TR>
+<!-- END fhir:encounter/AufnahmeExtension[$fhir_encounter_AufnahmeExtension_6_COUNTER]/Aufnahmegrund/extension -->
+											</TABLE>
+<!-- END fhir:encounter/AufnahmeExtension[$fhir_encounter_AufnahmeExtension_6_COUNTER]/Aufnahmegrund -->
+										</TD>
+									</TR>
+								</TABLE>
+<!-- END fhir:encounter/AufnahmeExtension[$fhir_encounter_AufnahmeExtension_6_COUNTER] -->
+							#end
+						</TD></TR></TABLE>
+					</TD>
+				</TR>
+				<TR>
+					<TD align="left" valign="top">
+						<TABLE><TR><TD>
+							#foreach($fhir_encounter_identifier_8_COUNTER in [0..0])
+<!-- BEGIN fhir:encounter/identifier[$fhir_encounter_identifier_8_COUNTER] -->
+								<TABLE>
+									<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/identifier[$fhir_encounter_identifier_8_COUNTER]</font></TH></TR>
+									<TR>
+										<TD align="left" valign="top">
+											<TABLE>
+																		#xdatHiddenBox("fhir:encounter/identifier[$fhir_encounter_identifier_8_COUNTER]/fhir_encounter_identifier_id" $item "")
+											</TABLE>
+										</TD>
+									</TR>
+									<TR>
+										<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/identifier[$fhir_encounter_identifier_8_COUNTER]/Aufnahmenummer -->
+											<TABLE>
+												<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/identifier[$fhir_encounter_identifier_8_COUNTER]/Aufnahmenummer</font></TH></TR>
+												<TR>
+													<TD align="left" valign="top">
+														<TABLE>
+															<TR><TD>use</TD><TD>#xdatStringBox("fhir:encounter/identifier[$fhir_encounter_identifier_8_COUNTER]/Aufnahmenummer/use" $item "" $vr)</TD></TR>
+															<TR><TD>system</TD><TD>#xdatStringBox("fhir:encounter/identifier[$fhir_encounter_identifier_8_COUNTER]/Aufnahmenummer/system" $item "" $vr)</TD></TR>
+															<TR><TD>value</TD><TD>#xdatStringBox("fhir:encounter/identifier[$fhir_encounter_identifier_8_COUNTER]/Aufnahmenummer/value" $item "" $vr)</TD></TR>
+															<TR><TD>period/start</TD><TD>#xdatStringBox("fhir:encounter/identifier[$fhir_encounter_identifier_8_COUNTER]/Aufnahmenummer/period/start" $item "" $vr)</TD></TR>
+															<TR><TD>period/end</TD><TD>#xdatStringBox("fhir:encounter/identifier[$fhir_encounter_identifier_8_COUNTER]/Aufnahmenummer/period/end" $item "" $vr)</TD></TR>
+															<TR><TD>ID</TD><TD>#xdatTextBox("fhir:encounter/identifier[$fhir_encounter_identifier_8_COUNTER]/Aufnahmenummer/ID" $item "" $vr)</TD></TR>
+														</TABLE>
+													</TD>
+												</TR>
+												<TR>
+													<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/identifier[$fhir_encounter_identifier_8_COUNTER]/Aufnahmenummer/type -->
+														<TABLE>
+															<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/identifier[$fhir_encounter_identifier_8_COUNTER]/Aufnahmenummer/type</font></TH></TR>
+															<TR>
+																<TD align="left" valign="top">
+																	<TABLE>
+																		<TR><TD>text</TD><TD>#xdatStringBox("fhir:encounter/identifier[$fhir_encounter_identifier_8_COUNTER]/Aufnahmenummer/type/text" $item "" $vr)</TD></TR>
+																		<TR><TD>ID</TD><TD>#xdatTextBox("fhir:encounter/identifier[$fhir_encounter_identifier_8_COUNTER]/Aufnahmenummer/type/ID" $item "" $vr)</TD></TR>
+																	</TABLE>
+																</TD>
+															</TR>
+<!-- BEGIN fhir:encounter/identifier[$fhir_encounter_identifier_8_COUNTER]/Aufnahmenummer/type/coding -->
+															<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/identifier[$fhir_encounter_identifier_8_COUNTER]/Aufnahmenummer/type/coding</font></TH></TR>
+															<TR>
+																<TD align="left" valign="top">
+																	<TABLE>
+																		<TR>
+																			<TD>system</TD>
+																			<TD>version</TD>
+																			<TD>code</TD>
+																			<TD>display</TD>
+																			<TD>userSelected</TD>
+																			<TD>ID</TD>
+																		</TR>
+																		#foreach($fhir_coding_11_COUNTER in [0..0])
+																			<TR>
+																				<TD>#xdatTextBox("fhir:encounter/identifier[$fhir_encounter_identifier_8_COUNTER]/Aufnahmenummer/type/coding[$fhir_coding_11_COUNTER]/system" $item "" $vr)</TD>
+																				<TD>#xdatTextBox("fhir:encounter/identifier[$fhir_encounter_identifier_8_COUNTER]/Aufnahmenummer/type/coding[$fhir_coding_11_COUNTER]/version" $item "" $vr)</TD>
+																				<TD>#xdatTextBox("fhir:encounter/identifier[$fhir_encounter_identifier_8_COUNTER]/Aufnahmenummer/type/coding[$fhir_coding_11_COUNTER]/code" $item "" $vr)</TD>
+																				<TD>#xdatTextBox("fhir:encounter/identifier[$fhir_encounter_identifier_8_COUNTER]/Aufnahmenummer/type/coding[$fhir_coding_11_COUNTER]/display" $item "" $vr)</TD>
+																				<TD>#xdatTextBox("fhir:encounter/identifier[$fhir_encounter_identifier_8_COUNTER]/Aufnahmenummer/type/coding[$fhir_coding_11_COUNTER]/userSelected" $item "" $vr)</TD>
+																				<TD>#xdatTextBox("fhir:encounter/identifier[$fhir_encounter_identifier_8_COUNTER]/Aufnahmenummer/type/coding[$fhir_coding_11_COUNTER]/ID" $item "" $vr)</TD>
+																			</TR>
+																		#end
+																	</TABLE>
+																</TD>
+															</TR>
+<!-- END fhir:encounter/identifier[$fhir_encounter_identifier_8_COUNTER]/Aufnahmenummer/type/coding -->
+														</TABLE>
+<!-- END fhir:encounter/identifier[$fhir_encounter_identifier_8_COUNTER]/Aufnahmenummer/type -->
+													</TD>
+												</TR>
+												<TR>
+													<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/identifier[$fhir_encounter_identifier_8_COUNTER]/Aufnahmenummer/assigner -->
+														<TABLE>
+															<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/identifier[$fhir_encounter_identifier_8_COUNTER]/Aufnahmenummer/assigner</font></TH></TR>
+															<TR>
+																<TD align="left" valign="top">
+																	<TABLE>
+																		<TR><TD>reference</TD><TD>#xdatStringBox("fhir:encounter/identifier[$fhir_encounter_identifier_8_COUNTER]/Aufnahmenummer/assigner/reference" $item "" $vr)</TD></TR>
+																		<TR><TD>type</TD><TD>#xdatStringBox("fhir:encounter/identifier[$fhir_encounter_identifier_8_COUNTER]/Aufnahmenummer/assigner/type" $item "" $vr)</TD></TR>
+																		<TR><TD>display</TD><TD>#xdatStringBox("fhir:encounter/identifier[$fhir_encounter_identifier_8_COUNTER]/Aufnahmenummer/assigner/display" $item "" $vr)</TD></TR>
+																		<TR><TD>ID</TD><TD>#xdatTextBox("fhir:encounter/identifier[$fhir_encounter_identifier_8_COUNTER]/Aufnahmenummer/assigner/ID" $item "" $vr)</TD></TR>
+																	</TABLE>
+																</TD>
+															</TR>
+														</TABLE>
+<!-- END fhir:encounter/identifier[$fhir_encounter_identifier_8_COUNTER]/Aufnahmenummer/assigner -->
+													</TD>
+												</TR>
+											</TABLE>
+<!-- END fhir:encounter/identifier[$fhir_encounter_identifier_8_COUNTER]/Aufnahmenummer -->
+										</TD>
+									</TR>
+								</TABLE>
+<!-- END fhir:encounter/identifier[$fhir_encounter_identifier_8_COUNTER] -->
+							#end
+						</TD></TR></TABLE>
+					</TD>
+				</TR>
+				<TR>
+					<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/encounterClass -->
+						<TABLE>
+							<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/encounterClass</font></TH></TR>
+							<TR>
+								<TD align="left" valign="top">
+									<TABLE>
+										<TR><TD>system</TD><TD>#xdatStringBox("fhir:encounter/encounterClass/system" $item "" $vr)</TD></TR>
+										<TR><TD>version</TD><TD>#xdatStringBox("fhir:encounter/encounterClass/version" $item "" $vr)</TD></TR>
+										<TR><TD>code</TD><TD>#xdatStringBox("fhir:encounter/encounterClass/code" $item "" $vr)</TD></TR>
+										<TR><TD>display</TD><TD>#xdatStringBox("fhir:encounter/encounterClass/display" $item "" $vr)</TD></TR>
+										<TR><TD>userSelected</TD><TD>#xdatBooleanRadio("fhir:encounter/encounterClass/userSelected" $item false $vr)</TD></TR>
+										<TR><TD>ID</TD><TD>#xdatTextBox("fhir:encounter/encounterClass/ID" $item "" $vr)</TD></TR>
+									</TABLE>
+								</TD>
+							</TR>
+						</TABLE>
+<!-- END fhir:encounter/encounterClass -->
+					</TD>
+				</TR>
+				<TR>
+					<TD align="left" valign="top">
+						<TABLE><TR><TD>
+							#foreach($fhir_encounter_type_13_COUNTER in [0..0])
+<!-- BEGIN fhir:encounter/type[$fhir_encounter_type_13_COUNTER] -->
+								<TABLE>
+									<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/type[$fhir_encounter_type_13_COUNTER]</font></TH></TR>
+									<TR>
+										<TD align="left" valign="top">
+											<TABLE>
+																		#xdatHiddenBox("fhir:encounter/type[$fhir_encounter_type_13_COUNTER]/fhir_encounter_type_id" $item "")
+											</TABLE>
+										</TD>
+									</TR>
+									<TR>
+										<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/type[$fhir_encounter_type_13_COUNTER]/Kontaktebene -->
+											<TABLE>
+												<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/type[$fhir_encounter_type_13_COUNTER]/Kontaktebene</font></TH></TR>
+												<TR>
+													<TD align="left" valign="top">
+														<TABLE>
+															<TR><TD>text</TD><TD>#xdatStringBox("fhir:encounter/type[$fhir_encounter_type_13_COUNTER]/Kontaktebene/text" $item "" $vr)</TD></TR>
+															<TR><TD>ID</TD><TD>#xdatTextBox("fhir:encounter/type[$fhir_encounter_type_13_COUNTER]/Kontaktebene/ID" $item "" $vr)</TD></TR>
+														</TABLE>
+													</TD>
+												</TR>
+<!-- BEGIN fhir:encounter/type[$fhir_encounter_type_13_COUNTER]/Kontaktebene/coding -->
+												<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/type[$fhir_encounter_type_13_COUNTER]/Kontaktebene/coding</font></TH></TR>
+												<TR>
+													<TD align="left" valign="top">
+														<TABLE>
+															<TR>
+																<TD>system</TD>
+																<TD>version</TD>
+																<TD>code</TD>
+																<TD>display</TD>
+																<TD>userSelected</TD>
+																<TD>ID</TD>
+															</TR>
+															#foreach($fhir_coding_15_COUNTER in [0..0])
+																<TR>
+																	<TD>#xdatTextBox("fhir:encounter/type[$fhir_encounter_type_13_COUNTER]/Kontaktebene/coding[$fhir_coding_15_COUNTER]/system" $item "" $vr)</TD>
+																	<TD>#xdatTextBox("fhir:encounter/type[$fhir_encounter_type_13_COUNTER]/Kontaktebene/coding[$fhir_coding_15_COUNTER]/version" $item "" $vr)</TD>
+																	<TD>#xdatTextBox("fhir:encounter/type[$fhir_encounter_type_13_COUNTER]/Kontaktebene/coding[$fhir_coding_15_COUNTER]/code" $item "" $vr)</TD>
+																	<TD>#xdatTextBox("fhir:encounter/type[$fhir_encounter_type_13_COUNTER]/Kontaktebene/coding[$fhir_coding_15_COUNTER]/display" $item "" $vr)</TD>
+																	<TD>#xdatTextBox("fhir:encounter/type[$fhir_encounter_type_13_COUNTER]/Kontaktebene/coding[$fhir_coding_15_COUNTER]/userSelected" $item "" $vr)</TD>
+																	<TD>#xdatTextBox("fhir:encounter/type[$fhir_encounter_type_13_COUNTER]/Kontaktebene/coding[$fhir_coding_15_COUNTER]/ID" $item "" $vr)</TD>
+																</TR>
+															#end
+														</TABLE>
+													</TD>
+												</TR>
+<!-- END fhir:encounter/type[$fhir_encounter_type_13_COUNTER]/Kontaktebene/coding -->
+											</TABLE>
+<!-- END fhir:encounter/type[$fhir_encounter_type_13_COUNTER]/Kontaktebene -->
+										</TD>
+									</TR>
+									<TR>
+										<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/type[$fhir_encounter_type_13_COUNTER]/KontaktArt -->
+											<TABLE>
+												<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/type[$fhir_encounter_type_13_COUNTER]/KontaktArt</font></TH></TR>
+												<TR>
+													<TD align="left" valign="top">
+														<TABLE>
+															<TR><TD>text</TD><TD>#xdatStringBox("fhir:encounter/type[$fhir_encounter_type_13_COUNTER]/KontaktArt/text" $item "" $vr)</TD></TR>
+															<TR><TD>ID</TD><TD>#xdatTextBox("fhir:encounter/type[$fhir_encounter_type_13_COUNTER]/KontaktArt/ID" $item "" $vr)</TD></TR>
+														</TABLE>
+													</TD>
+												</TR>
+<!-- BEGIN fhir:encounter/type[$fhir_encounter_type_13_COUNTER]/KontaktArt/coding -->
+												<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/type[$fhir_encounter_type_13_COUNTER]/KontaktArt/coding</font></TH></TR>
+												<TR>
+													<TD align="left" valign="top">
+														<TABLE>
+															<TR>
+																<TD>system</TD>
+																<TD>version</TD>
+																<TD>code</TD>
+																<TD>display</TD>
+																<TD>userSelected</TD>
+																<TD>ID</TD>
+															</TR>
+															#foreach($fhir_coding_16_COUNTER in [0..0])
+																<TR>
+																	<TD>#xdatTextBox("fhir:encounter/type[$fhir_encounter_type_13_COUNTER]/KontaktArt/coding[$fhir_coding_16_COUNTER]/system" $item "" $vr)</TD>
+																	<TD>#xdatTextBox("fhir:encounter/type[$fhir_encounter_type_13_COUNTER]/KontaktArt/coding[$fhir_coding_16_COUNTER]/version" $item "" $vr)</TD>
+																	<TD>#xdatTextBox("fhir:encounter/type[$fhir_encounter_type_13_COUNTER]/KontaktArt/coding[$fhir_coding_16_COUNTER]/code" $item "" $vr)</TD>
+																	<TD>#xdatTextBox("fhir:encounter/type[$fhir_encounter_type_13_COUNTER]/KontaktArt/coding[$fhir_coding_16_COUNTER]/display" $item "" $vr)</TD>
+																	<TD>#xdatTextBox("fhir:encounter/type[$fhir_encounter_type_13_COUNTER]/KontaktArt/coding[$fhir_coding_16_COUNTER]/userSelected" $item "" $vr)</TD>
+																	<TD>#xdatTextBox("fhir:encounter/type[$fhir_encounter_type_13_COUNTER]/KontaktArt/coding[$fhir_coding_16_COUNTER]/ID" $item "" $vr)</TD>
+																</TR>
+															#end
+														</TABLE>
+													</TD>
+												</TR>
+<!-- END fhir:encounter/type[$fhir_encounter_type_13_COUNTER]/KontaktArt/coding -->
+											</TABLE>
+<!-- END fhir:encounter/type[$fhir_encounter_type_13_COUNTER]/KontaktArt -->
+										</TD>
+									</TR>
+								</TABLE>
+<!-- END fhir:encounter/type[$fhir_encounter_type_13_COUNTER] -->
+							#end
+						</TD></TR></TABLE>
+					</TD>
+				</TR>
+<!-- BEGIN fhir:encounter/serviceType/coding -->
+				<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/serviceType/coding</font></TH></TR>
+				<TR>
+					<TD align="left" valign="top">
+						<TABLE>
+							<TR>
+								<TD>system</TD>
+								<TD>version</TD>
+								<TD>code</TD>
+								<TD>display</TD>
+								<TD>userSelected</TD>
+								<TD>ID</TD>
+							</TR>
+							#foreach($fhir_encounter_coding_16_COUNTER in [0..0])
+								<TR>
+									<TD>#xdatTextBox("fhir:encounter/serviceType/coding[$fhir_encounter_coding_16_COUNTER]/Fachabteilungsschluessel/system" $item "" $vr)</TD>
+									<TD>#xdatTextBox("fhir:encounter/serviceType/coding[$fhir_encounter_coding_16_COUNTER]/Fachabteilungsschluessel/version" $item "" $vr)</TD>
+									<TD>#xdatTextBox("fhir:encounter/serviceType/coding[$fhir_encounter_coding_16_COUNTER]/Fachabteilungsschluessel/code" $item "" $vr)</TD>
+									<TD>#xdatTextBox("fhir:encounter/serviceType/coding[$fhir_encounter_coding_16_COUNTER]/Fachabteilungsschluessel/display" $item "" $vr)</TD>
+									<TD>#xdatTextBox("fhir:encounter/serviceType/coding[$fhir_encounter_coding_16_COUNTER]/Fachabteilungsschluessel/userSelected" $item "" $vr)</TD>
+									<TD>#xdatTextBox("fhir:encounter/serviceType/coding[$fhir_encounter_coding_16_COUNTER]/Fachabteilungsschluessel/ID" $item "" $vr)</TD>
+									#xdatHiddenBox("fhir:encounter/serviceType/coding[$fhir_encounter_coding_16_COUNTER]/fhir_encounter_coding_id" $item "")
+								</TR>
+							#end
+						</TABLE>
+					</TD>
+				</TR>
+<!-- END fhir:encounter/serviceType/coding -->
+				<TR>
+					<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/fhirSubject -->
+						<TABLE>
+							<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/fhirSubject</font></TH></TR>
+							<TR>
+								<TD align="left" valign="top">
+									<TABLE>
+										<TR><TD>reference</TD><TD>#xdatStringBox("fhir:encounter/fhirSubject/reference" $item "" $vr)</TD></TR>
+										<TR><TD>type</TD><TD>#xdatStringBox("fhir:encounter/fhirSubject/type" $item "" $vr)</TD></TR>
+										<TR><TD>display</TD><TD>#xdatStringBox("fhir:encounter/fhirSubject/display" $item "" $vr)</TD></TR>
+										<TR><TD>ID</TD><TD>#xdatTextBox("fhir:encounter/fhirSubject/ID" $item "" $vr)</TD></TR>
+									</TABLE>
+								</TD>
+							</TR>
+							<TR>
+								<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/fhirSubject/identifier -->
+									<TABLE>
+										<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/fhirSubject/identifier</font></TH></TR>
+										<TR>
+											<TD align="left" valign="top">
+												<TABLE>
+													<TR><TD>use</TD><TD>#xdatStringBox("fhir:encounter/fhirSubject/identifier/use" $item "" $vr)</TD></TR>
+													<TR><TD>system</TD><TD>#xdatStringBox("fhir:encounter/fhirSubject/identifier/system" $item "" $vr)</TD></TR>
+													<TR><TD>value</TD><TD>#xdatStringBox("fhir:encounter/fhirSubject/identifier/value" $item "" $vr)</TD></TR>
+													<TR><TD>period/start</TD><TD>#xdatStringBox("fhir:encounter/fhirSubject/identifier/period/start" $item "" $vr)</TD></TR>
+													<TR><TD>period/end</TD><TD>#xdatStringBox("fhir:encounter/fhirSubject/identifier/period/end" $item "" $vr)</TD></TR>
+													<TR><TD>ID</TD><TD>#xdatTextBox("fhir:encounter/fhirSubject/identifier/ID" $item "" $vr)</TD></TR>
+												</TABLE>
+											</TD>
+										</TR>
+										<TR>
+											<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/fhirSubject/identifier/type -->
+												<TABLE>
+													<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/fhirSubject/identifier/type</font></TH></TR>
+													<TR>
+														<TD align="left" valign="top">
+															<TABLE>
+																<TR><TD>text</TD><TD>#xdatStringBox("fhir:encounter/fhirSubject/identifier/type/text" $item "" $vr)</TD></TR>
+																<TR><TD>ID</TD><TD>#xdatTextBox("fhir:encounter/fhirSubject/identifier/type/ID" $item "" $vr)</TD></TR>
+															</TABLE>
+														</TD>
+													</TR>
+<!-- BEGIN fhir:encounter/fhirSubject/identifier/type/coding -->
+													<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/fhirSubject/identifier/type/coding</font></TH></TR>
+													<TR>
+														<TD align="left" valign="top">
+															<TABLE>
+																<TR>
+																	<TD>system</TD>
+																	<TD>version</TD>
+																	<TD>code</TD>
+																	<TD>display</TD>
+																	<TD>userSelected</TD>
+																	<TD>ID</TD>
+																</TR>
+																#foreach($fhir_coding_19_COUNTER in [0..0])
+																	<TR>
+																		<TD>#xdatTextBox("fhir:encounter/fhirSubject/identifier/type/coding[$fhir_coding_19_COUNTER]/system" $item "" $vr)</TD>
+																		<TD>#xdatTextBox("fhir:encounter/fhirSubject/identifier/type/coding[$fhir_coding_19_COUNTER]/version" $item "" $vr)</TD>
+																		<TD>#xdatTextBox("fhir:encounter/fhirSubject/identifier/type/coding[$fhir_coding_19_COUNTER]/code" $item "" $vr)</TD>
+																		<TD>#xdatTextBox("fhir:encounter/fhirSubject/identifier/type/coding[$fhir_coding_19_COUNTER]/display" $item "" $vr)</TD>
+																		<TD>#xdatTextBox("fhir:encounter/fhirSubject/identifier/type/coding[$fhir_coding_19_COUNTER]/userSelected" $item "" $vr)</TD>
+																		<TD>#xdatTextBox("fhir:encounter/fhirSubject/identifier/type/coding[$fhir_coding_19_COUNTER]/ID" $item "" $vr)</TD>
+																	</TR>
+																#end
+															</TABLE>
+														</TD>
+													</TR>
+<!-- END fhir:encounter/fhirSubject/identifier/type/coding -->
+												</TABLE>
+<!-- END fhir:encounter/fhirSubject/identifier/type -->
+											</TD>
+										</TR>
+									</TABLE>
+<!-- END fhir:encounter/fhirSubject/identifier -->
+								</TD>
+							</TR>
+						</TABLE>
+<!-- END fhir:encounter/fhirSubject -->
+					</TD>
+				</TR>
+				<TR>
+					<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/diagnosis/condition -->
+						<TABLE>
+							<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/diagnosis/condition</font></TH></TR>
+							<TR>
+								<TD align="left" valign="top">
+									<TABLE>
+										<TR><TD>reference</TD><TD>#xdatStringBox("fhir:encounter/diagnosis/condition/reference" $item "" $vr)</TD></TR>
+										<TR><TD>type</TD><TD>#xdatStringBox("fhir:encounter/diagnosis/condition/type" $item "" $vr)</TD></TR>
+										<TR><TD>display</TD><TD>#xdatStringBox("fhir:encounter/diagnosis/condition/display" $item "" $vr)</TD></TR>
+										<TR><TD>ID</TD><TD>#xdatTextBox("fhir:encounter/diagnosis/condition/ID" $item "" $vr)</TD></TR>
+									</TABLE>
+								</TD>
+							</TR>
+							<TR>
+								<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/diagnosis/condition/identifier -->
+									<TABLE>
+										<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/diagnosis/condition/identifier</font></TH></TR>
+										<TR>
+											<TD align="left" valign="top">
+												<TABLE>
+													<TR><TD>use</TD><TD>#xdatStringBox("fhir:encounter/diagnosis/condition/identifier/use" $item "" $vr)</TD></TR>
+													<TR><TD>system</TD><TD>#xdatStringBox("fhir:encounter/diagnosis/condition/identifier/system" $item "" $vr)</TD></TR>
+													<TR><TD>value</TD><TD>#xdatStringBox("fhir:encounter/diagnosis/condition/identifier/value" $item "" $vr)</TD></TR>
+													<TR><TD>period/start</TD><TD>#xdatStringBox("fhir:encounter/diagnosis/condition/identifier/period/start" $item "" $vr)</TD></TR>
+													<TR><TD>period/end</TD><TD>#xdatStringBox("fhir:encounter/diagnosis/condition/identifier/period/end" $item "" $vr)</TD></TR>
+													<TR><TD>ID</TD><TD>#xdatTextBox("fhir:encounter/diagnosis/condition/identifier/ID" $item "" $vr)</TD></TR>
+												</TABLE>
+											</TD>
+										</TR>
+										<TR>
+											<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/diagnosis/condition/identifier/type -->
+												<TABLE>
+													<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/diagnosis/condition/identifier/type</font></TH></TR>
+													<TR>
+														<TD align="left" valign="top">
+															<TABLE>
+																<TR><TD>text</TD><TD>#xdatStringBox("fhir:encounter/diagnosis/condition/identifier/type/text" $item "" $vr)</TD></TR>
+																<TR><TD>ID</TD><TD>#xdatTextBox("fhir:encounter/diagnosis/condition/identifier/type/ID" $item "" $vr)</TD></TR>
+															</TABLE>
+														</TD>
+													</TR>
+<!-- BEGIN fhir:encounter/diagnosis/condition/identifier/type/coding -->
+													<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/diagnosis/condition/identifier/type/coding</font></TH></TR>
+													<TR>
+														<TD align="left" valign="top">
+															<TABLE>
+																<TR>
+																	<TD>system</TD>
+																	<TD>version</TD>
+																	<TD>code</TD>
+																	<TD>display</TD>
+																	<TD>userSelected</TD>
+																	<TD>ID</TD>
+																</TR>
+																#foreach($fhir_coding_22_COUNTER in [0..0])
+																	<TR>
+																		<TD>#xdatTextBox("fhir:encounter/diagnosis/condition/identifier/type/coding[$fhir_coding_22_COUNTER]/system" $item "" $vr)</TD>
+																		<TD>#xdatTextBox("fhir:encounter/diagnosis/condition/identifier/type/coding[$fhir_coding_22_COUNTER]/version" $item "" $vr)</TD>
+																		<TD>#xdatTextBox("fhir:encounter/diagnosis/condition/identifier/type/coding[$fhir_coding_22_COUNTER]/code" $item "" $vr)</TD>
+																		<TD>#xdatTextBox("fhir:encounter/diagnosis/condition/identifier/type/coding[$fhir_coding_22_COUNTER]/display" $item "" $vr)</TD>
+																		<TD>#xdatTextBox("fhir:encounter/diagnosis/condition/identifier/type/coding[$fhir_coding_22_COUNTER]/userSelected" $item "" $vr)</TD>
+																		<TD>#xdatTextBox("fhir:encounter/diagnosis/condition/identifier/type/coding[$fhir_coding_22_COUNTER]/ID" $item "" $vr)</TD>
+																	</TR>
+																#end
+															</TABLE>
+														</TD>
+													</TR>
+<!-- END fhir:encounter/diagnosis/condition/identifier/type/coding -->
+												</TABLE>
+<!-- END fhir:encounter/diagnosis/condition/identifier/type -->
+											</TD>
+										</TR>
+									</TABLE>
+<!-- END fhir:encounter/diagnosis/condition/identifier -->
+								</TD>
+							</TR>
+						</TABLE>
+<!-- END fhir:encounter/diagnosis/condition -->
+					</TD>
+				</TR>
+				<TR>
+					<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/diagnosis/use -->
+						<TABLE>
+							<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/diagnosis/use</font></TH></TR>
+							<TR>
+								<TD align="left" valign="top">
+									<TABLE>
+										<TR><TD>text</TD><TD>#xdatStringBox("fhir:encounter/diagnosis/use/text" $item "" $vr)</TD></TR>
+										<TR><TD>ID</TD><TD>#xdatTextBox("fhir:encounter/diagnosis/use/ID" $item "" $vr)</TD></TR>
+									</TABLE>
+								</TD>
+							</TR>
+<!-- BEGIN fhir:encounter/diagnosis/use/coding -->
+							<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/diagnosis/use/coding</font></TH></TR>
+							<TR>
+								<TD align="left" valign="top">
+									<TABLE>
+										<TR>
+											<TD>system</TD>
+											<TD>version</TD>
+											<TD>code</TD>
+											<TD>display</TD>
+											<TD>userSelected</TD>
+											<TD>ID</TD>
+										</TR>
+										#foreach($fhir_coding_23_COUNTER in [0..0])
+											<TR>
+												<TD>#xdatTextBox("fhir:encounter/diagnosis/use/coding[$fhir_coding_23_COUNTER]/system" $item "" $vr)</TD>
+												<TD>#xdatTextBox("fhir:encounter/diagnosis/use/coding[$fhir_coding_23_COUNTER]/version" $item "" $vr)</TD>
+												<TD>#xdatTextBox("fhir:encounter/diagnosis/use/coding[$fhir_coding_23_COUNTER]/code" $item "" $vr)</TD>
+												<TD>#xdatTextBox("fhir:encounter/diagnosis/use/coding[$fhir_coding_23_COUNTER]/display" $item "" $vr)</TD>
+												<TD>#xdatTextBox("fhir:encounter/diagnosis/use/coding[$fhir_coding_23_COUNTER]/userSelected" $item "" $vr)</TD>
+												<TD>#xdatTextBox("fhir:encounter/diagnosis/use/coding[$fhir_coding_23_COUNTER]/ID" $item "" $vr)</TD>
+											</TR>
+										#end
+									</TABLE>
+								</TD>
+							</TR>
+<!-- END fhir:encounter/diagnosis/use/coding -->
+						</TABLE>
+<!-- END fhir:encounter/diagnosis/use -->
+					</TD>
+				</TR>
+				<TR>
+					<TD align="left" valign="top">
+						<TABLE><TR><TD>
+							#foreach($fhir_encounter_location_23_COUNTER in [0..0])
+<!-- BEGIN fhir:encounter/location[$fhir_encounter_location_23_COUNTER] -->
+								<TABLE>
+									<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/location[$fhir_encounter_location_23_COUNTER]</font></TH></TR>
+									<TR>
+										<TD align="left" valign="top">
+											<TABLE>
+												<TR><TD>status</TD><TD>#xdatStringBox("fhir:encounter/location[$fhir_encounter_location_23_COUNTER]/status" $item "" $vr)</TD></TR>
+												<TR><TD>period/start</TD><TD>#xdatStringBox("fhir:encounter/location[$fhir_encounter_location_23_COUNTER]/period/start" $item "" $vr)</TD></TR>
+												<TR><TD>period/end</TD><TD>#xdatStringBox("fhir:encounter/location[$fhir_encounter_location_23_COUNTER]/period/end" $item "" $vr)</TD></TR>
+																		#xdatHiddenBox("fhir:encounter/location[$fhir_encounter_location_23_COUNTER]/fhir_encounter_location_id" $item "")
+											</TABLE>
+										</TD>
+									</TR>
+									<TR>
+										<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/location[$fhir_encounter_location_23_COUNTER]/location -->
+											<TABLE>
+												<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/location[$fhir_encounter_location_23_COUNTER]/location</font></TH></TR>
+												<TR>
+													<TD align="left" valign="top">
+														<TABLE>
+															<TR><TD>reference</TD><TD>#xdatStringBox("fhir:encounter/location[$fhir_encounter_location_23_COUNTER]/location/reference" $item "" $vr)</TD></TR>
+															<TR><TD>type</TD><TD>#xdatStringBox("fhir:encounter/location[$fhir_encounter_location_23_COUNTER]/location/type" $item "" $vr)</TD></TR>
+															<TR><TD>display</TD><TD>#xdatStringBox("fhir:encounter/location[$fhir_encounter_location_23_COUNTER]/location/display" $item "" $vr)</TD></TR>
+															<TR><TD>ID</TD><TD>#xdatTextBox("fhir:encounter/location[$fhir_encounter_location_23_COUNTER]/location/ID" $item "" $vr)</TD></TR>
+														</TABLE>
+													</TD>
+												</TR>
+												<TR>
+													<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/location[$fhir_encounter_location_23_COUNTER]/location/identifier -->
+														<TABLE>
+															<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/location[$fhir_encounter_location_23_COUNTER]/location/identifier</font></TH></TR>
+															<TR>
+																<TD align="left" valign="top">
+																	<TABLE>
+																		<TR><TD>use</TD><TD>#xdatStringBox("fhir:encounter/location[$fhir_encounter_location_23_COUNTER]/location/identifier/use" $item "" $vr)</TD></TR>
+																		<TR><TD>system</TD><TD>#xdatStringBox("fhir:encounter/location[$fhir_encounter_location_23_COUNTER]/location/identifier/system" $item "" $vr)</TD></TR>
+																		<TR><TD>value</TD><TD>#xdatStringBox("fhir:encounter/location[$fhir_encounter_location_23_COUNTER]/location/identifier/value" $item "" $vr)</TD></TR>
+																		<TR><TD>period/start</TD><TD>#xdatStringBox("fhir:encounter/location[$fhir_encounter_location_23_COUNTER]/location/identifier/period/start" $item "" $vr)</TD></TR>
+																		<TR><TD>period/end</TD><TD>#xdatStringBox("fhir:encounter/location[$fhir_encounter_location_23_COUNTER]/location/identifier/period/end" $item "" $vr)</TD></TR>
+																		<TR><TD>ID</TD><TD>#xdatTextBox("fhir:encounter/location[$fhir_encounter_location_23_COUNTER]/location/identifier/ID" $item "" $vr)</TD></TR>
+																	</TABLE>
+																</TD>
+															</TR>
+															<TR>
+																<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/location[$fhir_encounter_location_23_COUNTER]/location/identifier/type -->
+																	<TABLE>
+																		<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/location[$fhir_encounter_location_23_COUNTER]/location/identifier/type</font></TH></TR>
+																		<TR>
+																			<TD align="left" valign="top">
+																				<TABLE>
+																					<TR><TD>text</TD><TD>#xdatStringBox("fhir:encounter/location[$fhir_encounter_location_23_COUNTER]/location/identifier/type/text" $item "" $vr)</TD></TR>
+																					<TR><TD>ID</TD><TD>#xdatTextBox("fhir:encounter/location[$fhir_encounter_location_23_COUNTER]/location/identifier/type/ID" $item "" $vr)</TD></TR>
+																				</TABLE>
+																			</TD>
+																		</TR>
+<!-- BEGIN fhir:encounter/location[$fhir_encounter_location_23_COUNTER]/location/identifier/type/coding -->
+																		<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/location[$fhir_encounter_location_23_COUNTER]/location/identifier/type/coding</font></TH></TR>
+																		<TR>
+																			<TD align="left" valign="top">
+																				<TABLE>
+																					<TR>
+																						<TD>system</TD>
+																						<TD>version</TD>
+																						<TD>code</TD>
+																						<TD>display</TD>
+																						<TD>userSelected</TD>
+																						<TD>ID</TD>
+																					</TR>
+																					#foreach($fhir_coding_27_COUNTER in [0..0])
+																						<TR>
+																							<TD>#xdatTextBox("fhir:encounter/location[$fhir_encounter_location_23_COUNTER]/location/identifier/type/coding[$fhir_coding_27_COUNTER]/system" $item "" $vr)</TD>
+																							<TD>#xdatTextBox("fhir:encounter/location[$fhir_encounter_location_23_COUNTER]/location/identifier/type/coding[$fhir_coding_27_COUNTER]/version" $item "" $vr)</TD>
+																							<TD>#xdatTextBox("fhir:encounter/location[$fhir_encounter_location_23_COUNTER]/location/identifier/type/coding[$fhir_coding_27_COUNTER]/code" $item "" $vr)</TD>
+																							<TD>#xdatTextBox("fhir:encounter/location[$fhir_encounter_location_23_COUNTER]/location/identifier/type/coding[$fhir_coding_27_COUNTER]/display" $item "" $vr)</TD>
+																							<TD>#xdatTextBox("fhir:encounter/location[$fhir_encounter_location_23_COUNTER]/location/identifier/type/coding[$fhir_coding_27_COUNTER]/userSelected" $item "" $vr)</TD>
+																							<TD>#xdatTextBox("fhir:encounter/location[$fhir_encounter_location_23_COUNTER]/location/identifier/type/coding[$fhir_coding_27_COUNTER]/ID" $item "" $vr)</TD>
+																						</TR>
+																					#end
+																				</TABLE>
+																			</TD>
+																		</TR>
+<!-- END fhir:encounter/location[$fhir_encounter_location_23_COUNTER]/location/identifier/type/coding -->
+																	</TABLE>
+<!-- END fhir:encounter/location[$fhir_encounter_location_23_COUNTER]/location/identifier/type -->
+																</TD>
+															</TR>
+														</TABLE>
+<!-- END fhir:encounter/location[$fhir_encounter_location_23_COUNTER]/location/identifier -->
+													</TD>
+												</TR>
+											</TABLE>
+<!-- END fhir:encounter/location[$fhir_encounter_location_23_COUNTER]/location -->
+										</TD>
+									</TR>
+									<TR>
+										<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/location[$fhir_encounter_location_23_COUNTER]/physicalType -->
+											<TABLE>
+												<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/location[$fhir_encounter_location_23_COUNTER]/physicalType</font></TH></TR>
+												<TR>
+													<TD align="left" valign="top">
+														<TABLE>
+															<TR><TD>text</TD><TD>#xdatStringBox("fhir:encounter/location[$fhir_encounter_location_23_COUNTER]/physicalType/text" $item "" $vr)</TD></TR>
+															<TR><TD>ID</TD><TD>#xdatTextBox("fhir:encounter/location[$fhir_encounter_location_23_COUNTER]/physicalType/ID" $item "" $vr)</TD></TR>
+														</TABLE>
+													</TD>
+												</TR>
+<!-- BEGIN fhir:encounter/location[$fhir_encounter_location_23_COUNTER]/physicalType/coding -->
+												<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/location[$fhir_encounter_location_23_COUNTER]/physicalType/coding</font></TH></TR>
+												<TR>
+													<TD align="left" valign="top">
+														<TABLE>
+															<TR>
+																<TD>system</TD>
+																<TD>version</TD>
+																<TD>code</TD>
+																<TD>display</TD>
+																<TD>userSelected</TD>
+																<TD>ID</TD>
+															</TR>
+															#foreach($fhir_coding_28_COUNTER in [0..0])
+																<TR>
+																	<TD>#xdatTextBox("fhir:encounter/location[$fhir_encounter_location_23_COUNTER]/physicalType/coding[$fhir_coding_28_COUNTER]/system" $item "" $vr)</TD>
+																	<TD>#xdatTextBox("fhir:encounter/location[$fhir_encounter_location_23_COUNTER]/physicalType/coding[$fhir_coding_28_COUNTER]/version" $item "" $vr)</TD>
+																	<TD>#xdatTextBox("fhir:encounter/location[$fhir_encounter_location_23_COUNTER]/physicalType/coding[$fhir_coding_28_COUNTER]/code" $item "" $vr)</TD>
+																	<TD>#xdatTextBox("fhir:encounter/location[$fhir_encounter_location_23_COUNTER]/physicalType/coding[$fhir_coding_28_COUNTER]/display" $item "" $vr)</TD>
+																	<TD>#xdatTextBox("fhir:encounter/location[$fhir_encounter_location_23_COUNTER]/physicalType/coding[$fhir_coding_28_COUNTER]/userSelected" $item "" $vr)</TD>
+																	<TD>#xdatTextBox("fhir:encounter/location[$fhir_encounter_location_23_COUNTER]/physicalType/coding[$fhir_coding_28_COUNTER]/ID" $item "" $vr)</TD>
+																</TR>
+															#end
+														</TABLE>
+													</TD>
+												</TR>
+<!-- END fhir:encounter/location[$fhir_encounter_location_23_COUNTER]/physicalType/coding -->
+											</TABLE>
+<!-- END fhir:encounter/location[$fhir_encounter_location_23_COUNTER]/physicalType -->
+										</TD>
+									</TR>
+								</TABLE>
+<!-- END fhir:encounter/location[$fhir_encounter_location_23_COUNTER] -->
+							#end
+						</TD></TR></TABLE>
+					</TD>
+				</TR>
+				<TR>
+					<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/hospitalization/preAdmissionIdentifier -->
+						<TABLE>
+							<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/hospitalization/preAdmissionIdentifier</font></TH></TR>
+							<TR>
+								<TD align="left" valign="top">
+									<TABLE>
+										<TR><TD>use</TD><TD>#xdatStringBox("fhir:encounter/hospitalization/preAdmissionIdentifier/use" $item "" $vr)</TD></TR>
+										<TR><TD>system</TD><TD>#xdatStringBox("fhir:encounter/hospitalization/preAdmissionIdentifier/system" $item "" $vr)</TD></TR>
+										<TR><TD>value</TD><TD>#xdatStringBox("fhir:encounter/hospitalization/preAdmissionIdentifier/value" $item "" $vr)</TD></TR>
+										<TR><TD>period/start</TD><TD>#xdatStringBox("fhir:encounter/hospitalization/preAdmissionIdentifier/period/start" $item "" $vr)</TD></TR>
+										<TR><TD>period/end</TD><TD>#xdatStringBox("fhir:encounter/hospitalization/preAdmissionIdentifier/period/end" $item "" $vr)</TD></TR>
+										<TR><TD>ID</TD><TD>#xdatTextBox("fhir:encounter/hospitalization/preAdmissionIdentifier/ID" $item "" $vr)</TD></TR>
+									</TABLE>
+								</TD>
+							</TR>
+							<TR>
+								<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/hospitalization/preAdmissionIdentifier/type -->
+									<TABLE>
+										<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/hospitalization/preAdmissionIdentifier/type</font></TH></TR>
+										<TR>
+											<TD align="left" valign="top">
+												<TABLE>
+													<TR><TD>text</TD><TD>#xdatStringBox("fhir:encounter/hospitalization/preAdmissionIdentifier/type/text" $item "" $vr)</TD></TR>
+													<TR><TD>ID</TD><TD>#xdatTextBox("fhir:encounter/hospitalization/preAdmissionIdentifier/type/ID" $item "" $vr)</TD></TR>
+												</TABLE>
+											</TD>
+										</TR>
+<!-- BEGIN fhir:encounter/hospitalization/preAdmissionIdentifier/type/coding -->
+										<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/hospitalization/preAdmissionIdentifier/type/coding</font></TH></TR>
+										<TR>
+											<TD align="left" valign="top">
+												<TABLE>
+													<TR>
+														<TD>system</TD>
+														<TD>version</TD>
+														<TD>code</TD>
+														<TD>display</TD>
+														<TD>userSelected</TD>
+														<TD>ID</TD>
+													</TR>
+													#foreach($fhir_coding_30_COUNTER in [0..0])
+														<TR>
+															<TD>#xdatTextBox("fhir:encounter/hospitalization/preAdmissionIdentifier/type/coding[$fhir_coding_30_COUNTER]/system" $item "" $vr)</TD>
+															<TD>#xdatTextBox("fhir:encounter/hospitalization/preAdmissionIdentifier/type/coding[$fhir_coding_30_COUNTER]/version" $item "" $vr)</TD>
+															<TD>#xdatTextBox("fhir:encounter/hospitalization/preAdmissionIdentifier/type/coding[$fhir_coding_30_COUNTER]/code" $item "" $vr)</TD>
+															<TD>#xdatTextBox("fhir:encounter/hospitalization/preAdmissionIdentifier/type/coding[$fhir_coding_30_COUNTER]/display" $item "" $vr)</TD>
+															<TD>#xdatTextBox("fhir:encounter/hospitalization/preAdmissionIdentifier/type/coding[$fhir_coding_30_COUNTER]/userSelected" $item "" $vr)</TD>
+															<TD>#xdatTextBox("fhir:encounter/hospitalization/preAdmissionIdentifier/type/coding[$fhir_coding_30_COUNTER]/ID" $item "" $vr)</TD>
+														</TR>
+													#end
+												</TABLE>
+											</TD>
+										</TR>
+<!-- END fhir:encounter/hospitalization/preAdmissionIdentifier/type/coding -->
+									</TABLE>
+<!-- END fhir:encounter/hospitalization/preAdmissionIdentifier/type -->
+								</TD>
+							</TR>
+							<TR>
+								<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/hospitalization/preAdmissionIdentifier/assigner -->
+									<TABLE>
+										<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/hospitalization/preAdmissionIdentifier/assigner</font></TH></TR>
+										<TR>
+											<TD align="left" valign="top">
+												<TABLE>
+													<TR><TD>reference</TD><TD>#xdatStringBox("fhir:encounter/hospitalization/preAdmissionIdentifier/assigner/reference" $item "" $vr)</TD></TR>
+													<TR><TD>type</TD><TD>#xdatStringBox("fhir:encounter/hospitalization/preAdmissionIdentifier/assigner/type" $item "" $vr)</TD></TR>
+													<TR><TD>display</TD><TD>#xdatStringBox("fhir:encounter/hospitalization/preAdmissionIdentifier/assigner/display" $item "" $vr)</TD></TR>
+													<TR><TD>ID</TD><TD>#xdatTextBox("fhir:encounter/hospitalization/preAdmissionIdentifier/assigner/ID" $item "" $vr)</TD></TR>
+												</TABLE>
+											</TD>
+										</TR>
+									</TABLE>
+<!-- END fhir:encounter/hospitalization/preAdmissionIdentifier/assigner -->
+								</TD>
+							</TR>
+						</TABLE>
+<!-- END fhir:encounter/hospitalization/preAdmissionIdentifier -->
+					</TD>
+				</TR>
+				<TR>
+					<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/hospitalization/origin -->
+						<TABLE>
+							<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/hospitalization/origin</font></TH></TR>
+							<TR>
+								<TD align="left" valign="top">
+									<TABLE>
+										<TR><TD>reference</TD><TD>#xdatStringBox("fhir:encounter/hospitalization/origin/reference" $item "" $vr)</TD></TR>
+										<TR><TD>type</TD><TD>#xdatStringBox("fhir:encounter/hospitalization/origin/type" $item "" $vr)</TD></TR>
+										<TR><TD>display</TD><TD>#xdatStringBox("fhir:encounter/hospitalization/origin/display" $item "" $vr)</TD></TR>
+										<TR><TD>ID</TD><TD>#xdatTextBox("fhir:encounter/hospitalization/origin/ID" $item "" $vr)</TD></TR>
+									</TABLE>
+								</TD>
+							</TR>
+							<TR>
+								<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/hospitalization/origin/identifier -->
+									<TABLE>
+										<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/hospitalization/origin/identifier</font></TH></TR>
+										<TR>
+											<TD align="left" valign="top">
+												<TABLE>
+													<TR><TD>use</TD><TD>#xdatStringBox("fhir:encounter/hospitalization/origin/identifier/use" $item "" $vr)</TD></TR>
+													<TR><TD>system</TD><TD>#xdatStringBox("fhir:encounter/hospitalization/origin/identifier/system" $item "" $vr)</TD></TR>
+													<TR><TD>value</TD><TD>#xdatStringBox("fhir:encounter/hospitalization/origin/identifier/value" $item "" $vr)</TD></TR>
+													<TR><TD>period/start</TD><TD>#xdatStringBox("fhir:encounter/hospitalization/origin/identifier/period/start" $item "" $vr)</TD></TR>
+													<TR><TD>period/end</TD><TD>#xdatStringBox("fhir:encounter/hospitalization/origin/identifier/period/end" $item "" $vr)</TD></TR>
+													<TR><TD>ID</TD><TD>#xdatTextBox("fhir:encounter/hospitalization/origin/identifier/ID" $item "" $vr)</TD></TR>
+												</TABLE>
+											</TD>
+										</TR>
+										<TR>
+											<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/hospitalization/origin/identifier/type -->
+												<TABLE>
+													<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/hospitalization/origin/identifier/type</font></TH></TR>
+													<TR>
+														<TD align="left" valign="top">
+															<TABLE>
+																<TR><TD>text</TD><TD>#xdatStringBox("fhir:encounter/hospitalization/origin/identifier/type/text" $item "" $vr)</TD></TR>
+																<TR><TD>ID</TD><TD>#xdatTextBox("fhir:encounter/hospitalization/origin/identifier/type/ID" $item "" $vr)</TD></TR>
+															</TABLE>
+														</TD>
+													</TR>
+<!-- BEGIN fhir:encounter/hospitalization/origin/identifier/type/coding -->
+													<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/hospitalization/origin/identifier/type/coding</font></TH></TR>
+													<TR>
+														<TD align="left" valign="top">
+															<TABLE>
+																<TR>
+																	<TD>system</TD>
+																	<TD>version</TD>
+																	<TD>code</TD>
+																	<TD>display</TD>
+																	<TD>userSelected</TD>
+																	<TD>ID</TD>
+																</TR>
+																#foreach($fhir_coding_34_COUNTER in [0..0])
+																	<TR>
+																		<TD>#xdatTextBox("fhir:encounter/hospitalization/origin/identifier/type/coding[$fhir_coding_34_COUNTER]/system" $item "" $vr)</TD>
+																		<TD>#xdatTextBox("fhir:encounter/hospitalization/origin/identifier/type/coding[$fhir_coding_34_COUNTER]/version" $item "" $vr)</TD>
+																		<TD>#xdatTextBox("fhir:encounter/hospitalization/origin/identifier/type/coding[$fhir_coding_34_COUNTER]/code" $item "" $vr)</TD>
+																		<TD>#xdatTextBox("fhir:encounter/hospitalization/origin/identifier/type/coding[$fhir_coding_34_COUNTER]/display" $item "" $vr)</TD>
+																		<TD>#xdatTextBox("fhir:encounter/hospitalization/origin/identifier/type/coding[$fhir_coding_34_COUNTER]/userSelected" $item "" $vr)</TD>
+																		<TD>#xdatTextBox("fhir:encounter/hospitalization/origin/identifier/type/coding[$fhir_coding_34_COUNTER]/ID" $item "" $vr)</TD>
+																	</TR>
+																#end
+															</TABLE>
+														</TD>
+													</TR>
+<!-- END fhir:encounter/hospitalization/origin/identifier/type/coding -->
+												</TABLE>
+<!-- END fhir:encounter/hospitalization/origin/identifier/type -->
+											</TD>
+										</TR>
+									</TABLE>
+<!-- END fhir:encounter/hospitalization/origin/identifier -->
+								</TD>
+							</TR>
+						</TABLE>
+<!-- END fhir:encounter/hospitalization/origin -->
+					</TD>
+				</TR>
+				<TR>
+					<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/hospitalization/admitSource -->
+						<TABLE>
+							<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/hospitalization/admitSource</font></TH></TR>
+							<TR>
+								<TD align="left" valign="top">
+									<TABLE>
+										<TR><TD>text</TD><TD>#xdatStringBox("fhir:encounter/hospitalization/admitSource/text" $item "" $vr)</TD></TR>
+										<TR><TD>ID</TD><TD>#xdatTextBox("fhir:encounter/hospitalization/admitSource/ID" $item "" $vr)</TD></TR>
+									</TABLE>
+								</TD>
+							</TR>
+<!-- BEGIN fhir:encounter/hospitalization/admitSource/coding -->
+							<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/hospitalization/admitSource/coding</font></TH></TR>
+							<TR>
+								<TD align="left" valign="top">
+									<TABLE>
+										<TR>
+											<TD>system</TD>
+											<TD>version</TD>
+											<TD>code</TD>
+											<TD>display</TD>
+											<TD>userSelected</TD>
+											<TD>ID</TD>
+										</TR>
+										#foreach($fhir_coding_35_COUNTER in [0..0])
+											<TR>
+												<TD>#xdatTextBox("fhir:encounter/hospitalization/admitSource/coding[$fhir_coding_35_COUNTER]/system" $item "" $vr)</TD>
+												<TD>#xdatTextBox("fhir:encounter/hospitalization/admitSource/coding[$fhir_coding_35_COUNTER]/version" $item "" $vr)</TD>
+												<TD>#xdatTextBox("fhir:encounter/hospitalization/admitSource/coding[$fhir_coding_35_COUNTER]/code" $item "" $vr)</TD>
+												<TD>#xdatTextBox("fhir:encounter/hospitalization/admitSource/coding[$fhir_coding_35_COUNTER]/display" $item "" $vr)</TD>
+												<TD>#xdatTextBox("fhir:encounter/hospitalization/admitSource/coding[$fhir_coding_35_COUNTER]/userSelected" $item "" $vr)</TD>
+												<TD>#xdatTextBox("fhir:encounter/hospitalization/admitSource/coding[$fhir_coding_35_COUNTER]/ID" $item "" $vr)</TD>
+											</TR>
+										#end
+									</TABLE>
+								</TD>
+							</TR>
+<!-- END fhir:encounter/hospitalization/admitSource/coding -->
+						</TABLE>
+<!-- END fhir:encounter/hospitalization/admitSource -->
+					</TD>
+				</TR>
+				<TR>
+					<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/hospitalization/reAdmission -->
+						<TABLE>
+							<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/hospitalization/reAdmission</font></TH></TR>
+							<TR>
+								<TD align="left" valign="top">
+									<TABLE>
+										<TR><TD>text</TD><TD>#xdatStringBox("fhir:encounter/hospitalization/reAdmission/text" $item "" $vr)</TD></TR>
+										<TR><TD>ID</TD><TD>#xdatTextBox("fhir:encounter/hospitalization/reAdmission/ID" $item "" $vr)</TD></TR>
+									</TABLE>
+								</TD>
+							</TR>
+<!-- BEGIN fhir:encounter/hospitalization/reAdmission/coding -->
+							<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/hospitalization/reAdmission/coding</font></TH></TR>
+							<TR>
+								<TD align="left" valign="top">
+									<TABLE>
+										<TR>
+											<TD>system</TD>
+											<TD>version</TD>
+											<TD>code</TD>
+											<TD>display</TD>
+											<TD>userSelected</TD>
+											<TD>ID</TD>
+										</TR>
+										#foreach($fhir_coding_36_COUNTER in [0..0])
+											<TR>
+												<TD>#xdatTextBox("fhir:encounter/hospitalization/reAdmission/coding[$fhir_coding_36_COUNTER]/system" $item "" $vr)</TD>
+												<TD>#xdatTextBox("fhir:encounter/hospitalization/reAdmission/coding[$fhir_coding_36_COUNTER]/version" $item "" $vr)</TD>
+												<TD>#xdatTextBox("fhir:encounter/hospitalization/reAdmission/coding[$fhir_coding_36_COUNTER]/code" $item "" $vr)</TD>
+												<TD>#xdatTextBox("fhir:encounter/hospitalization/reAdmission/coding[$fhir_coding_36_COUNTER]/display" $item "" $vr)</TD>
+												<TD>#xdatTextBox("fhir:encounter/hospitalization/reAdmission/coding[$fhir_coding_36_COUNTER]/userSelected" $item "" $vr)</TD>
+												<TD>#xdatTextBox("fhir:encounter/hospitalization/reAdmission/coding[$fhir_coding_36_COUNTER]/ID" $item "" $vr)</TD>
+											</TR>
+										#end
+									</TABLE>
+								</TD>
+							</TR>
+<!-- END fhir:encounter/hospitalization/reAdmission/coding -->
+						</TABLE>
+<!-- END fhir:encounter/hospitalization/reAdmission -->
+					</TD>
+				</TR>
+				<TR>
+					<TD align="left" valign="top">
+						<TABLE><TR><TD>
+							#foreach($fhir_codeableConcept_36_COUNTER in [0..0])
+<!-- BEGIN fhir:encounter/hospitalization/dietPreference[$fhir_codeableConcept_36_COUNTER] -->
+								<TABLE>
+									<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/hospitalization/dietPreference[$fhir_codeableConcept_36_COUNTER]</font></TH></TR>
+									<TR>
+										<TD align="left" valign="top">
+											<TABLE>
+												<TR><TD>text</TD><TD>#xdatStringBox("fhir:encounter/hospitalization/dietPreference[$fhir_codeableConcept_36_COUNTER]/text" $item "" $vr)</TD></TR>
+												<TR><TD>ID</TD><TD>#xdatTextBox("fhir:encounter/hospitalization/dietPreference[$fhir_codeableConcept_36_COUNTER]/ID" $item "" $vr)</TD></TR>
+											</TABLE>
+										</TD>
+									</TR>
+<!-- BEGIN fhir:encounter/hospitalization/dietPreference[$fhir_codeableConcept_36_COUNTER]/coding -->
+									<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/hospitalization/dietPreference[$fhir_codeableConcept_36_COUNTER]/coding</font></TH></TR>
+									<TR>
+										<TD align="left" valign="top">
+											<TABLE>
+												<TR>
+													<TD>system</TD>
+													<TD>version</TD>
+													<TD>code</TD>
+													<TD>display</TD>
+													<TD>userSelected</TD>
+													<TD>ID</TD>
+												</TR>
+												#foreach($fhir_coding_37_COUNTER in [0..0])
+													<TR>
+														<TD>#xdatTextBox("fhir:encounter/hospitalization/dietPreference[$fhir_codeableConcept_36_COUNTER]/coding[$fhir_coding_37_COUNTER]/system" $item "" $vr)</TD>
+														<TD>#xdatTextBox("fhir:encounter/hospitalization/dietPreference[$fhir_codeableConcept_36_COUNTER]/coding[$fhir_coding_37_COUNTER]/version" $item "" $vr)</TD>
+														<TD>#xdatTextBox("fhir:encounter/hospitalization/dietPreference[$fhir_codeableConcept_36_COUNTER]/coding[$fhir_coding_37_COUNTER]/code" $item "" $vr)</TD>
+														<TD>#xdatTextBox("fhir:encounter/hospitalization/dietPreference[$fhir_codeableConcept_36_COUNTER]/coding[$fhir_coding_37_COUNTER]/display" $item "" $vr)</TD>
+														<TD>#xdatTextBox("fhir:encounter/hospitalization/dietPreference[$fhir_codeableConcept_36_COUNTER]/coding[$fhir_coding_37_COUNTER]/userSelected" $item "" $vr)</TD>
+														<TD>#xdatTextBox("fhir:encounter/hospitalization/dietPreference[$fhir_codeableConcept_36_COUNTER]/coding[$fhir_coding_37_COUNTER]/ID" $item "" $vr)</TD>
+													</TR>
+												#end
+											</TABLE>
+										</TD>
+									</TR>
+<!-- END fhir:encounter/hospitalization/dietPreference[$fhir_codeableConcept_36_COUNTER]/coding -->
+								</TABLE>
+<!-- END fhir:encounter/hospitalization/dietPreference[$fhir_codeableConcept_36_COUNTER] -->
+							#end
+						</TD></TR></TABLE>
+					</TD>
+				</TR>
+				<TR>
+					<TD align="left" valign="top">
+						<TABLE><TR><TD>
+							#foreach($fhir_codeableConcept_37_COUNTER in [0..0])
+<!-- BEGIN fhir:encounter/hospitalization/specialCourtesy[$fhir_codeableConcept_37_COUNTER] -->
+								<TABLE>
+									<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/hospitalization/specialCourtesy[$fhir_codeableConcept_37_COUNTER]</font></TH></TR>
+									<TR>
+										<TD align="left" valign="top">
+											<TABLE>
+												<TR><TD>text</TD><TD>#xdatStringBox("fhir:encounter/hospitalization/specialCourtesy[$fhir_codeableConcept_37_COUNTER]/text" $item "" $vr)</TD></TR>
+												<TR><TD>ID</TD><TD>#xdatTextBox("fhir:encounter/hospitalization/specialCourtesy[$fhir_codeableConcept_37_COUNTER]/ID" $item "" $vr)</TD></TR>
+											</TABLE>
+										</TD>
+									</TR>
+<!-- BEGIN fhir:encounter/hospitalization/specialCourtesy[$fhir_codeableConcept_37_COUNTER]/coding -->
+									<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/hospitalization/specialCourtesy[$fhir_codeableConcept_37_COUNTER]/coding</font></TH></TR>
+									<TR>
+										<TD align="left" valign="top">
+											<TABLE>
+												<TR>
+													<TD>system</TD>
+													<TD>version</TD>
+													<TD>code</TD>
+													<TD>display</TD>
+													<TD>userSelected</TD>
+													<TD>ID</TD>
+												</TR>
+												#foreach($fhir_coding_38_COUNTER in [0..0])
+													<TR>
+														<TD>#xdatTextBox("fhir:encounter/hospitalization/specialCourtesy[$fhir_codeableConcept_37_COUNTER]/coding[$fhir_coding_38_COUNTER]/system" $item "" $vr)</TD>
+														<TD>#xdatTextBox("fhir:encounter/hospitalization/specialCourtesy[$fhir_codeableConcept_37_COUNTER]/coding[$fhir_coding_38_COUNTER]/version" $item "" $vr)</TD>
+														<TD>#xdatTextBox("fhir:encounter/hospitalization/specialCourtesy[$fhir_codeableConcept_37_COUNTER]/coding[$fhir_coding_38_COUNTER]/code" $item "" $vr)</TD>
+														<TD>#xdatTextBox("fhir:encounter/hospitalization/specialCourtesy[$fhir_codeableConcept_37_COUNTER]/coding[$fhir_coding_38_COUNTER]/display" $item "" $vr)</TD>
+														<TD>#xdatTextBox("fhir:encounter/hospitalization/specialCourtesy[$fhir_codeableConcept_37_COUNTER]/coding[$fhir_coding_38_COUNTER]/userSelected" $item "" $vr)</TD>
+														<TD>#xdatTextBox("fhir:encounter/hospitalization/specialCourtesy[$fhir_codeableConcept_37_COUNTER]/coding[$fhir_coding_38_COUNTER]/ID" $item "" $vr)</TD>
+													</TR>
+												#end
+											</TABLE>
+										</TD>
+									</TR>
+<!-- END fhir:encounter/hospitalization/specialCourtesy[$fhir_codeableConcept_37_COUNTER]/coding -->
+								</TABLE>
+<!-- END fhir:encounter/hospitalization/specialCourtesy[$fhir_codeableConcept_37_COUNTER] -->
+							#end
+						</TD></TR></TABLE>
+					</TD>
+				</TR>
+				<TR>
+					<TD align="left" valign="top">
+						<TABLE><TR><TD>
+							#foreach($fhir_codeableConcept_38_COUNTER in [0..0])
+<!-- BEGIN fhir:encounter/hospitalization/specialArrangement[$fhir_codeableConcept_38_COUNTER] -->
+								<TABLE>
+									<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/hospitalization/specialArrangement[$fhir_codeableConcept_38_COUNTER]</font></TH></TR>
+									<TR>
+										<TD align="left" valign="top">
+											<TABLE>
+												<TR><TD>text</TD><TD>#xdatStringBox("fhir:encounter/hospitalization/specialArrangement[$fhir_codeableConcept_38_COUNTER]/text" $item "" $vr)</TD></TR>
+												<TR><TD>ID</TD><TD>#xdatTextBox("fhir:encounter/hospitalization/specialArrangement[$fhir_codeableConcept_38_COUNTER]/ID" $item "" $vr)</TD></TR>
+											</TABLE>
+										</TD>
+									</TR>
+<!-- BEGIN fhir:encounter/hospitalization/specialArrangement[$fhir_codeableConcept_38_COUNTER]/coding -->
+									<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/hospitalization/specialArrangement[$fhir_codeableConcept_38_COUNTER]/coding</font></TH></TR>
+									<TR>
+										<TD align="left" valign="top">
+											<TABLE>
+												<TR>
+													<TD>system</TD>
+													<TD>version</TD>
+													<TD>code</TD>
+													<TD>display</TD>
+													<TD>userSelected</TD>
+													<TD>ID</TD>
+												</TR>
+												#foreach($fhir_coding_39_COUNTER in [0..0])
+													<TR>
+														<TD>#xdatTextBox("fhir:encounter/hospitalization/specialArrangement[$fhir_codeableConcept_38_COUNTER]/coding[$fhir_coding_39_COUNTER]/system" $item "" $vr)</TD>
+														<TD>#xdatTextBox("fhir:encounter/hospitalization/specialArrangement[$fhir_codeableConcept_38_COUNTER]/coding[$fhir_coding_39_COUNTER]/version" $item "" $vr)</TD>
+														<TD>#xdatTextBox("fhir:encounter/hospitalization/specialArrangement[$fhir_codeableConcept_38_COUNTER]/coding[$fhir_coding_39_COUNTER]/code" $item "" $vr)</TD>
+														<TD>#xdatTextBox("fhir:encounter/hospitalization/specialArrangement[$fhir_codeableConcept_38_COUNTER]/coding[$fhir_coding_39_COUNTER]/display" $item "" $vr)</TD>
+														<TD>#xdatTextBox("fhir:encounter/hospitalization/specialArrangement[$fhir_codeableConcept_38_COUNTER]/coding[$fhir_coding_39_COUNTER]/userSelected" $item "" $vr)</TD>
+														<TD>#xdatTextBox("fhir:encounter/hospitalization/specialArrangement[$fhir_codeableConcept_38_COUNTER]/coding[$fhir_coding_39_COUNTER]/ID" $item "" $vr)</TD>
+													</TR>
+												#end
+											</TABLE>
+										</TD>
+									</TR>
+<!-- END fhir:encounter/hospitalization/specialArrangement[$fhir_codeableConcept_38_COUNTER]/coding -->
+								</TABLE>
+<!-- END fhir:encounter/hospitalization/specialArrangement[$fhir_codeableConcept_38_COUNTER] -->
+							#end
+						</TD></TR></TABLE>
+					</TD>
+				</TR>
+				<TR>
+					<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/hospitalization/destination -->
+						<TABLE>
+							<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/hospitalization/destination</font></TH></TR>
+							<TR>
+								<TD align="left" valign="top">
+									<TABLE>
+										<TR><TD>reference</TD><TD>#xdatStringBox("fhir:encounter/hospitalization/destination/reference" $item "" $vr)</TD></TR>
+										<TR><TD>type</TD><TD>#xdatStringBox("fhir:encounter/hospitalization/destination/type" $item "" $vr)</TD></TR>
+										<TR><TD>display</TD><TD>#xdatStringBox("fhir:encounter/hospitalization/destination/display" $item "" $vr)</TD></TR>
+										<TR><TD>ID</TD><TD>#xdatTextBox("fhir:encounter/hospitalization/destination/ID" $item "" $vr)</TD></TR>
+									</TABLE>
+								</TD>
+							</TR>
+							<TR>
+								<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/hospitalization/destination/identifier -->
+									<TABLE>
+										<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/hospitalization/destination/identifier</font></TH></TR>
+										<TR>
+											<TD align="left" valign="top">
+												<TABLE>
+													<TR><TD>use</TD><TD>#xdatStringBox("fhir:encounter/hospitalization/destination/identifier/use" $item "" $vr)</TD></TR>
+													<TR><TD>system</TD><TD>#xdatStringBox("fhir:encounter/hospitalization/destination/identifier/system" $item "" $vr)</TD></TR>
+													<TR><TD>value</TD><TD>#xdatStringBox("fhir:encounter/hospitalization/destination/identifier/value" $item "" $vr)</TD></TR>
+													<TR><TD>period/start</TD><TD>#xdatStringBox("fhir:encounter/hospitalization/destination/identifier/period/start" $item "" $vr)</TD></TR>
+													<TR><TD>period/end</TD><TD>#xdatStringBox("fhir:encounter/hospitalization/destination/identifier/period/end" $item "" $vr)</TD></TR>
+													<TR><TD>ID</TD><TD>#xdatTextBox("fhir:encounter/hospitalization/destination/identifier/ID" $item "" $vr)</TD></TR>
+												</TABLE>
+											</TD>
+										</TR>
+										<TR>
+											<TD align="left" valign="top">
+<!-- BEGIN fhir:encounter/hospitalization/destination/identifier/type -->
+												<TABLE>
+													<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/hospitalization/destination/identifier/type</font></TH></TR>
+													<TR>
+														<TD align="left" valign="top">
+															<TABLE>
+																<TR><TD>text</TD><TD>#xdatStringBox("fhir:encounter/hospitalization/destination/identifier/type/text" $item "" $vr)</TD></TR>
+																<TR><TD>ID</TD><TD>#xdatTextBox("fhir:encounter/hospitalization/destination/identifier/type/ID" $item "" $vr)</TD></TR>
+															</TABLE>
+														</TD>
+													</TR>
+<!-- BEGIN fhir:encounter/hospitalization/destination/identifier/type/coding -->
+													<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/hospitalization/destination/identifier/type/coding</font></TH></TR>
+													<TR>
+														<TD align="left" valign="top">
+															<TABLE>
+																<TR>
+																	<TD>system</TD>
+																	<TD>version</TD>
+																	<TD>code</TD>
+																	<TD>display</TD>
+																	<TD>userSelected</TD>
+																	<TD>ID</TD>
+																</TR>
+																#foreach($fhir_coding_42_COUNTER in [0..0])
+																	<TR>
+																		<TD>#xdatTextBox("fhir:encounter/hospitalization/destination/identifier/type/coding[$fhir_coding_42_COUNTER]/system" $item "" $vr)</TD>
+																		<TD>#xdatTextBox("fhir:encounter/hospitalization/destination/identifier/type/coding[$fhir_coding_42_COUNTER]/version" $item "" $vr)</TD>
+																		<TD>#xdatTextBox("fhir:encounter/hospitalization/destination/identifier/type/coding[$fhir_coding_42_COUNTER]/code" $item "" $vr)</TD>
+																		<TD>#xdatTextBox("fhir:encounter/hospitalization/destination/identifier/type/coding[$fhir_coding_42_COUNTER]/display" $item "" $vr)</TD>
+																		<TD>#xdatTextBox("fhir:encounter/hospitalization/destination/identifier/type/coding[$fhir_coding_42_COUNTER]/userSelected" $item "" $vr)</TD>
+																		<TD>#xdatTextBox("fhir:encounter/hospitalization/destination/identifier/type/coding[$fhir_coding_42_COUNTER]/ID" $item "" $vr)</TD>
+																	</TR>
+																#end
+															</TABLE>
+														</TD>
+													</TR>
+<!-- END fhir:encounter/hospitalization/destination/identifier/type/coding -->
+												</TABLE>
+<!-- END fhir:encounter/hospitalization/destination/identifier/type -->
+											</TD>
+										</TR>
+									</TABLE>
+<!-- END fhir:encounter/hospitalization/destination/identifier -->
+								</TD>
+							</TR>
+						</TABLE>
+<!-- END fhir:encounter/hospitalization/destination -->
+					</TD>
+				</TR>
+<!-- BEGIN fhir:encounter/hospitalization/dischargeDisposition/extension -->
+				<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/hospitalization/dischargeDisposition/extension</font></TH></TR>
+				<TR>
+					<TD align="left" valign="top">
+						<TABLE>
+							<TR>
+								<TD>url</TD>
+								<TD>value</TD>
+							</TR>
+							#foreach($fhir_encounter_extension_42_COUNTER in [0..0])
+								<TR>
+									<TD>#xdatTextBox("fhir:encounter/hospitalization/dischargeDisposition/extension[$fhir_encounter_extension_42_COUNTER]/Entlassungsgrund/url" $item "" $vr)</TD>
+									<TD>#xdatTextBox("fhir:encounter/hospitalization/dischargeDisposition/extension[$fhir_encounter_extension_42_COUNTER]/Entlassungsgrund/value" $item "" $vr)</TD>
+									#xdatHiddenBox("fhir:encounter/hospitalization/dischargeDisposition/extension[$fhir_encounter_extension_42_COUNTER]/Entlassungsgrund/fhir_extension_id" $item "")
+									#xdatHiddenBox("fhir:encounter/hospitalization/dischargeDisposition/extension[$fhir_encounter_extension_42_COUNTER]/fhir_encounter_extension_id" $item "")
+								</TR>
+							#end
+						</TABLE>
+					</TD>
+				</TR>
+<!-- END fhir:encounter/hospitalization/dischargeDisposition/extension -->
+<!-- BEGIN fhir:encounter/hospitalization/dischargeDisposition/coding -->
+				<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/hospitalization/dischargeDisposition/coding</font></TH></TR>
+				<TR>
+					<TD align="left" valign="top">
+						<TABLE>
+							<TR>
+								<TD>system</TD>
+								<TD>version</TD>
+								<TD>code</TD>
+								<TD>display</TD>
+								<TD>userSelected</TD>
+								<TD>ID</TD>
+							</TR>
+							#foreach($fhir_coding_42_COUNTER in [0..0])
+								<TR>
+									<TD>#xdatTextBox("fhir:encounter/hospitalization/dischargeDisposition/coding[$fhir_coding_42_COUNTER]/system" $item "" $vr)</TD>
+									<TD>#xdatTextBox("fhir:encounter/hospitalization/dischargeDisposition/coding[$fhir_coding_42_COUNTER]/version" $item "" $vr)</TD>
+									<TD>#xdatTextBox("fhir:encounter/hospitalization/dischargeDisposition/coding[$fhir_coding_42_COUNTER]/code" $item "" $vr)</TD>
+									<TD>#xdatTextBox("fhir:encounter/hospitalization/dischargeDisposition/coding[$fhir_coding_42_COUNTER]/display" $item "" $vr)</TD>
+									<TD>#xdatTextBox("fhir:encounter/hospitalization/dischargeDisposition/coding[$fhir_coding_42_COUNTER]/userSelected" $item "" $vr)</TD>
+									<TD>#xdatTextBox("fhir:encounter/hospitalization/dischargeDisposition/coding[$fhir_coding_42_COUNTER]/ID" $item "" $vr)</TD>
+								</TR>
+							#end
+						</TABLE>
+					</TD>
+				</TR>
+<!-- END fhir:encounter/hospitalization/dischargeDisposition/coding -->
+			</TABLE>
+<!-- END fhir:encounter -->
+		</TD>
+	</TR>
+	<TR>
+		<TD>
+		#xdatEditProps($item $edit_screen)
+		<TR><TD COLSPAN=2 ALIGN=left><input type="button" ONCLICK="validateForm();"  name="eventSubmit_doInsert" value="Submit"/></TD></TR>
+		</TD>
+	</TR>
+</TABLE>
+</form>
+
+<script type="text/javascript">
+	window.currentID="$!om.getId()";
+		#if($om.getProject())
+			#if($om.getProject().equals(""))
+			window.currentProject="$!project";
+			#else
+			window.currentProject="$!om.getProject()";
+			#end
+		#else
+		window.currentProject="$!project";
+		#end
+
+	window.currentSubject="$!om.getSubjectId()";
+	window.currentLabel="$!om.getLabel()";
+
+function validateForm()
+{
+	document.encounterForm.submit();
+
+   return true;
+}
+</script>

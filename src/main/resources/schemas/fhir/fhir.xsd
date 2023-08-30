@@ -1043,7 +1043,7 @@
                             </xs:sequence>
                         </xs:complexType>
                     </xs:element>
-                    <xs:element name="subject" type="fhir:reference">
+                    <xs:element name="fhirSubject" type="fhir:reference">
                         <xs:annotation>
                             <xs:documentation>A reference from one resource to another</xs:documentation>
                         </xs:annotation>
