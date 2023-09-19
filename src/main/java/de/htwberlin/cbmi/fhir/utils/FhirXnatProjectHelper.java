@@ -46,7 +46,7 @@ public class FhirXnatProjectHelper {
     }
 
     /**
-     * Find anew unique project id matching the XNAT schema
+     * Find a new unique project id matching the XNAT schema
      * @param subject Subject to find new id for
      * @param user Authenticated user
      * @return New subject id to assign

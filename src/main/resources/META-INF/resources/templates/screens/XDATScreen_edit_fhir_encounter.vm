@@ -299,7 +299,7 @@ $page.setVlinkColor($ui.vlink)
 							#foreach($fhir_encounter_AufnahmeExtension_6_COUNTER in [0..0])
 <!-- BEGIN fhir:encounter/AufnahmeExtension[$fhir_encounter_AufnahmeExtension_6_COUNTER] -->
 								<TABLE>
-									<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/AufnahmeExtension[$fhir_encounter_AufnahmeExtension_6_COUNTER]</font></TH></TR>
+									<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/AufnahmeExtension[$fhir_encounter_AufnahmeExtension_6_COUNTER] *</font></TH></TR>
 									<TR>
 										<TD align="left" valign="top">
 											<TABLE>
@@ -325,12 +325,12 @@ $page.setVlinkColor($ui.vlink)
 													<TD align="left" valign="top">
 														<TABLE>
 															<TR>
-																<TD>url</TD>
-																<TD>value</TD>
-																<TD>url</TD>
-																<TD>value</TD>
-																<TD>url</TD>
-																<TD>value</TD>
+																<TD>ErsteUndZweiteStelle/url</TD>
+																<TD>ErsteUndZweiteStelle/value</TD>
+																<TD>DritteStelle/url</TD>
+																<TD>DritteStelle/value</TD>
+																<TD>VierteStelle/url</TD>
+																<TD>VierteStelle/value</TD>
 															</TR>
 															#foreach($fhir_AufnahmegrundExtension_8_COUNTER in [0..0])
 																<TR>
@@ -366,7 +366,7 @@ $page.setVlinkColor($ui.vlink)
 							#foreach($fhir_encounter_identifier_8_COUNTER in [0..0])
 <!-- BEGIN fhir:encounter/identifier[$fhir_encounter_identifier_8_COUNTER] -->
 								<TABLE>
-									<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/identifier[$fhir_encounter_identifier_8_COUNTER]</font></TH></TR>
+									<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/identifier[$fhir_encounter_identifier_8_COUNTER] *</font></TH></TR>
 									<TR>
 										<TD align="left" valign="top">
 											<TABLE>
@@ -378,7 +378,7 @@ $page.setVlinkColor($ui.vlink)
 										<TD align="left" valign="top">
 <!-- BEGIN fhir:encounter/identifier[$fhir_encounter_identifier_8_COUNTER]/Aufnahmenummer -->
 											<TABLE>
-												<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/identifier[$fhir_encounter_identifier_8_COUNTER]/Aufnahmenummer</font></TH></TR>
+												<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/identifier[$fhir_encounter_identifier_8_COUNTER]/Aufnahmenummer *</font></TH></TR>
 												<TR>
 													<TD align="left" valign="top">
 														<TABLE>
@@ -468,7 +468,7 @@ $page.setVlinkColor($ui.vlink)
 					<TD align="left" valign="top">
 <!-- BEGIN fhir:encounter/encounterClass -->
 						<TABLE>
-							<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/encounterClass</font></TH></TR>
+							<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/encounterClass *</font></TH></TR>
 							<TR>
 								<TD align="left" valign="top">
 									<TABLE>
@@ -491,7 +491,7 @@ $page.setVlinkColor($ui.vlink)
 							#foreach($fhir_encounter_type_13_COUNTER in [0..0])
 <!-- BEGIN fhir:encounter/type[$fhir_encounter_type_13_COUNTER] -->
 								<TABLE>
-									<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/type[$fhir_encounter_type_13_COUNTER]</font></TH></TR>
+									<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/type[$fhir_encounter_type_13_COUNTER] *</font></TH></TR>
 									<TR>
 										<TD align="left" valign="top">
 											<TABLE>
@@ -503,7 +503,7 @@ $page.setVlinkColor($ui.vlink)
 										<TD align="left" valign="top">
 <!-- BEGIN fhir:encounter/type[$fhir_encounter_type_13_COUNTER]/Kontaktebene -->
 											<TABLE>
-												<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/type[$fhir_encounter_type_13_COUNTER]/Kontaktebene</font></TH></TR>
+												<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/type[$fhir_encounter_type_13_COUNTER]/Kontaktebene *</font></TH></TR>
 												<TR>
 													<TD align="left" valign="top">
 														<TABLE>
@@ -547,7 +547,7 @@ $page.setVlinkColor($ui.vlink)
 										<TD align="left" valign="top">
 <!-- BEGIN fhir:encounter/type[$fhir_encounter_type_13_COUNTER]/KontaktArt -->
 											<TABLE>
-												<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/type[$fhir_encounter_type_13_COUNTER]/KontaktArt</font></TH></TR>
+												<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/type[$fhir_encounter_type_13_COUNTER]/KontaktArt *</font></TH></TR>
 												<TR>
 													<TD align="left" valign="top">
 														<TABLE>
@@ -594,7 +594,7 @@ $page.setVlinkColor($ui.vlink)
 					</TD>
 				</TR>
 <!-- BEGIN fhir:encounter/serviceType/coding -->
-				<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/serviceType/coding</font></TH></TR>
+				<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/serviceType/coding *</font></TH></TR>
 				<TR>
 					<TD align="left" valign="top">
 						<TABLE>
@@ -625,7 +625,7 @@ $page.setVlinkColor($ui.vlink)
 					<TD align="left" valign="top">
 <!-- BEGIN fhir:encounter/fhirSubject -->
 						<TABLE>
-							<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/fhirSubject</font></TH></TR>
+							<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/fhirSubject *</font></TH></TR>
 							<TR>
 								<TD align="left" valign="top">
 									<TABLE>
@@ -709,7 +709,7 @@ $page.setVlinkColor($ui.vlink)
 					<TD align="left" valign="top">
 <!-- BEGIN fhir:encounter/diagnosis/condition -->
 						<TABLE>
-							<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/diagnosis/condition</font></TH></TR>
+							<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/diagnosis/condition *</font></TH></TR>
 							<TR>
 								<TD align="left" valign="top">
 									<TABLE>
@@ -793,7 +793,7 @@ $page.setVlinkColor($ui.vlink)
 					<TD align="left" valign="top">
 <!-- BEGIN fhir:encounter/diagnosis/use -->
 						<TABLE>
-							<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/diagnosis/use</font></TH></TR>
+							<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/diagnosis/use *</font></TH></TR>
 							<TR>
 								<TD align="left" valign="top">
 									<TABLE>
@@ -839,7 +839,7 @@ $page.setVlinkColor($ui.vlink)
 							#foreach($fhir_encounter_location_23_COUNTER in [0..0])
 <!-- BEGIN fhir:encounter/location[$fhir_encounter_location_23_COUNTER] -->
 								<TABLE>
-									<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/location[$fhir_encounter_location_23_COUNTER]</font></TH></TR>
+									<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/location[$fhir_encounter_location_23_COUNTER] *</font></TH></TR>
 									<TR>
 										<TD align="left" valign="top">
 											<TABLE>
@@ -854,7 +854,7 @@ $page.setVlinkColor($ui.vlink)
 										<TD align="left" valign="top">
 <!-- BEGIN fhir:encounter/location[$fhir_encounter_location_23_COUNTER]/location -->
 											<TABLE>
-												<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/location[$fhir_encounter_location_23_COUNTER]/location</font></TH></TR>
+												<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/location[$fhir_encounter_location_23_COUNTER]/location *</font></TH></TR>
 												<TR>
 													<TD align="left" valign="top">
 														<TABLE>
@@ -1156,7 +1156,7 @@ $page.setVlinkColor($ui.vlink)
 					<TD align="left" valign="top">
 <!-- BEGIN fhir:encounter/hospitalization/admitSource -->
 						<TABLE>
-							<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/hospitalization/admitSource</font></TH></TR>
+							<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/hospitalization/admitSource *</font></TH></TR>
 							<TR>
 								<TD align="left" valign="top">
 									<TABLE>
@@ -1166,7 +1166,7 @@ $page.setVlinkColor($ui.vlink)
 								</TD>
 							</TR>
 <!-- BEGIN fhir:encounter/hospitalization/admitSource/coding -->
-							<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/hospitalization/admitSource/coding</font></TH></TR>
+							<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/hospitalization/admitSource/coding *</font></TH></TR>
 							<TR>
 								<TD align="left" valign="top">
 									<TABLE>
@@ -1490,7 +1490,7 @@ $page.setVlinkColor($ui.vlink)
 				</TR>
 <!-- END fhir:encounter/hospitalization/dischargeDisposition/extension -->
 <!-- BEGIN fhir:encounter/hospitalization/dischargeDisposition/coding -->
-				<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/hospitalization/dischargeDisposition/coding</font></TH></TR>
+				<TR><TH align="left"><BR><font face="$ui.sansSerifFonts" size="2">fhir:encounter/hospitalization/dischargeDisposition/coding *</font></TH></TR>
 				<TR>
 					<TD align="left" valign="top">
 						<TABLE>

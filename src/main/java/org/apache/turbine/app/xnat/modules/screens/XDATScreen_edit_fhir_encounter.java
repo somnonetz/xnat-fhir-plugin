@@ -42,12 +42,11 @@ public class XDATScreen_edit_fhir_encounter extends EditSubjectAssessorScreen {
                 subjectId = (String) context.get("subjectId");
             }
 
-            // todo: fix subject_ID, experiment ID by encounter
-            context.put("label", FhirEncounterService.getEncounterDataLabelForSubjectId(subjectId));
+            String label = FhirEncounterService.getNextEncounterDataLabel(XDAT.getUserDetails());
+            context.put("label", label);
 
-            FhirEncounterI item = FhirEncounterService.getEncounterForSubject(subjectId, XDAT.getUserDetails());
+            FhirEncounterI item = FhirEncounterService.getEncounterForLabel(label, XDAT.getUserDetails());
             if (item != null) {
-                // Publish an existing item for subjectId
                 context.put("item", item);
             }
         }

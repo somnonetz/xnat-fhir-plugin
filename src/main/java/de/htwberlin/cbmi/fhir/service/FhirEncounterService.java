@@ -4,10 +4,12 @@ import de.htwberlin.cbmi.fhir.utils.ComplexDatatypeValidatable;
 import de.htwberlin.cbmi.fhir.utils.Datatypes;
 import de.htwberlin.cbmi.fhir.utils.FhirXnatProjectHelper;
 import org.nrg.xft.ItemI;
+import org.nrg.xft.XFTTable;
 import org.nrg.xft.collections.ItemCollection;
 import org.nrg.xft.search.CriteriaCollection;
 import org.nrg.xft.search.ItemSearch;
 import org.nrg.xft.search.SearchCriteria;
+import org.nrg.xft.search.TableSearch;
 import org.nrg.xft.security.UserI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,10 +38,30 @@ public class FhirEncounterService extends ComplexDatatypeValidatable {
         return "fhir-MII";
     }
 
-    @Nonnull
-    public static String getEncounterDataLabelForSubjectId(String subjectId) {
-        // todo: make incresed experiment ID in label
-        return "fhir_encounter_" + subjectId + "01";
+    public static String getNextEncounterDataLabel(UserI user) {
+
+        XnatSubjectdata subject = new XnatSubjectdata(user);
+
+        try {
+            XFTTable table = TableSearch.Execute("SELECT id FROM xnat_experimentdata ORDER BY id DESC LIMIT 1", subject.getItem().getDBName(),null);
+            table.resetRowCursor();
+            int experimentId = 1;
+
+            if (table.hasMoreRows()) {
+                final Hashtable row = table.nextRowHash();
+                final String databaseId  = (String)row.get("id");
+                final Scanner sc = new Scanner(databaseId);
+                sc.findInLine("(\\d+)$");
+                final MatchResult result = sc.match();
+                experimentId = Integer.parseInt(result.group(0)) + 1;
+            }
+
+            return String.format("fhir_encounter_E%05d", experimentId);
+        }
+        catch (Exception e) {
+            _log.error(e.getMessage());
+            return null;
+        }
     }
 
     /**
@@ -485,9 +507,15 @@ public class FhirEncounterService extends ComplexDatatypeValidatable {
         return Integer.parseInt(result.group(0));
     }
 
+    // todo: return list of encounter
     @Nullable
     public static FhirEncounterI getEncounterForSubject(String subjectId, UserI user) {
         return getFromDB("subject_ID", subjectId, user);
+    }
+
+    @Nullable
+    public static FhirEncounterI getEncounterForLabel(String label, UserI user) {
+        return getFromDB("label", label, user);
     }
 
     @Nullable
