@@ -1,5 +1,6 @@
 package de.htwberlin.cbmi.fhir;
 
+import lombok.extern.slf4j.Slf4j;
 import org.nrg.framework.annotations.XnatDataModel;
 import org.nrg.framework.annotations.XnatPlugin;
 import org.nrg.framework.orm.hibernate.AbstractHibernateEntityService;
@@ -19,6 +20,7 @@ import org.springframework.context.annotation.ComponentScan;
         name = "XNAT to FHIR Interface Plugin", value = "xnat-on-fhir",
         namespace = "de.htwberlin.cbmi",
         description = "Dies ist das Testplugin mit dem wir ausprobieren, ob man in XNAT Plugins machen kann :)",
+        logConfigurationFile = "META-INF/resources/fhir-plugin-logback.xml",
         dataModels = {
                 @XnatDataModel(value = FhirContactpointBean.SCHEMA_ELEMENT_NAME,
                         singular = "FHIR ContactPoint",
@@ -47,9 +49,14 @@ import org.springframework.context.annotation.ComponentScan;
                 })
 @ComponentScan({"de.htwberlin.cbmi.fhir", "de.htwberlin.cbmi.fhir.entity", "de.htwberlin.cbmi.fhir.rest",
         "de.htwberlin.cbmi.fhir.service"})
+@Slf4j
 public class XnatOnFhirPlugin {
     //@Bean
     /*public String cbmiPluginMessage() {
         return "Hello there from the cbmi plugin!";
     }*/
+
+    public XnatOnFhirPlugin() {
+        log.info("Application start!");
+    }
 }
